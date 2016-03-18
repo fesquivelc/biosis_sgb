@@ -1,0 +1,9 @@
+!SESSION 2016-02-15 17:44:50.867 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.7.0_80
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=es_PE
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -data @noDefault
+
+!ENTRY com.jaspersoft.studio 1 0 2016-02-15 17:44:54.180
+!MESSAGE Starting JaspersoftStudio bundle - Version: 6.1.1.final
