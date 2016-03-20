@@ -55,6 +55,26 @@ public class Libro {
     private String direccionFichero;
     @Column
     private int formato;
+    @Column(name = "ejemplar_total")
+    private int ejemplarTotal;
+    @Column(name = "ejemplar_disponible")
+    private int ejemplarDisponible;
+
+    public int getEjemplarTotal() {
+        return ejemplarTotal;
+    }
+
+    public void setEjemplarTotal(int ejemplarTotal) {
+        this.ejemplarTotal = ejemplarTotal;
+    }
+
+    public int getEjemplarDisponible() {
+        return ejemplarDisponible;
+    }
+
+    public void setEjemplarDisponible(int ejemplarDisponible) {
+        this.ejemplarDisponible = ejemplarDisponible;
+    }
 
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = Seccion.class)
     @JoinColumn(name = "seccion_id", referencedColumnName = "seccion_id")

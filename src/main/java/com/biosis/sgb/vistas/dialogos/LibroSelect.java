@@ -6,15 +6,15 @@
 package com.biosis.sgb.vistas.dialogos;
 
 import static com.biosis.sgb.Application.*;
-import com.biosis.sgb.controlador.PersonaControlador;
 import com.biosis.sgb.controlador.TemaControlador;
-import com.biosis.sgb.entidades.Persona;
 import com.biosis.sgb.entidades.Tema;
+import com.biosis.sgb.util.AbstractListCellRenderer;
 import com.personal.utiles.FormularioUtil;
 import java.awt.Component;
 import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingWorker;
@@ -22,6 +22,7 @@ import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.observablecollections.ObservableCollections;
+import org.jdesktop.swingbinding.JComboBoxBinding;
 import org.jdesktop.swingbinding.JTableBinding;
 import org.jdesktop.swingbinding.SwingBindings;
 
@@ -29,7 +30,7 @@ import org.jdesktop.swingbinding.SwingBindings;
  *
  * @author Francis
  */
-public class PersonaSelect extends javax.swing.JDialog {
+public class LibroSelect extends javax.swing.JDialog {
 
     /**
      * Creates new form AutorSelect
@@ -38,24 +39,25 @@ public class PersonaSelect extends javax.swing.JDialog {
     private int totalPaginas = 0;
     private int tamanioPagina = 0;
 
-    private List<Persona> personaList;
+    private List<Tema> temaList;
+    private List<Tema> temaSuperiorList;
     
-    private Persona persona;
+    private Tema tema;
     
-    private final PersonaControlador personaControlador;
+    private final TemaControlador temaControlador;
     
-    public PersonaSelect(Component parent, boolean modal) {
+    public LibroSelect(Component parent, boolean modal) {
         super(JOptionPane.getFrameForComponent(parent), modal);
-        this.personaControlador = PersonaControlador.getInstance();
+        this.temaControlador = TemaControlador.getInstance();
         initComponents();
         initComponents2();
-        this.setLocationRelativeTo(parent);
         Busqueda busquedaLibro = new Busqueda();
-        busquedaLibro.execute();  
+        busquedaLibro.execute();        
+        this.setLocationRelativeTo(parent);
     }
 
-    public Persona getPersona() {
-        return persona;
+    public Tema getTema() {
+        return tema;
     }
     
 
@@ -78,9 +80,11 @@ public class PersonaSelect extends javax.swing.JDialog {
         btnBuscar = new javax.swing.JButton();
         lblEspere = new org.jdesktop.swingx.JXBusyLabel();
         jLabel2 = new javax.swing.JLabel();
+        chkTema = new javax.swing.JCheckBox();
+        cboTema = new javax.swing.JComboBox<>();
         pnlListado = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblPersonaList = new org.jdesktop.swingx.JXTable();
+        tblAutorList = new org.jdesktop.swingx.JXTable();
         pnlNavegacion2 = new javax.swing.JPanel();
         btnPrimero2 = new javax.swing.JButton();
         btnAnterior = new javax.swing.JButton();
@@ -97,7 +101,7 @@ public class PersonaSelect extends javax.swing.JDialog {
         jLabel1.setBackground(new java.awt.Color(204, 204, 255));
         jLabel1.setFont(ESTILO5);
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Seleccione una persona");
+        jLabel1.setText("Seleccione un subtema");
         jLabel1.setOpaque(true);
         pnlPrincipal.add(jLabel1, java.awt.BorderLayout.PAGE_START);
 
@@ -152,13 +156,32 @@ public class PersonaSelect extends javax.swing.JDialog {
         gridBagConstraints.gridy = 1;
         pnlBusqueda.add(jLabel2, gridBagConstraints);
 
+        chkTema.setFont(ESTILO1);
+        chkTema.setText("Tema:");
+        chkTema.setOpaque(false);
+        chkTema.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                chkTemaActionPerformed(evt);
+            }
+        });
+        pnlBusqueda.add(chkTema, new java.awt.GridBagConstraints());
+
+        cboTema.setFont(ESTILO2);
+        cboTema.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 1;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        pnlBusqueda.add(cboTema, gridBagConstraints);
+
         pnlSecundario.add(pnlBusqueda, java.awt.BorderLayout.PAGE_START);
 
         pnlListado.setBackground(new java.awt.Color(255, 255, 255));
         pnlListado.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Listado", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, ESTILO1        ));
         pnlListado.setLayout(new java.awt.BorderLayout());
 
-        tblPersonaList.setModel(new javax.swing.table.DefaultTableModel(
+        tblAutorList.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -169,19 +192,19 @@ public class PersonaSelect extends javax.swing.JDialog {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        tblPersonaList.setFont(ESTILO2);
-        tblPersonaList.setRowHeight(20);
-        tblPersonaList.addMouseListener(new java.awt.event.MouseAdapter() {
+        tblAutorList.setFont(ESTILO2);
+        tblAutorList.setRowHeight(20);
+        tblAutorList.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                tblPersonaListMouseClicked(evt);
+                tblAutorListMouseClicked(evt);
             }
         });
-        tblPersonaList.addKeyListener(new java.awt.event.KeyAdapter() {
+        tblAutorList.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
-                tblPersonaListKeyReleased(evt);
+                tblAutorListKeyReleased(evt);
             }
         });
-        jScrollPane1.setViewportView(tblPersonaList);
+        jScrollPane1.setViewportView(tblAutorList);
 
         pnlListado.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
@@ -310,38 +333,43 @@ public class PersonaSelect extends javax.swing.JDialog {
         this.actualizarControlesNavegacion();
     }//GEN-LAST:event_cboTamanioActionPerformed
 
-    private void tblPersonaListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblPersonaListMouseClicked
+    private void tblAutorListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblAutorListMouseClicked
         // TODO add your handling code here:
         int conteo = evt.getClickCount();
         if(conteo == 2){
-            int fila = tblPersonaList.getSelectedRow();
-            this.persona = this.personaList.get(fila);
+            int fila = tblAutorList.getSelectedRow();
+            this.tema = this.temaList.get(fila);
             this.dispose();
         }
-    }//GEN-LAST:event_tblPersonaListMouseClicked
+    }//GEN-LAST:event_tblAutorListMouseClicked
 
     private void txtNombreKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyPressed
         // TODO add your handling code here:
         if(evt.getKeyCode() == KeyEvent.VK_DOWN){
-            if(this.personaList.size() > 0){
-                tblPersonaList.requestFocus();
-                tblPersonaList.setRowSelectionInterval(0, 0);
+            if(this.temaList.size() > 0){
+                tblAutorList.requestFocus();
+                tblAutorList.setRowSelectionInterval(0, 0);
             }
         }
     }//GEN-LAST:event_txtNombreKeyPressed
 
-    private void tblPersonaListKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblPersonaListKeyReleased
+    private void tblAutorListKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblAutorListKeyReleased
         // TODO add your handling code here:
         
         if(evt.getKeyCode() == KeyEvent.VK_ENTER){
-            int fila = tblPersonaList.getSelectedRow();
-            this.persona = this.personaList.get(fila);
+            int fila = tblAutorList.getSelectedRow();
+            this.tema = this.temaList.get(fila);
             this.dispose();
         }
-        if(evt.getKeyCode() == KeyEvent.VK_UP && tblPersonaList.getSelectedRow() == 0){
+        if(evt.getKeyCode() == KeyEvent.VK_UP && tblAutorList.getSelectedRow() == 0){
             txtNombre.requestFocus();
         }
-    }//GEN-LAST:event_tblPersonaListKeyReleased
+    }//GEN-LAST:event_tblAutorListKeyReleased
+
+    private void chkTemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkTemaActionPerformed
+        // TODO add your handling code here:
+        checkbox();
+    }//GEN-LAST:event_chkTemaActionPerformed
   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -351,6 +379,8 @@ public class PersonaSelect extends javax.swing.JDialog {
     private javax.swing.JButton btnSiguiente;
     private javax.swing.JButton btnUltimo;
     private javax.swing.JComboBox cboTamanio;
+    private javax.swing.JComboBox<String> cboTema;
+    private javax.swing.JCheckBox chkTema;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel2;
@@ -362,36 +392,49 @@ public class PersonaSelect extends javax.swing.JDialog {
     private javax.swing.JPanel pnlPrincipal;
     private javax.swing.JPanel pnlSecundario;
     private javax.swing.JSpinner spPagina;
-    private org.jdesktop.swingx.JXTable tblPersonaList;
+    private org.jdesktop.swingx.JXTable tblAutorList;
     private javax.swing.JTextField txtNombre;
     private javax.swing.JTextField txtTotal;
     // End of variables declaration//GEN-END:variables
 
     private void initComponents2() {
         lblEspere.setVisible(false);
-        this.personaList = ObservableCollections.observableList(new ArrayList<Persona>());
+        this.temaList = ObservableCollections.observableList(new ArrayList<Tema>());
+        this.temaSuperiorList = this.temaControlador.buscarTemaSuperior();
         //procedemos a bindear
         BindingGroup grupo = new BindingGroup();
 
-        BeanProperty nombre = BeanProperty.create("nombres");
-        BeanProperty paterno = BeanProperty.create("paterno");
-        BeanProperty materno = BeanProperty.create("materno");
-        BeanProperty email = BeanProperty.create("email");
-        JTableBinding bindeoTabla = SwingBindings.createJTableBinding(AutoBinding.UpdateStrategy.READ, personaList, tblPersonaList);
-        bindeoTabla.addColumnBinding(nombre).setColumnName("Nombres").setEditable(false);
-        bindeoTabla.addColumnBinding(paterno).setColumnName("Ap. paterno").setEditable(false);
-        bindeoTabla.addColumnBinding(materno).setColumnName("Ap. materno").setEditable(false);
-        bindeoTabla.addColumnBinding(email).setColumnName("E-mail").setEditable(false);
+        BeanProperty temaSuperior = BeanProperty.create("temaSuperior.nombre");
+        BeanProperty nombre = BeanProperty.create("nombre");
+        BeanProperty descripcion = BeanProperty.create("descripcion");
+        JTableBinding bindeoTabla = SwingBindings.createJTableBinding(AutoBinding.UpdateStrategy.READ, temaList, tblAutorList);
+        bindeoTabla.addColumnBinding(temaSuperior).setColumnName("Tema").setEditable(false);
+        bindeoTabla.addColumnBinding(nombre).setColumnName("Subtema").setEditable(false);
+        bindeoTabla.addColumnBinding(descripcion).setColumnName("Descripcion").setEditable(false);
         grupo.addBinding(bindeoTabla);
+        
+        JComboBoxBinding bindTemaSuperior = SwingBindings.createJComboBoxBinding(AutoBinding.UpdateStrategy.READ, temaSuperiorList, cboTema);
+        grupo.addBinding(bindTemaSuperior);
         grupo.bind();
         
+        cboTema.setRenderer(new AbstractListCellRenderer<Tema>() {
+            @Override
+            public String getTexto(Tema value) {
+                return value.getNombre();
+            }
+
+            @Override
+            public ImageIcon getIcono(Tema value) {
+                return null;
+            }
+        });
     }
     
     private void controles(boolean busqueda){
         FormularioUtil.activarComponente(pnlBusqueda, !busqueda);
-//        if(!busqueda){
-//            checkbox();
-//        }
+        if(!busqueda){
+            checkbox();
+        }
 //        FormularioUtil.activarComponente(pnlAcciones, !busqueda);
     }
 
@@ -401,18 +444,23 @@ public class PersonaSelect extends javax.swing.JDialog {
         tamanioPagina = Integer.parseInt(cboTamanio.getSelectedItem().toString());
 
         //AQUI LO PASAMOS A UN SWING WORKER
-        personaList.clear();
+        temaList.clear();
 
-        personaList.addAll(this.listar(paginaActual, tamanioPagina));
+        temaList.addAll(this.listar(paginaActual, tamanioPagina));
 
-        tblPersonaList.packAll();
+        tblAutorList.packAll();
     }
 
-    private List<Persona> listar(int pagina, int tamanio) {
+    private List<Tema> listar(int pagina, int tamanio) {
         int total = 0;
         String nombreStr = txtNombre.getText();
-        total = personaControlador.contarXNombre(nombreStr);
-        
+        Tema tema = null;
+        if(this.chkTema.isSelected()){
+            tema = (Tema)cboTema.getSelectedItem();
+            total = temaControlador.contarSubtemaXNombreYTema(nombreStr, tema);
+        }else{
+            total = temaControlador.contarSubtemaXNombre(nombreStr);
+        }
         if (total % tamanio == 0) {
             totalPaginas = total / tamanio;
         } else {
@@ -425,7 +473,11 @@ public class PersonaSelect extends javax.swing.JDialog {
 
         int desde = (pagina - 1) * tamanio;
 
-        return this.personaControlador.buscarXNombre(nombreStr, desde, tamanio);
+        if(this.chkTema.isSelected()){
+            return this.temaControlador.buscarSubtemaXNombreYTema(nombreStr, tema, desde, tamanio);
+        }else{
+            return this.temaControlador.buscarSubtemaXNombre(nombreStr, desde, tamanio);
+        }
     }
 
     private void siguiente() {
@@ -471,6 +523,10 @@ public class PersonaSelect extends javax.swing.JDialog {
 
         this.btnAnterior.setEnabled(paginaActual != 1);
         this.btnPrimero2.setEnabled(paginaActual != 1);
+    }
+
+    private void checkbox() {
+        this.cboTema.setEnabled(this.chkTema.isSelected());
     }
 
     private class Busqueda extends SwingWorker<Double, Void> {

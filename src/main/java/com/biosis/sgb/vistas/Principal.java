@@ -5,9 +5,9 @@
  */
 package com.biosis.sgb.vistas;
 
-import static com.biosis.sgb.Application.ESTILO3;
+import static com.biosis.sgb.Application.ESTILO4;
 import com.biosis.sgb.util.ButtonTabComponent;
-import java.awt.Dimension;
+import java.awt.Component;
 
 /**
  *
@@ -53,16 +53,32 @@ public class Principal extends javax.swing.JFrame {
         jToolBar1.setFloatable(false);
         jToolBar1.setRollover(true);
 
-        jButton1.setText("Ejemplares");
+        jButton1.setFont(ESTILO4);
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Find/Find_24x24.png"))); // NOI18N
+        jButton1.setText("   Consultas   ");
+        jButton1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jButton1.setFocusable(false);
         jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
         jToolBar1.add(jButton1);
 
-        jButton2.setText("Realizar préstamo");
+        jButton2.setFont(ESTILO4);
+        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Properties/Properties_24x24.png"))); // NOI18N
+        jButton2.setText("   Préstamos y devoluciones   ");
+        jButton2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jButton2.setFocusable(false);
         jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
         jToolBar1.add(jButton2);
 
         pnlPrincipal.add(jToolBar1, java.awt.BorderLayout.NORTH);
@@ -88,6 +104,16 @@ public class Principal extends javax.swing.JFrame {
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        agregarPestaña("Préstamos y devoluciones", new PrestamoView());
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        agregarPestaña("Consultas", new ConsultaView());
+    }//GEN-LAST:event_jButton1ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -143,9 +169,21 @@ public class Principal extends javax.swing.JFrame {
 //        ButtonTabComponent tab = new ButtonTabComponent(tabPrincipal);
 //        tabPrincipal.add("Mantenimiento de inf. de libros", new LibroView());
 //        tabPrincipal.setTabComponentAt(0, tab);
-        ButtonTabComponent tab2 = new ButtonTabComponent(tabPrincipal);
-        tabPrincipal.add("Mantenimiento de inf. de temas y subtemas", new LibroView());
-        tabPrincipal.setTabComponentAt(0, tab2);
+//        ButtonTabComponent tab2 = new ButtonTabComponent(tabPrincipal);
+//        tabPrincipal.add("Préstamos y devoluciones", new PrestamoView());
+//        tabPrincipal.setTabComponentAt(0, tab2);
 //        }
+    }
+
+    private void agregarPestaña(String titulo, Component ventana) {
+        int index = tabPrincipal.indexOfComponent(ventana);
+        if (index >= 0) {
+            tabPrincipal.setSelectedIndex(index);
+        } else {
+            ButtonTabComponent tab = new ButtonTabComponent(tabPrincipal);
+            tabPrincipal.add(titulo, ventana);
+            tabPrincipal.setTabComponentAt(tabPrincipal.getTabCount() - 1, tab);
+            tabPrincipal.setSelectedIndex(tabPrincipal.getTabCount() - 1);
+        }
     }
 }

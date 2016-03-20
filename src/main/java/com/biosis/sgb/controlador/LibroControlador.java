@@ -8,6 +8,8 @@ package com.biosis.sgb.controlador;
 import com.biosis.sgb.entidades.Autor;
 import com.biosis.sgb.entidades.Editorial;
 import com.biosis.sgb.entidades.Libro;
+import com.biosis.sgb.entidades.Seccion;
+import com.biosis.sgb.entidades.Tema;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -29,6 +31,34 @@ public class LibroControlador extends Controlador<Libro>{
     
     private static class LibroControladorHolder {
         private static final LibroControlador INSTANCE = new LibroControlador();
+    }
+    
+    public List<Libro> consultaMultiple(Autor autor, Editorial editorial, Seccion seccion, Tema tema, String tituloISBN, boolean soloDisponibles,int inicio, int tamanio){
+        StringBuilder sb = new StringBuilder("SELECT l FROM Libro l WHERE (l.titulo LIKE CONCAT('%',:titulo,'%') OR l.isbn10 = :titulo OR l.isbn13 = :titulo)");
+        Map<String, Object> params = new HashMap();
+        params.put("titulo", tituloISBN);
+        if(autor != null){
+            params.put("autor", autor);
+            sb.append(" AND EXISTS(SELECT la FROM LibroAutor la WHERE la.libro = l AND la.autor = :autor)");
+        }
+        if(editorial != null){
+            params.put("editorial", editorial);
+            sb.append(" AND l.editorial = :editorial");
+        }
+        if(seccion != null){
+            params.put("seccion", seccion);
+            sb.append(" AND l.seccion = :seccion");
+        }
+        if(tema != null){
+            params.put("tema", tema);
+            sb.append(" AND EXISTS(SELECT lt FROM LibroTema lt WHERE lt.tema = :tema AND lt.libro = l)");
+        }
+        if(soloDisponibles){
+            sb.append(" AND l.ejemplarDisponible > 0");
+        }
+        sb.append(" ORDER BY l.titulo ASC");
+        
+        return this.buscar(sb.toString(), params, inicio, tamanio);
     }
 
     public List<Libro> buscarXAutor(Autor autor, int inicio, int tamanio){
@@ -77,6 +107,35 @@ public class LibroControlador extends Controlador<Libro>{
         param.put("editorial", editorial);
         
         return this.contar(jpql, param);
+    }
+    
+    
+    public int contarMultiple(Autor autor, Editorial editorial, Seccion seccion, Tema tema, String tituloISBN, boolean soloDisponibles){
+        StringBuilder sb = new StringBuilder("SELECT COUNT(l.id) FROM Libro l WHERE (l.titulo LIKE CONCAT('%',:titulo,'%') OR l.isbn10 = :titulo OR l.isbn13 = :titulo)");
+        Map<String, Object> params = new HashMap();
+        params.put("titulo", tituloISBN);
+        if(autor != null){
+            params.put("autor", autor);
+            sb.append(" AND EXISTS(SELECT la FROM LibroAutor la WHERE la.libro = l AND la.autor = :autor)");
+        }
+        if(editorial != null){
+            params.put("editorial", editorial);
+            sb.append(" AND l.editorial = :editorial");
+        }
+        if(seccion != null){
+            params.put("seccion", seccion);
+            sb.append(" AND l.seccion = :seccion");
+        }
+        if(tema != null){
+            params.put("tema", tema);
+            sb.append(" AND EXISTS(SELECT lt FROM LibroTema lt WHERE lt.tema = :tema AND lt.libro = l)");
+        }
+        if(soloDisponibles){
+            sb.append(" AND l.ejemplarDisponible > 0");
+        }
+        
+        
+        return this.contar(sb.toString(), params);
     }
 
     @Override
