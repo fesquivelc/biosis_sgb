@@ -6,15 +6,16 @@
 package com.biosis.sgb.vistas.dialogos;
 
 import static com.biosis.sgb.Application.*;
-import com.biosis.sgb.controlador.AutorControlador;
 import com.biosis.sgb.controlador.EjemplarControlador;
 import com.biosis.sgb.entidades.Autor;
 import com.biosis.sgb.entidades.Ejemplar;
 import com.biosis.sgb.entidades.Libro;
 import com.personal.utiles.FormularioUtil;
 import java.awt.Component;
-import java.awt.event.KeyEvent;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
@@ -369,29 +370,44 @@ public class EjemplarList extends javax.swing.JDialog {
         BeanProperty codigo = BeanProperty.create("codigo");
         BeanProperty fechaEntrada = BeanProperty.create("fechaEntrada");
         BeanProperty estado = BeanProperty.create("estado");
+        BeanProperty disponibleDesde = BeanProperty.create("prestamo.fechaDevolucion");
         JTableBinding bindeoTabla = SwingBindings.createJTableBinding(AutoBinding.UpdateStrategy.READ, ejemplarList, tblEjemplarList);
         bindeoTabla.addColumnBinding(codigo).setColumnName("Código").setEditable(false);
-        bindeoTabla.addColumnBinding(fechaEntrada).setColumnName("Fecha de ingreso").setEditable(false);
+        bindeoTabla.addColumnBinding(fechaEntrada).setColumnName("Fecha de ingreso").setEditable(false).setColumnClass(Date.class);
         bindeoTabla.addColumnBinding(estado).setColumnName("Disponible").setEditable(false);
+        bindeoTabla.addColumnBinding(disponibleDesde).setColumnName("Disponibilidad desde").setEditable(false).setColumnClass(Date.class);
         grupo.addBinding(bindeoTabla);
         grupo.bind();
         
-        tblEjemplarList.getColumn(2).setCellRenderer(new DefaultTableCellRenderer(){
+        tblEjemplarList.setDefaultRenderer(Date.class, new DefaultTableCellRenderer() {
+            final DateFormat dfFecha = new SimpleDateFormat("dd/MM/yyyy");
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                String fecha = "";
+                if(value != null){
+                    Date date = (Date) value;
+                    fecha = dfFecha.format(date);
+                }
+                return super.getTableCellRendererComponent(table, fecha, isSelected, hasFocus, row, column); //To change body of generated methods, choose Tools | Templates.
+            }
+            
+        });
+
+        tblEjemplarList.getColumn(2).setCellRenderer(new DefaultTableCellRenderer() {
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
                 String disponible = "";
-                if(value != null){
+                if (value != null) {
                     int estado = Integer.parseInt(value.toString());
-                    
-                    if(estado == 0){
+                    if (estado == 0) {
                         disponible = "NO";
-                    }else{
+                    } else {
                         disponible = "SI";
                     }
                 }
                 return super.getTableCellRendererComponent(table, disponible, isSelected, hasFocus, row, column); //To change body of generated methods, choose Tools | Templates.
             }
-            
+
         });
         lblTítulo.setText(String.format("Título: %s", libroSeleccionado.getTitulo()));
     }

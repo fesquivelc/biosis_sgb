@@ -39,9 +39,9 @@ public class Prestamo {
     @Temporal(TemporalType.DATE)
     private Date fechaEntrega;
     @Column
-    private int atraso;
+    private Integer atraso;
     @Column(precision = 2, length = 10, name = "multa_pagada")
-    private double multaPagada;
+    private Double multaPagada;
 
     @ManyToOne(targetEntity = Ejemplar.class)
     @JoinColumn(name = "ejemplar_id", referencedColumnName = "ejemplar_id")
@@ -98,19 +98,19 @@ public class Prestamo {
         this.fechaEntrega = fechaEntrega;
     }
 
-    public int getAtraso() {
+    public Integer getAtraso() {
         return atraso;
     }
 
-    public void setAtraso(int atraso) {
+    public void setAtraso(Integer atraso) {
         this.atraso = atraso;
     }
 
-    public double getMultaPagada() {
+    public Double getMultaPagada() {
         return multaPagada;
     }
 
-    public void setMultaPagada(double multaPagada) {
+    public void setMultaPagada(Double multaPagada) {
         this.multaPagada = multaPagada;
     }
 

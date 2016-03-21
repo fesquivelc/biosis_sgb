@@ -13,13 +13,18 @@ import com.biosis.sgb.controlador.PrestamoControlador;
 import com.biosis.sgb.entidades.Libro;
 import com.biosis.sgb.entidades.Persona;
 import com.biosis.sgb.entidades.Prestamo;
-import com.biosis.sgb.util.ButtonImage;
 import com.biosis.sgb.vistas.dialogos.PersonaSelect;
 import com.personal.utiles.FormularioUtil;
+import java.awt.Component;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import javax.swing.JTable;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingWorker;
+import javax.swing.table.DefaultTableCellRenderer;
 import org.jdesktop.beansbinding.AutoBinding;
 import org.jdesktop.beansbinding.BeanProperty;
 import org.jdesktop.beansbinding.BindingGroup;
@@ -94,7 +99,7 @@ public class PrestamoView extends javax.swing.JPanel {
         btnEliminar = new javax.swing.JButton();
         pnlListado = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblAutorList = new org.jdesktop.swingx.JXTable();
+        tblPrestamoList = new org.jdesktop.swingx.JXTable();
         pnlNavegacion2 = new javax.swing.JPanel();
         btnPrimero2 = new javax.swing.JButton();
         btnAnterior = new javax.swing.JButton();
@@ -337,7 +342,7 @@ public class PrestamoView extends javax.swing.JPanel {
         pnlListado.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Listado", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, ESTILO1        ));
         pnlListado.setLayout(new java.awt.BorderLayout());
 
-        tblAutorList.setModel(new javax.swing.table.DefaultTableModel(
+        tblPrestamoList.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -348,9 +353,9 @@ public class PrestamoView extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        tblAutorList.setFont(ESTILO2);
-        tblAutorList.setRowHeight(20);
-        jScrollPane1.setViewportView(tblAutorList);
+        tblPrestamoList.setFont(ESTILO2);
+        tblPrestamoList.setRowHeight(20);
+        jScrollPane1.setViewportView(tblPrestamoList);
 
         pnlListado.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
@@ -498,8 +503,8 @@ public class PrestamoView extends javax.swing.JPanel {
         PersonaSelect personaSelect = new PersonaSelect(this, true);
         personaSelect.setVisible(true);
         this.personaSeleccionada = personaSelect.getPersona();
-        
-        if(this.personaSeleccionada != null){
+
+        if (this.personaSeleccionada != null) {
             mostrarPersona(this.personaSeleccionada);
         }
     }//GEN-LAST:event_btnPersonaActionPerformed
@@ -539,7 +544,7 @@ public class PrestamoView extends javax.swing.JPanel {
     private javax.swing.JRadioButton radLibro;
     private javax.swing.JRadioButton radPersona;
     private javax.swing.JSpinner spPagina;
-    private org.jdesktop.swingx.JXTable tblAutorList;
+    private org.jdesktop.swingx.JXTable tblPrestamoList;
     private javax.swing.JTextField txtLibro;
     private javax.swing.JTextField txtPersona;
     private javax.swing.JTextField txtTotal;
@@ -554,15 +559,39 @@ public class PrestamoView extends javax.swing.JPanel {
         //procedemos a bindear
         BindingGroup grupo = new BindingGroup();
 
-        BeanProperty paterno = BeanProperty.create("paterno");
-        BeanProperty materno = BeanProperty.create("materno");
-        BeanProperty nombres = BeanProperty.create("nombres");
-        JTableBinding bindeoTabla = SwingBindings.createJTableBinding(AutoBinding.UpdateStrategy.READ, prestamoList, tblAutorList);
+        BeanProperty paterno = BeanProperty.create("persona.paterno");
+        BeanProperty materno = BeanProperty.create("persona.materno");
+        BeanProperty nombres = BeanProperty.create("persona.nombres");
+        BeanProperty codigoEjemplar = BeanProperty.create("ejemplar.codigo");
+        BeanProperty tituloLibro = BeanProperty.create("ejemplar.libro.titulo");
+        BeanProperty fechaInicioPrestamo = BeanProperty.create("fechaPrestamo");
+        BeanProperty fechaFinPrestamo = BeanProperty.create("fechaDevolucion");
+        BeanProperty fechaEntregaPrestamo = BeanProperty.create("fechaEntrega");
+        JTableBinding bindeoTabla = SwingBindings.createJTableBinding(AutoBinding.UpdateStrategy.READ, prestamoList, tblPrestamoList);
         bindeoTabla.addColumnBinding(paterno).setColumnName("Apellido paterno").setEditable(false);
         bindeoTabla.addColumnBinding(materno).setColumnName("Apellido materno").setEditable(false);
         bindeoTabla.addColumnBinding(nombres).setColumnName("nombres").setEditable(false);
+        bindeoTabla.addColumnBinding(codigoEjemplar).setColumnName("Código ejemplar").setEditable(false);
+        bindeoTabla.addColumnBinding(tituloLibro).setColumnName("Libro").setEditable(false);
+        bindeoTabla.addColumnBinding(fechaInicioPrestamo).setColumnName("Fecha préstamo").setEditable(false).setColumnClass(Date.class);
+        bindeoTabla.addColumnBinding(fechaFinPrestamo).setColumnName("Fecha devolución").setEditable(false).setColumnClass(Date.class);
+        bindeoTabla.addColumnBinding(fechaEntregaPrestamo).setColumnName("Fecha entrega").setEditable(false).setColumnClass(Date.class);
         grupo.addBinding(bindeoTabla);
         grupo.bind();
+
+        tblPrestamoList.setDefaultRenderer(Date.class, new DefaultTableCellRenderer() {
+            final DateFormat dfFecha = new SimpleDateFormat("dd/MM/yyyy");
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                String fecha = "";
+                if(value != null){
+                    Date date = (Date) value;
+                    fecha = dfFecha.format(date);
+                }
+                return super.getTableCellRendererComponent(table, fecha, isSelected, hasFocus, row, column); //To change body of generated methods, choose Tools | Templates.
+            }
+            
+        });
     }
 
     private void controles(boolean busqueda) {
@@ -586,7 +615,7 @@ public class PrestamoView extends javax.swing.JPanel {
 
         prestamoList.addAll(this.listar(paginaActual, tamanioPagina));
 
-        tblAutorList.packAll();
+        tblPrestamoList.packAll();
     }
 
     private List<Prestamo> listar(int pagina, int tamanio) {
@@ -664,7 +693,7 @@ public class PrestamoView extends javax.swing.JPanel {
     }
 
     private Prestamo obtenerPrestamoSeleccioado() {
-        int fila = tblAutorList.getSelectedRow();
+        int fila = tblPrestamoList.getSelectedRow();
         if (fila != -1) {
             return prestamoList.get(fila);
         }

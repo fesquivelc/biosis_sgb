@@ -41,6 +41,17 @@ public class Ejemplar {
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = Procedencia.class)
     @JoinColumn(name = "procedencia_id", referencedColumnName = "procedencia_id")
     private Procedencia procedencia;
+    @ManyToOne(fetch = FetchType.LAZY, targetEntity = Prestamo.class)
+    @JoinColumn(name = "prestamo_activo_id", referencedColumnName = "prestamo_id")
+    private Prestamo prestamo;
+
+    public Prestamo getPrestamo() {
+        return prestamo;
+    }
+
+    public void setPrestamo(Prestamo prestamo) {
+        this.prestamo = prestamo;
+    }
 
     public String getCodigo() {
         return codigo;

@@ -614,7 +614,7 @@ public class ConsultaView extends javax.swing.JPanel {
     private void btnEjemplaresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEjemplaresActionPerformed
         // TODO add your handling code here:
         Libro libro = obtenerLibroSeleccionado();
-        if(libro != null){
+        if (libro != null) {
             EjemplarList ejemplarList = new EjemplarList(this, libro, true);
             ejemplarList.setVisible(true);
         }
@@ -644,7 +644,7 @@ public class ConsultaView extends javax.swing.JPanel {
         this.seccionSeleccionada = seccionSelect.getSeccion();
 
         if (this.seccionSeleccionada != null) {
-            txtSeccion.setText("  "+this.seccionSeleccionada.getNombre());
+            txtSeccion.setText("  " + this.seccionSeleccionada.getNombre());
         }
     }//GEN-LAST:event_btnSeccionActionPerformed
 
@@ -655,7 +655,7 @@ public class ConsultaView extends javax.swing.JPanel {
         this.temaSeleccionado = temaSelect.getTema();
 
         if (this.temaSeleccionado != null) {
-            txtTema.setText("  "+temaSeleccionado.getNombre());
+            txtTema.setText("  " + temaSeleccionado.getNombre());
         }
     }//GEN-LAST:event_btnTemaActionPerformed
 
@@ -665,7 +665,7 @@ public class ConsultaView extends javax.swing.JPanel {
         editorialSelect.setVisible(true);
         this.editorialSeleccionada = editorialSelect.getEditorial();
         if (this.editorialSeleccionada != null) {
-            txtEditorial.setText("  "+this.editorialSeleccionada.getNombre());
+            txtEditorial.setText("  " + this.editorialSeleccionada.getNombre());
         }
     }//GEN-LAST:event_btnEditorialActionPerformed
 
