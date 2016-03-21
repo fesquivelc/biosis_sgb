@@ -37,11 +37,11 @@ public class Principal extends javax.swing.JFrame {
         tabPrincipal = new javax.swing.JTabbedPane();
         jToolBar1 = new javax.swing.JToolBar();
         jButton1 = new javax.swing.JButton();
+        jButton3 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenu5 = new javax.swing.JMenu();
-        jMenu2 = new javax.swing.JMenu();
         jMenu4 = new javax.swing.JMenu();
         jMenu3 = new javax.swing.JMenu();
 
@@ -67,6 +67,20 @@ public class Principal extends javax.swing.JFrame {
         });
         jToolBar1.add(jButton1);
 
+        jButton3.setFont(ESTILO4);
+        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/library.png"))); // NOI18N
+        jButton3.setText("   Gestión de biblioteca   ");
+        jButton3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        jButton3.setFocusable(false);
+        jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        jButton3.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+        jToolBar1.add(jButton3);
+
         jButton2.setFont(ESTILO4);
         jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Properties/Properties_24x24.png"))); // NOI18N
         jButton2.setText("   Préstamos y devoluciones   ");
@@ -86,18 +100,19 @@ public class Principal extends javax.swing.JFrame {
         getContentPane().add(pnlPrincipal, java.awt.BorderLayout.CENTER);
 
         jMenu1.setText("Inicio");
+        jMenu1.setFont(ESTILO4);
         jMenuBar1.add(jMenu1);
 
         jMenu5.setText("Consultas");
+        jMenu5.setFont(ESTILO4);
         jMenuBar1.add(jMenu5);
 
-        jMenu2.setText("Préstamos");
-        jMenuBar1.add(jMenu2);
-
         jMenu4.setText("Reportes");
+        jMenu4.setFont(ESTILO4);
         jMenuBar1.add(jMenu4);
 
         jMenu3.setText("Mantenimientos");
+        jMenu3.setFont(ESTILO4);
         jMenuBar1.add(jMenu3);
 
         setJMenuBar(jMenuBar1);
@@ -114,6 +129,10 @@ public class Principal extends javax.swing.JFrame {
         // TODO add your handling code here:
         agregarPestaña("Consultas", new ConsultaView());
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -153,8 +172,8 @@ public class Principal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
     private javax.swing.JMenu jMenu3;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenu jMenu5;

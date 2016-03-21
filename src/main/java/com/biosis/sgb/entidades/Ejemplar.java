@@ -29,6 +29,8 @@ public class Ejemplar {
     private boolean activo;
     
     @Column(nullable = false)
+    private String codigo;
+    @Column(nullable = false)
     private int estado;
     @Temporal(TemporalType.DATE)
     @Column(nullable = false, name = "fecha_entrada")
@@ -39,6 +41,14 @@ public class Ejemplar {
     @ManyToOne(fetch = FetchType.LAZY, targetEntity = Procedencia.class)
     @JoinColumn(name = "procedencia_id", referencedColumnName = "procedencia_id")
     private Procedencia procedencia;
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
 
     public Procedencia getProcedencia() {
         return procedencia;

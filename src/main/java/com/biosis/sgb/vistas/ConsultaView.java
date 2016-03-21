@@ -20,6 +20,7 @@ import com.biosis.sgb.entidades.Seccion;
 import com.biosis.sgb.entidades.Tema;
 import com.biosis.sgb.vistas.dialogos.AutorSelect;
 import com.biosis.sgb.vistas.dialogos.EditorialSelect;
+import com.biosis.sgb.vistas.dialogos.EjemplarList;
 import com.biosis.sgb.vistas.dialogos.LibroCRUD;
 import com.biosis.sgb.vistas.dialogos.SeccionSelect;
 import com.biosis.sgb.vistas.dialogos.TemaSelect;
@@ -411,7 +412,7 @@ public class ConsultaView extends javax.swing.JPanel {
 
         btnNuevo.setFont(ESTILO7       );
         btnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Add/Add_24x24.png"))); // NOI18N
-        btnNuevo.setText("Nuevo");
+        btnNuevo.setText("Registrar ejemplar");
         btnNuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNuevoActionPerformed(evt);
@@ -457,6 +458,7 @@ public class ConsultaView extends javax.swing.JPanel {
             }
         ));
         tblLibroList.setFont(ESTILO2);
+        tblLibroList.setHorizontalScrollEnabled(true);
         tblLibroList.setRowHeight(20);
         jScrollPane1.setViewportView(tblLibroList);
 
@@ -611,6 +613,11 @@ public class ConsultaView extends javax.swing.JPanel {
 
     private void btnEjemplaresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEjemplaresActionPerformed
         // TODO add your handling code here:
+        Libro libro = obtenerLibroSeleccionado();
+        if(libro != null){
+            EjemplarList ejemplarList = new EjemplarList(this, libro, true);
+            ejemplarList.setVisible(true);
+        }
     }//GEN-LAST:event_btnEjemplaresActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed

@@ -31,9 +31,16 @@ public class EjemplarControlador extends Controlador<Ejemplar>{
     }
     
     public List<Ejemplar> buscarXLibro(Libro libro, int inicio, int tamanio){
-        String jpql = "SELECT e FROM Ejemplar e WHERE e.libro = :libro";
+        String jpql = "SELECT e FROM Ejemplar e WHERE e.libro = :libro ORDER BY e.fechaEntrada DESC";
         Map<String, Object> params = new HashMap();
         params.put("libro", libro);
         return this.buscar(jpql, params, inicio, tamanio);
+    }
+    
+    public int contarXLibro(Libro libro){
+        String jpql = "SELECT COUNT(e.id) FROM Ejemplar e WHERE e.libro = :libro";
+        Map<String, Object> params = new HashMap();
+        params.put("libro", libro);
+        return this.contar(jpql, params);
     }
 }
