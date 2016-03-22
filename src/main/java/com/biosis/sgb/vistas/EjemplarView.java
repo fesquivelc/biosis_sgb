@@ -3,23 +3,31 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package com.biosis.sgb.vistas.dialogos;
+package com.biosis.sgb.vistas;
 
-import static com.biosis.sgb.Application.*;
-import com.biosis.sgb.controlador.AutorControlador;
-import com.biosis.sgb.controlador.LibroControlador;
+import static com.biosis.sgb.Application.ESTILO1;
+import static com.biosis.sgb.Application.ESTILO2;
+import static com.biosis.sgb.Application.ESTILO5;
+import static com.biosis.sgb.Application.ESTILO7;
+import static com.biosis.sgb.controlador.Controlador.MODIFICAR;
+import static com.biosis.sgb.controlador.Controlador.NUEVO;
+import com.biosis.sgb.controlador.EjemplarControlador;
 import com.biosis.sgb.entidades.Autor;
 import com.biosis.sgb.entidades.Editorial;
-import com.biosis.sgb.entidades.Libro;
+import com.biosis.sgb.entidades.Ejemplar;
 import com.biosis.sgb.entidades.LibroAutor;
 import com.biosis.sgb.entidades.Seccion;
 import com.biosis.sgb.entidades.Tema;
+import com.biosis.sgb.vistas.dialogos.AutorSelect;
+import com.biosis.sgb.vistas.dialogos.EditorialSelect;
+import com.biosis.sgb.vistas.dialogos.EjemplarCRUD;
+import com.biosis.sgb.vistas.dialogos.LibroCRUD;
+import com.biosis.sgb.vistas.dialogos.SeccionSelect;
+import com.biosis.sgb.vistas.dialogos.TemaSelect;
 import com.personal.utiles.FormularioUtil;
 import java.awt.Component;
-import java.awt.event.KeyEvent;
 import java.util.ArrayList;
 import java.util.List;
-import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingWorker;
@@ -35,40 +43,28 @@ import org.jdesktop.swingbinding.SwingBindings;
  *
  * @author Francis
  */
-public class LibroSelect extends javax.swing.JDialog {
+public class EjemplarView extends javax.swing.JPanel {
 
-    /**
-     * Creates new form AutorSelect
-     */
-//    private final LibroControlador libroControlador;
+    private final EjemplarControlador ejemplarControlador;
     private Autor autorSeleccionado;
     private Editorial editorialSeleccionada;
     private Seccion seccionSeleccionada;
     private Tema temaSeleccionado;
-
+    /*
+    Controles de navegacion
+     */
     private int paginaActual = 1;
     private int totalPaginas = 0;
     private int tamanioPagina = 0;
 
-    private List<Libro> libroList;
+    private List<Ejemplar> ejemplarList;
 
-    private Libro libro;
-
-    private final LibroControlador libroControlador;
-
-    public LibroSelect(Component parent, boolean modal) {
-        super(JOptionPane.getFrameForComponent(parent), modal);
-        this.libroControlador = LibroControlador.getInstance();
+    public EjemplarView() {
         initComponents();
         initComponents2();
-
+        this.ejemplarControlador = EjemplarControlador.getInstance();
         BusquedaLibro busquedaLibro = new BusquedaLibro();
         busquedaLibro.execute();
-        this.setLocationRelativeTo(parent);
-    }
-
-    public Libro getLibro() {
-        return libro;
     }
 
     /**
@@ -81,9 +77,9 @@ public class LibroSelect extends javax.swing.JDialog {
     private void initComponents() {
         java.awt.GridBagConstraints gridBagConstraints;
 
-        pnlPrincipal = new javax.swing.JPanel();
+        grupoOpcionesBusqueda = new javax.swing.ButtonGroup();
         jLabel1 = new javax.swing.JLabel();
-        pnlSecundario = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
         pnlBusqueda = new javax.swing.JPanel();
         txtTitulo = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
@@ -107,6 +103,12 @@ public class LibroSelect extends javax.swing.JDialog {
         btnAutor = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         chkSoloDisponibles = new javax.swing.JCheckBox();
+        pnlAcciones = new javax.swing.JPanel();
+        btnVer = new javax.swing.JButton();
+        btnEjemplares = new javax.swing.JButton();
+        btnNuevo = new javax.swing.JButton();
+        btnModificar = new javax.swing.JButton();
+        btnEliminar = new javax.swing.JButton();
         pnlListado = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblLibroList = new org.jdesktop.swingx.JXTable();
@@ -119,22 +121,26 @@ public class LibroSelect extends javax.swing.JDialog {
         btnUltimo = new javax.swing.JButton();
         cboTamanio = new javax.swing.JComboBox();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-
-        pnlPrincipal.setLayout(new java.awt.BorderLayout());
+        setBackground(new java.awt.Color(255, 255, 255));
+        setLayout(new java.awt.BorderLayout());
 
         jLabel1.setBackground(new java.awt.Color(204, 204, 255));
         jLabel1.setFont(ESTILO5);
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Seleccione un libro");
+        jLabel1.setText("Consultas");
         jLabel1.setOpaque(true);
-        pnlPrincipal.add(jLabel1, java.awt.BorderLayout.PAGE_START);
+        add(jLabel1, java.awt.BorderLayout.PAGE_START);
 
-        pnlSecundario.setLayout(new java.awt.BorderLayout());
+        jPanel1.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel1.setOpaque(false);
+        jPanel1.setLayout(new java.awt.BorderLayout());
 
         pnlBusqueda.setBackground(new java.awt.Color(255, 255, 255));
         pnlBusqueda.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Parámetros de búsqueda", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, ESTILO1));
-        pnlBusqueda.setLayout(new java.awt.GridBagLayout());
+        java.awt.GridBagLayout pnlBusquedaLayout = new java.awt.GridBagLayout();
+        pnlBusquedaLayout.columnWidths = new int[] {0, 3, 0, 3, 0};
+        pnlBusquedaLayout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
+        pnlBusqueda.setLayout(pnlBusquedaLayout);
 
         txtTitulo.setFont(ESTILO2);
         gridBagConstraints = new java.awt.GridBagConstraints();
@@ -385,7 +391,56 @@ public class LibroSelect extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlBusqueda.add(chkSoloDisponibles, gridBagConstraints);
 
-        pnlSecundario.add(pnlBusqueda, java.awt.BorderLayout.PAGE_START);
+        jPanel1.add(pnlBusqueda, java.awt.BorderLayout.PAGE_START);
+
+        pnlAcciones.setBackground(new java.awt.Color(255, 255, 255));
+
+        btnVer.setFont(ESTILO7       );
+        btnVer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Information/Information_24x24.png"))); // NOI18N
+        btnVer.setText("Ver información");
+        pnlAcciones.add(btnVer);
+
+        btnEjemplares.setFont(ESTILO7       );
+        btnEjemplares.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Find/Find_24x24.png"))); // NOI18N
+        btnEjemplares.setText("Ver ejemplares");
+        btnEjemplares.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEjemplaresActionPerformed(evt);
+            }
+        });
+        pnlAcciones.add(btnEjemplares);
+
+        btnNuevo.setFont(ESTILO7       );
+        btnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Add/Add_24x24.png"))); // NOI18N
+        btnNuevo.setText("Registrar ejemplar");
+        btnNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevoActionPerformed(evt);
+            }
+        });
+        pnlAcciones.add(btnNuevo);
+
+        btnModificar.setFont(ESTILO7       );
+        btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Edit/Edit_24x24.png"))); // NOI18N
+        btnModificar.setText("Modificar");
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarActionPerformed(evt);
+            }
+        });
+        pnlAcciones.add(btnModificar);
+
+        btnEliminar.setFont(ESTILO7       );
+        btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Delete/Delete_24x24.png"))); // NOI18N
+        btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
+        pnlAcciones.add(btnEliminar);
+
+        jPanel1.add(pnlAcciones, java.awt.BorderLayout.PAGE_END);
 
         pnlListado.setBackground(new java.awt.Color(255, 255, 255));
         pnlListado.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Listado", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, ESTILO1        ));
@@ -405,22 +460,15 @@ public class LibroSelect extends javax.swing.JDialog {
         tblLibroList.setFont(ESTILO2);
         tblLibroList.setHorizontalScrollEnabled(true);
         tblLibroList.setRowHeight(20);
-        tblLibroList.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                tblLibroListMouseReleased(evt);
-            }
-        });
-        tblLibroList.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                tblLibroListKeyReleased(evt);
-            }
-        });
         jScrollPane1.setViewportView(tblLibroList);
 
         pnlListado.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
         pnlNavegacion2.setBackground(new java.awt.Color(255, 255, 255));
-        pnlNavegacion2.setLayout(new java.awt.GridBagLayout());
+        java.awt.GridBagLayout pnlNavegacion2Layout = new java.awt.GridBagLayout();
+        pnlNavegacion2Layout.columnWidths = new int[] {0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0};
+        pnlNavegacion2Layout.rowHeights = new int[] {0};
+        pnlNavegacion2.setLayout(pnlNavegacion2Layout);
 
         btnPrimero2.setText("<<");
         btnPrimero2.addActionListener(new java.awt.event.ActionListener() {
@@ -510,29 +558,42 @@ public class LibroSelect extends javax.swing.JDialog {
 
         pnlListado.add(pnlNavegacion2, java.awt.BorderLayout.SOUTH);
 
-        pnlSecundario.add(pnlListado, java.awt.BorderLayout.CENTER);
+        jPanel1.add(pnlListado, java.awt.BorderLayout.CENTER);
 
-        pnlPrincipal.add(pnlSecundario, java.awt.BorderLayout.CENTER);
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(pnlPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, 677, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(pnlPrincipal, javax.swing.GroupLayout.DEFAULT_SIZE, 448, Short.MAX_VALUE)
-                .addContainerGap())
-        );
-
-        pack();
+        add(jPanel1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnPrimero2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrimero2ActionPerformed
+        // TODO add your handling code here:
+        primero();
+    }//GEN-LAST:event_btnPrimero2ActionPerformed
+
+    private void btnAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnteriorActionPerformed
+        // TODO add your handling code here:
+        anterior();
+    }//GEN-LAST:event_btnAnteriorActionPerformed
+
+    private void spPaginaStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spPaginaStateChanged
+        // TODO add your handling code here:
+        this.seleccionPagina();
+    }//GEN-LAST:event_spPaginaStateChanged
+
+    private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
+        // TODO add your handling code here:
+        siguiente();
+    }//GEN-LAST:event_btnSiguienteActionPerformed
+
+    private void btnUltimoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUltimoActionPerformed
+        // TODO add your handling code here:
+        ultimo();
+    }//GEN-LAST:event_btnUltimoActionPerformed
+
+    private void cboTamanioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboTamanioActionPerformed
+        // TODO add your handling code here:
+        this.paginaActual = 1;
+        buscar();
+        this.actualizarControlesNavegacion();
+    }//GEN-LAST:event_cboTamanioActionPerformed
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
@@ -540,25 +601,41 @@ public class LibroSelect extends javax.swing.JDialog {
         busquedaLibro.execute();
     }//GEN-LAST:event_btnBuscarActionPerformed
 
-    private void chkAutorStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_chkAutorStateChanged
+    private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
         // TODO add your handling code here:
-        checkboxes();
-    }//GEN-LAST:event_chkAutorStateChanged
+        ejemplarControlador.prepararCrear();
+        EjemplarCRUD ejemplarCRUD = new EjemplarCRUD(this, true, NUEVO, ejemplarControlador.getSeleccionado());
+        ejemplarCRUD.setVisible(true);
+        if (ejemplarCRUD.isAccionRealizada()) {
+            this.ejemplarList.add(ejemplarCRUD.getEjemplar());
+        }
+    }//GEN-LAST:event_btnNuevoActionPerformed
 
-    private void chkEditorialStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_chkEditorialStateChanged
+    private void btnEjemplaresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEjemplaresActionPerformed
         // TODO add your handling code here:
-        checkboxes();
-    }//GEN-LAST:event_chkEditorialStateChanged
+//        Ejemplar ejemplar = obtenerLibroSeleccionado();
+//        if (ejemplar != null) {
+//            EjemplarList ejemplarList = new EjemplarList(this, ejemplar, true);
+//            ejemplarList.setVisible(true);
+//        }
+    }//GEN-LAST:event_btnEjemplaresActionPerformed
 
-    private void chkSeccionStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_chkSeccionStateChanged
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         // TODO add your handling code here:
-        checkboxes();
-    }//GEN-LAST:event_chkSeccionStateChanged
+        Ejemplar ejemplar = obtenerLibroSeleccionado();
+        if (ejemplar != null) {
+            EjemplarCRUD ejemplarCRUD = new EjemplarCRUD(this, true, MODIFICAR, ejemplar);
+            ejemplarCRUD.setVisible(true);
+            if (ejemplarCRUD.isAccionRealizada()) {
+                BusquedaLibro busqueda = new BusquedaLibro();
+                busqueda.execute();
+            }
+        }
+    }//GEN-LAST:event_btnModificarActionPerformed
 
-    private void chkTemaStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_chkTemaStateChanged
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         // TODO add your handling code here:
-        checkboxes();
-    }//GEN-LAST:event_chkTemaStateChanged
+    }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnSeccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeccionActionPerformed
         // TODO add your handling code here:
@@ -602,59 +679,25 @@ public class LibroSelect extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnAutorActionPerformed
 
-    private void btnPrimero2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrimero2ActionPerformed
+    private void chkAutorStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_chkAutorStateChanged
         // TODO add your handling code here:
-        primero();
-    }//GEN-LAST:event_btnPrimero2ActionPerformed
+        checkboxes();
+    }//GEN-LAST:event_chkAutorStateChanged
 
-    private void btnAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnteriorActionPerformed
+    private void chkEditorialStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_chkEditorialStateChanged
         // TODO add your handling code here:
-        anterior();
-    }//GEN-LAST:event_btnAnteriorActionPerformed
+        checkboxes();
+    }//GEN-LAST:event_chkEditorialStateChanged
 
-    private void spPaginaStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spPaginaStateChanged
+    private void chkSeccionStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_chkSeccionStateChanged
         // TODO add your handling code here:
-        this.seleccionPagina();
-    }//GEN-LAST:event_spPaginaStateChanged
+        checkboxes();
+    }//GEN-LAST:event_chkSeccionStateChanged
 
-    private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
+    private void chkTemaStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_chkTemaStateChanged
         // TODO add your handling code here:
-        siguiente();
-    }//GEN-LAST:event_btnSiguienteActionPerformed
-
-    private void btnUltimoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUltimoActionPerformed
-        // TODO add your handling code here:
-        ultimo();
-    }//GEN-LAST:event_btnUltimoActionPerformed
-
-    private void cboTamanioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboTamanioActionPerformed
-        // TODO add your handling code here:
-        this.paginaActual = 1;
-        buscar();
-        this.actualizarControlesNavegacion();
-    }//GEN-LAST:event_cboTamanioActionPerformed
-
-    private void tblLibroListMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblLibroListMouseReleased
-        // TODO add your handling code here:
-        int conteo = evt.getClickCount();
-        if (conteo == 2) {
-            int fila = tblLibroList.getSelectedRow();
-            this.libro = this.libroList.get(fila);
-            this.dispose();
-        }
-    }//GEN-LAST:event_tblLibroListMouseReleased
-
-    private void tblLibroListKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblLibroListKeyReleased
-        // TODO add your handling code here:
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            int fila = tblLibroList.getSelectedRow();
-            this.libro = this.libroList.get(fila);
-            this.dispose();
-        }
-        if (evt.getKeyCode() == KeyEvent.VK_UP && tblLibroList.getSelectedRow() == 0) {
-            txtTitulo.requestFocus();
-        }
-    }//GEN-LAST:event_tblLibroListKeyReleased
+        checkboxes();
+    }//GEN-LAST:event_chkTemaStateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -662,19 +705,26 @@ public class LibroSelect extends javax.swing.JDialog {
     private javax.swing.JButton btnAutor;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnEditorial;
+    private javax.swing.JButton btnEjemplares;
+    private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton btnModificar;
+    private javax.swing.JButton btnNuevo;
     private javax.swing.JButton btnPrimero2;
     private javax.swing.JButton btnSeccion;
     private javax.swing.JButton btnSiguiente;
     private javax.swing.JButton btnTema;
     private javax.swing.JButton btnUltimo;
+    private javax.swing.JButton btnVer;
     private javax.swing.JComboBox cboTamanio;
     private javax.swing.JCheckBox chkAutor;
     private javax.swing.JCheckBox chkEditorial;
     private javax.swing.JCheckBox chkSeccion;
     private javax.swing.JCheckBox chkSoloDisponibles;
     private javax.swing.JCheckBox chkTema;
+    private javax.swing.ButtonGroup grupoOpcionesBusqueda;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
@@ -682,11 +732,10 @@ public class LibroSelect extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel6;
     private javax.swing.JScrollPane jScrollPane1;
     private org.jdesktop.swingx.JXBusyLabel lblEspere;
+    private javax.swing.JPanel pnlAcciones;
     private javax.swing.JPanel pnlBusqueda;
     private javax.swing.JPanel pnlListado;
     private javax.swing.JPanel pnlNavegacion2;
-    private javax.swing.JPanel pnlPrincipal;
-    private javax.swing.JPanel pnlSecundario;
     private javax.swing.JSpinner spPagina;
     private org.jdesktop.swingx.JXTable tblLibroList;
     private javax.swing.JTextField txtAutor;
@@ -699,32 +748,36 @@ public class LibroSelect extends javax.swing.JDialog {
 
     private void initComponents2() {
         lblEspere.setVisible(false);
-        this.libroList = ObservableCollections.observableList(new ArrayList<Libro>());
+        this.ejemplarList = ObservableCollections.observableList(new ArrayList<Ejemplar>());
         //procedemos a bindear
         BindingGroup grupo = new BindingGroup();
 
-        BeanProperty bTitulo = BeanProperty.create("titulo");
-        BeanProperty bIsbn10 = BeanProperty.create("isbn10");
-        BeanProperty bIsbn13 = BeanProperty.create("isbn13");
-        BeanProperty bEjemplarTotal = BeanProperty.create("ejemplarTotal");
-        BeanProperty bEjemplarDisponible = BeanProperty.create("ejemplarDisponible");
-        BeanProperty bAutores = BeanProperty.create("libroAutorList");
-        BeanProperty bMateria = BeanProperty.create("seccion.materia.nombre");
-        BeanProperty bSeccion = BeanProperty.create("seccion.nombre");
-        JTableBinding bindeoTabla = SwingBindings.createJTableBinding(AutoBinding.UpdateStrategy.READ, libroList, tblLibroList);
+        BeanProperty bCodigo = BeanProperty.create("codigo");
+        
+        BeanProperty bTitulo = BeanProperty.create("libro.titulo");
+        BeanProperty bIsbn10 = BeanProperty.create("libro.isbn10");
+        BeanProperty bIsbn13 = BeanProperty.create("libro.isbn13");
+        BeanProperty bAutores = BeanProperty.create("libro.libroAutorList");
+        BeanProperty bMateria = BeanProperty.create("libro.seccion.materia.nombre");
+        BeanProperty bSeccion = BeanProperty.create("libro.seccion.nombre");
+        BeanProperty fechaEntrada = BeanProperty.create("fechaEntrada");
+        BeanProperty fechaDisponible = BeanProperty.create("prestamo.fechaDevolucion");
+        JTableBinding bindeoTabla = SwingBindings.createJTableBinding(AutoBinding.UpdateStrategy.READ, ejemplarList, tblLibroList);
+        
+        bindeoTabla.addColumnBinding(bCodigo).setColumnName("Código").setEditable(false);
         bindeoTabla.addColumnBinding(bTitulo).setColumnName("Titulo").setEditable(false);
         bindeoTabla.addColumnBinding(bAutores).setColumnName("Autor(es)").setEditable(false).setColumnClass(List.class);
         bindeoTabla.addColumnBinding(bMateria).setColumnName("Materia").setEditable(false);
         bindeoTabla.addColumnBinding(bSeccion).setColumnName("Sección").setEditable(false);
         bindeoTabla.addColumnBinding(bIsbn10).setColumnName("ISBN 10").setEditable(false);
         bindeoTabla.addColumnBinding(bIsbn13).setColumnName("ISBN 13").setEditable(false);
-        bindeoTabla.addColumnBinding(bEjemplarTotal).setColumnName("Total").setEditable(false);
-        bindeoTabla.addColumnBinding(bEjemplarDisponible).setColumnName("Disponibles").setEditable(false);
+        bindeoTabla.addColumnBinding(fechaEntrada).setColumnName("Fecha entrada").setEditable(false);
+        bindeoTabla.addColumnBinding(fechaDisponible).setColumnName("Disponible desde").setEditable(false);
 
         grupo.addBinding(bindeoTabla);
         grupo.bind();
 
-        tblLibroList.getColumn(1).setCellRenderer(new DefaultTableCellRenderer() {
+        tblLibroList.getColumn(2).setCellRenderer(new DefaultTableCellRenderer() {
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
                 if (value != null) {
@@ -739,28 +792,31 @@ public class LibroSelect extends javax.swing.JDialog {
         });
     }
 
-    private void controles(boolean busqueda) {
-        FormularioUtil.activarComponente(pnlBusqueda, !busqueda);
-//        FormularioUtil.activarComponente(pnlAcciones, !busqueda);
-    }
-
     //cambiamos acorde a lo que se requiere
     private void buscar() {
 //        String busqueda = txtBusqueda.getText();
         tamanioPagina = Integer.parseInt(cboTamanio.getSelectedItem().toString());
 
         //AQUI LO PASAMOS A UN SWING WORKER
-        libroList.clear();
+        ejemplarList.clear();
 
-        libroList.addAll(this.listar(paginaActual, tamanioPagina));
+        ejemplarList.addAll(this.listar(paginaActual, tamanioPagina));
 
         tblLibroList.packAll();
     }
 
-    private List<Libro> listar(int pagina, int tamanio) {
+    private void controles(boolean busqueda) {
+        FormularioUtil.activarComponente(pnlBusqueda, !busqueda);
+        FormularioUtil.activarComponente(pnlAcciones, !busqueda);
+        if (!busqueda) {
+            checkboxes();
+        }
+    }
+
+    private List<Ejemplar> listar(int pagina, int tamanio) {
         int total = 0;
         String txtPatron = txtTitulo.getText();
-        total = libroControlador.contarMultiple(
+        total = ejemplarControlador.contarMultiple(
                 chkAutor.isSelected() ? autorSeleccionado : null,
                 chkEditorial.isSelected() ? editorialSeleccionada : null,
                 chkSeccion.isSelected() ? seccionSeleccionada : null,
@@ -780,7 +836,7 @@ public class LibroSelect extends javax.swing.JDialog {
 
         int desde = (pagina - 1) * tamanio;
 
-        return libroControlador.consultaMultiple(
+        return ejemplarControlador.consultaMultiple(
                 chkAutor.isSelected() ? autorSeleccionado : null,
                 chkEditorial.isSelected() ? editorialSeleccionada : null,
                 chkSeccion.isSelected() ? seccionSeleccionada : null,
@@ -847,6 +903,14 @@ public class LibroSelect extends javax.swing.JDialog {
         btnTema.setEnabled(chkTema.isSelected());
     }
 
+    private Ejemplar obtenerLibroSeleccionado() {
+        int fila = tblLibroList.getSelectedRow();
+        if (fila != -1) {
+            return ejemplarList.get(fila);
+        }
+        return null;
+    }
+
     private class BusquedaLibro extends SwingWorker<Double, Void> {
 
         @Override
@@ -863,9 +927,10 @@ public class LibroSelect extends javax.swing.JDialog {
 
         @Override
         protected void done() {
-            controles(false);
+
             lblEspere.setBusy(false);
             lblEspere.setVisible(false);
+            controles(false);
         }
 
     }

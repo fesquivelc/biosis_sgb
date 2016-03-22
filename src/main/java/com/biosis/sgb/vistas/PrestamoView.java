@@ -9,11 +9,16 @@ import static com.biosis.sgb.Application.ESTILO1;
 import static com.biosis.sgb.Application.ESTILO2;
 import static com.biosis.sgb.Application.ESTILO5;
 import static com.biosis.sgb.Application.ESTILO7;
+import static com.biosis.sgb.controlador.Controlador.MODIFICAR;
+import static com.biosis.sgb.controlador.Controlador.NUEVO;
 import com.biosis.sgb.controlador.PrestamoControlador;
 import com.biosis.sgb.entidades.Libro;
 import com.biosis.sgb.entidades.Persona;
 import com.biosis.sgb.entidades.Prestamo;
+import com.biosis.sgb.vistas.dialogos.DevolucionDialog;
+import com.biosis.sgb.vistas.dialogos.LibroSelect;
 import com.biosis.sgb.vistas.dialogos.PersonaSelect;
+import com.biosis.sgb.vistas.dialogos.PrestamoCRUD;
 import com.personal.utiles.FormularioUtil;
 import java.awt.Component;
 import java.text.DateFormat;
@@ -264,6 +269,11 @@ public class PrestamoView extends javax.swing.JPanel {
 
         btnLibro.setFont(ESTILO1);
         btnLibro.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Search/Search_16x16.png"))); // NOI18N
+        btnLibro.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLibroActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -469,6 +479,12 @@ public class PrestamoView extends javax.swing.JPanel {
         // TODO add your handling code here:
 //        AutorCRUD autorCRUD = new AutorCRUD(this, true);
 //        autorCRUD.setVisible(true);
+        prestamoControlador.prepararCrear();
+        PrestamoCRUD prestamoCRUD = new PrestamoCRUD(this, true, NUEVO, prestamoControlador.getSeleccionado());
+        prestamoCRUD.setVisible(true);
+        if (prestamoCRUD.isAccionRealizada()) {
+            prestamoList.add(prestamoCRUD.getPrestamo());
+        }
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnVerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerActionPerformed
@@ -477,6 +493,13 @@ public class PrestamoView extends javax.swing.JPanel {
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         // TODO add your handling code here:
+        Prestamo prestamo = obtenerPrestamoSeleccioado();
+        DevolucionDialog devolucionDialog = new DevolucionDialog(this, true, MODIFICAR, prestamo);
+        devolucionDialog.setVisible(true);
+        if (devolucionDialog.isAccionRealizada()) {
+            Busqueda busqueda = new Busqueda();
+            busqueda.execute();
+        }
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void chkEntreFechasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkEntreFechasActionPerformed
@@ -508,6 +531,16 @@ public class PrestamoView extends javax.swing.JPanel {
             mostrarPersona(this.personaSeleccionada);
         }
     }//GEN-LAST:event_btnPersonaActionPerformed
+
+    private void btnLibroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLibroActionPerformed
+        // TODO add your handling code here:
+        LibroSelect libroSelect = new LibroSelect(this, true);
+        libroSelect.setVisible(true);
+        this.libroSeleccionado = libroSelect.getLibro();
+        if (libroSeleccionado != null) {
+            mostrarLibro(libroSeleccionado);
+        }
+    }//GEN-LAST:event_btnLibroActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -581,16 +614,20 @@ public class PrestamoView extends javax.swing.JPanel {
 
         tblPrestamoList.setDefaultRenderer(Date.class, new DefaultTableCellRenderer() {
             final DateFormat dfFecha = new SimpleDateFormat("dd/MM/yyyy");
+
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
                 String fecha = "";
-                if(value != null){
-                    Date date = (Date) value;
-                    fecha = dfFecha.format(date);
+                if (value != null) {
+                    if (value instanceof Date) {
+                        Date date = (Date) value;
+                        fecha = dfFecha.format(date);
+                    }
+
                 }
                 return super.getTableCellRendererComponent(table, fecha, isSelected, hasFocus, row, column); //To change body of generated methods, choose Tools | Templates.
             }
-            
+
         });
     }
 
@@ -642,7 +679,7 @@ public class PrestamoView extends javax.swing.JPanel {
         if (radPersona.isSelected()) {
             return prestamoControlador.buscarXPersona(personaSeleccionada, chkPendienteDevolucion.isSelected(), entreFechas ? dcFechaInicio.getDate() : null, entreFechas ? dcFechaInicio.getDate() : null, desde, tamanio);
         } else {
-            return prestamoControlador.buscarXLibro(libroSeleccionado, chkPendienteDevolucion.isSelected(), entreFechas ? dcFechaInicio.getDate() : null, entreFechas ? dcFechaInicio.getDate() : null, desde, tamanio);
+            return prestamoControlador.buscarXLibro(libroSeleccionado, chkPendienteDevolucion.isSelected(), entreFechas ? dcFechaInicio.getDate() : null, entreFechas ? dcFechaFin.getDate() : null, desde, tamanio);
         }
 
     }
@@ -710,6 +747,10 @@ public class PrestamoView extends javax.swing.JPanel {
 
     private void mostrarPersona(Persona persona) {
         txtPersona.setText(String.format("%s %s, %s", persona.getPaterno(), persona.getMaterno(), persona.getNombres()));
+    }
+
+    private void mostrarLibro(Libro libro) {
+        txtLibro.setText(libro.getTitulo());
     }
 
     private class Busqueda extends SwingWorker<Double, Void> {

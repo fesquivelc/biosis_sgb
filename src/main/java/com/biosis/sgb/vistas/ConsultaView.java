@@ -748,10 +748,7 @@ public class ConsultaView extends javax.swing.JPanel {
 
     private void initComponents2() {
         lblEspere.setVisible(false);
-
-//        lblEspere.setBusy(true);
         this.libroList = ObservableCollections.observableList(new ArrayList<Libro>());
-
         //procedemos a bindear
         BindingGroup grupo = new BindingGroup();
 

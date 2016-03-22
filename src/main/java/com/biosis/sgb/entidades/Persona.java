@@ -4,8 +4,10 @@
  * and open the template in the editor.
  */
 package com.biosis.sgb.entidades;
+
 import java.util.Date;
 import javax.persistence.*;
+
 /**
  *
  * @author Francis
@@ -13,6 +15,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "persona")
 public class Persona {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "persona_id")
@@ -27,7 +30,7 @@ public class Persona {
     private Date fechaHoraModificacion;
     @Column(nullable = false)
     private boolean activo;
-    
+
     @Column(nullable = false)
     private String nombres;
     @Column(nullable = false)
@@ -130,6 +133,9 @@ public class Persona {
     public void setEmail(String email) {
         this.email = email;
     }
-    
-    
+
+    public String getNombreCompleto() {
+        return String.format("%s %s, %s", paterno, materno, nombres);
+    }
+
 }

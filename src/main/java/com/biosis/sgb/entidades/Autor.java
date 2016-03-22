@@ -24,6 +24,7 @@ import javax.persistence.TemporalType;
 @Entity
 @Table(name = "autor")
 public class Autor {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "autor_id")
@@ -46,6 +47,7 @@ public class Autor {
     private Date fechaHoraModificacion;
     @Column(nullable = false)
     private boolean activo;
+    
 
     public int getTipoAutor() {
         return tipoAutor;

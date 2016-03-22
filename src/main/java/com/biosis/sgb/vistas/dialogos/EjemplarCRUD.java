@@ -15,66 +15,64 @@ import static com.biosis.sgb.controlador.Controlador.MODIFICAR;
 import static com.biosis.sgb.controlador.Controlador.NUEVO;
 import com.biosis.sgb.controlador.EjemplarControlador;
 import com.biosis.sgb.controlador.PrestamoControlador;
+import com.biosis.sgb.controlador.ProcedenciaControlador;
 import com.biosis.sgb.entidades.Autor;
 import com.biosis.sgb.entidades.Ejemplar;
 import com.biosis.sgb.entidades.Libro;
 import com.biosis.sgb.entidades.Persona;
 import com.biosis.sgb.entidades.Prestamo;
+import com.biosis.sgb.entidades.Procedencia;
+import com.biosis.sgb.util.AbstractListCellRenderer;
 import com.personal.utiles.FormularioUtil;
 import java.awt.Component;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
-import javax.swing.JTable;
-import javax.swing.table.DefaultTableCellRenderer;
 import org.jdesktop.beansbinding.AutoBinding;
-import org.jdesktop.beansbinding.BeanProperty;
-import org.jdesktop.observablecollections.ObservableCollections;
-import org.jdesktop.swingbinding.JTableBinding;
+import org.jdesktop.swingbinding.JComboBoxBinding;
 import org.jdesktop.swingbinding.SwingBindings;
 
 /**
  *
  * @author Francis
  */
-public class PrestamoCRUD extends javax.swing.JDialog {
+public class EjemplarCRUD extends javax.swing.JDialog {
 
     /**
      * Creates new form AutorCRUD
      */
-    private PrestamoControlador prestamoControlador;
     private EjemplarControlador ejemplarControlador;
+    private ProcedenciaControlador procedenciaControlador;
+
     private int accion;
     private boolean accionRealizada = false;
-    private List<Ejemplar> ejemplarList;
-    private Prestamo prestamo;
-    private Persona personaSeleccionada;
-    private Ejemplar ejemplarSeleccionado;
+    private Ejemplar ejemplar;
+    private List<Procedencia> procedenciaList;
 
-    public Prestamo getPrestamo() {
-        return prestamo;
+    private Libro libroSeleccionado;
+
+    public Ejemplar getEjemplar() {
+        return ejemplar;
     }
 
     public boolean isAccionRealizada() {
         return accionRealizada;
     }
 
-    public PrestamoCRUD(java.awt.Frame parent, boolean modal, int accion, Autor autor) {
+    public EjemplarCRUD(java.awt.Frame parent, boolean modal, int accion, Autor autor) {
         super(parent, modal);
         initComponents();
         initComponents2();
     }
 
-    public PrestamoCRUD(Component component, boolean modal, int accion, Prestamo prestamo) {
+    public EjemplarCRUD(Component component, boolean modal, int accion, Ejemplar ejemplar) {
         super(JOptionPane.getFrameForComponent(component), modal);
         initComponents();
         initComponents2();
-        this.prestamo = prestamo;
+        this.ejemplar = ejemplar;
         this.accion = accion;
-        inicializar(prestamo, accion);
+        inicializar(ejemplar, accion);
         this.setLocationRelativeTo(component);
     }
 
@@ -91,11 +89,6 @@ public class PrestamoCRUD extends javax.swing.JDialog {
         jPanel1 = new javax.swing.JPanel();
         lblTituloVentana = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        pnlPersona = new javax.swing.JPanel();
-        jLabel1 = new javax.swing.JLabel();
-        jPanel4 = new javax.swing.JPanel();
-        txtPersona = new javax.swing.JTextField();
-        btnPersona = new javax.swing.JButton();
         pnlEjemplar = new javax.swing.JPanel();
         pnlPersona1 = new javax.swing.JPanel();
         lblBusqueda = new javax.swing.JLabel();
@@ -103,22 +96,19 @@ public class PrestamoCRUD extends javax.swing.JDialog {
         txtLibro = new javax.swing.JTextField();
         btnLibro = new javax.swing.JButton();
         pnlEjemplaresDisponibles = new javax.swing.JPanel();
-        jScrollPane2 = new javax.swing.JScrollPane();
-        tblEjemplar = new org.jdesktop.swingx.JXTable();
-        lblMensaje = new javax.swing.JLabel();
+        lblTitulo1 = new javax.swing.JLabel();
+        lblEdicion1 = new javax.swing.JLabel();
+        lblMateria1 = new javax.swing.JLabel();
+        txtCodigo = new javax.swing.JTextField();
+        dcFechaEntrada = new com.toedter.calendar.JDateChooser();
+        cboProcedencia = new javax.swing.JComboBox<>();
         pnlDatosLibro = new javax.swing.JPanel();
-        lblCodigo = new javax.swing.JLabel();
         lblTitulo = new javax.swing.JLabel();
         lblEdicion = new javax.swing.JLabel();
         lblMateria = new javax.swing.JLabel();
         lblSeccion = new javax.swing.JLabel();
         lblAutores = new javax.swing.JLabel();
         lblEditorial = new javax.swing.JLabel();
-        jPanel5 = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
-        dcFechaInicio = new com.toedter.calendar.JDateChooser();
-        jLabel3 = new javax.swing.JLabel();
-        dcFechaFin = new com.toedter.calendar.JDateChooser();
         jPanel3 = new javax.swing.JPanel();
         btnGuardar = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
@@ -142,70 +132,16 @@ public class PrestamoCRUD extends javax.swing.JDialog {
         jPanel2Layout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0};
         jPanel2.setLayout(jPanel2Layout);
 
-        pnlPersona.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Datos de la persona", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, ESTILO1));
-        java.awt.GridBagLayout pnlPersonaLayout = new java.awt.GridBagLayout();
-        pnlPersonaLayout.columnWidths = new int[] {0, 3, 0};
-        pnlPersonaLayout.rowHeights = new int[] {0, 5, 0};
-        pnlPersona.setLayout(pnlPersonaLayout);
-
-        jLabel1.setFont(ESTILO1);
-        jLabel1.setText("Apellidos y nombres:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        pnlPersona.add(jLabel1, gridBagConstraints);
-
-        jPanel4.setLayout(new java.awt.GridBagLayout());
-
-        txtPersona.setFont(ESTILO2);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 1;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 0.1;
-        gridBagConstraints.weighty = 0.1;
-        jPanel4.add(txtPersona, gridBagConstraints);
-
-        btnPersona.setFont(ESTILO1);
-        btnPersona.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Search/Search_16x16.png"))); // NOI18N
-        btnPersona.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPersonaActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
-        gridBagConstraints.weighty = 0.1;
-        jPanel4.add(btnPersona, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 0.1;
-        pnlPersona.add(jPanel4, gridBagConstraints);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
-        gridBagConstraints.weightx = 0.1;
-        jPanel2.add(pnlPersona, gridBagConstraints);
-
         pnlEjemplar.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         pnlEjemplar.setLayout(new java.awt.GridBagLayout());
 
-        pnlPersona1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Selección de ejemplar", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, ESTILO1));
         java.awt.GridBagLayout pnlPersona1Layout = new java.awt.GridBagLayout();
         pnlPersona1Layout.columnWidths = new int[] {0, 3, 0, 3, 0};
         pnlPersona1Layout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0};
         pnlPersona1.setLayout(pnlPersona1Layout);
 
         lblBusqueda.setFont(ESTILO1);
-        lblBusqueda.setText("Búsqueda:");
+        lblBusqueda.setText("Búsqueda de libro:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
@@ -248,29 +184,55 @@ public class PrestamoCRUD extends javax.swing.JDialog {
         gridBagConstraints.weightx = 0.1;
         pnlPersona1.add(pnlBusquedaLibro, gridBagConstraints);
 
-        pnlEjemplaresDisponibles.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Ejemplares disponibles", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, ESTILO1));
-        pnlEjemplaresDisponibles.setLayout(new java.awt.BorderLayout());
+        pnlEjemplaresDisponibles.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Datos de ejemplar", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, ESTILO1));
+        java.awt.GridBagLayout pnlEjemplaresDisponiblesLayout = new java.awt.GridBagLayout();
+        pnlEjemplaresDisponiblesLayout.columnWidths = new int[] {0, 3, 0};
+        pnlEjemplaresDisponiblesLayout.rowHeights = new int[] {0, 5, 0, 5, 0};
+        pnlEjemplaresDisponibles.setLayout(pnlEjemplaresDisponiblesLayout);
 
-        tblEjemplar.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        tblEjemplar.setFont(ESTILO2);
-        tblEjemplar.addMouseListener(new java.awt.event.MouseAdapter() {
-            public void mouseReleased(java.awt.event.MouseEvent evt) {
-                tblEjemplarMouseReleased(evt);
-            }
-        });
-        jScrollPane2.setViewportView(tblEjemplar);
+        lblTitulo1.setFont(ESTILO1);
+        lblTitulo1.setText("Código:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlEjemplaresDisponibles.add(lblTitulo1, gridBagConstraints);
 
-        pnlEjemplaresDisponibles.add(jScrollPane2, java.awt.BorderLayout.CENTER);
+        lblEdicion1.setFont(ESTILO1);
+        lblEdicion1.setText("Fecha de entrada:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlEjemplaresDisponibles.add(lblEdicion1, gridBagConstraints);
+
+        lblMateria1.setFont(ESTILO1);
+        lblMateria1.setText("Procedencia:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlEjemplaresDisponibles.add(lblMateria1, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        gridBagConstraints.weightx = 0.1;
+        pnlEjemplaresDisponibles.add(txtCodigo, gridBagConstraints);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlEjemplaresDisponibles.add(dcFechaEntrada, gridBagConstraints);
+
+        cboProcedencia.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlEjemplaresDisponibles.add(cboProcedencia, gridBagConstraints);
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -281,22 +243,8 @@ public class PrestamoCRUD extends javax.swing.JDialog {
         gridBagConstraints.weighty = 10.0;
         pnlPersona1.add(pnlEjemplaresDisponibles, gridBagConstraints);
 
-        lblMensaje.setFont(ESTILO1);
-        lblMensaje.setForeground(new java.awt.Color(204, 0, 0));
-        lblMensaje.setText("lblMensaje");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        pnlPersona1.add(lblMensaje, gridBagConstraints);
-
-        pnlDatosLibro.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Datos", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, ESTILO1));
+        pnlDatosLibro.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Datos de libro", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, ESTILO1));
         pnlDatosLibro.setLayout(new java.awt.GridLayout(0, 1, 0, 3));
-
-        lblCodigo.setFont(ESTILO1);
-        lblCodigo.setText("Código ejemplar:");
-        pnlDatosLibro.add(lblCodigo);
 
         lblTitulo.setFont(ESTILO1);
         lblTitulo.setText("Titulo:");
@@ -350,25 +298,6 @@ public class PrestamoCRUD extends javax.swing.JDialog {
         gridBagConstraints.weighty = 0.1;
         jPanel2.add(pnlEjemplar, gridBagConstraints);
 
-        jPanel5.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.LEFT, 0, 5));
-
-        jLabel4.setFont(ESTILO1);
-        jLabel4.setText("Fecha de préstamo: ");
-        jPanel5.add(jLabel4);
-        jPanel5.add(dcFechaInicio);
-
-        jLabel3.setFont(ESTILO1);
-        jLabel3.setText("  Fecha de devolución: ");
-        jPanel5.add(jLabel3);
-        jPanel5.add(dcFechaFin);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        jPanel2.add(jPanel5, gridBagConstraints);
-
         jPanel1.add(jPanel2, java.awt.BorderLayout.CENTER);
 
         btnGuardar.setFont(ESTILO6);
@@ -419,14 +348,14 @@ public class PrestamoCRUD extends javax.swing.JDialog {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 755, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 660, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 559, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -435,9 +364,9 @@ public class PrestamoCRUD extends javax.swing.JDialog {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
-        volcarData(prestamoControlador.getSeleccionado());
+        volcarData(ejemplarControlador.getSeleccionado());
 
-        if (prestamoControlador.accion(accion)) {
+        if (ejemplarControlador.accion(accion)) {
             FormularioUtil.mensajeExito(this, accion);
             this.accionRealizada = true;
             this.dispose();
@@ -450,16 +379,16 @@ public class PrestamoCRUD extends javax.swing.JDialog {
     private void btnEditarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditarActionPerformed
         // TODO add your handling code here:
         this.accion = MODIFICAR;
-        inicializar(prestamo, accion);
+        inicializar(ejemplar, accion);
     }//GEN-LAST:event_btnEditarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         // TODO add your handling code here:
         this.accion = ELIMINAR;
         if (JOptionPane.showConfirmDialog(this, "¿Está seguro que desea eliminar este autor(a)?", "Mensaje del sistema", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-            if (this.prestamoControlador.accion(accion)) {
+            if (this.ejemplarControlador.accion(accion)) {
                 FormularioUtil.mensajeExito(this, accion);
-                this.prestamo = null;
+                this.ejemplar = null;
                 this.dispose();
             }
         }
@@ -470,39 +399,16 @@ public class PrestamoCRUD extends javax.swing.JDialog {
         this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
-    private void btnPersonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPersonaActionPerformed
-        // TODO add your handling code here:
-        PersonaSelect personaSelect = new PersonaSelect(this, true);
-        personaSelect.setVisible(true);
-        personaSeleccionada = personaSelect.getPersona();
-        if (personaSeleccionada != null) {
-            txtPersona.setText(String.format("%s %s, %s", personaSeleccionada.getPaterno(), personaSeleccionada.getMaterno(), personaSeleccionada.getNombres()));
-        }
-    }//GEN-LAST:event_btnPersonaActionPerformed
-
-    private void tblEjemplarMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblEjemplarMouseReleased
-        // TODO add your handling code here:
-        ejemplarSeleccionado = obtenerEjemplarSeleccionado();
-    }//GEN-LAST:event_tblEjemplarMouseReleased
-
     private void btnLibroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLibroActionPerformed
         // TODO add your handling code here:
         LibroSelect libroSelect = new LibroSelect(this, true);
         libroSelect.setVisible(true);
         Libro libro = libroSelect.getLibro();
         if (libro != null) {
+            this.libroSeleccionado = libro;
             txtLibro.setText(libro.getTitulo());
             mostrarDatosLibro(libro);
 //            ejemplarList.addAll(libro.getEjemplarList());
-            ejemplarSeleccionado = null;
-            ejemplarList.clear();
-            ejemplarList.addAll(ejemplarControlador.buscarXLibroYDisponible(libro));
-            if(ejemplarList.isEmpty()){
-                lblMensaje.setVisible(true);
-                lblMensaje.setText("No hay ejemplares disponibles");
-            }else{
-                lblMensaje.setVisible(false);
-            }
 
         }
 //        if (personaSeleccionada != null) {
@@ -520,127 +426,95 @@ public class PrestamoCRUD extends javax.swing.JDialog {
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnLibro;
-    private javax.swing.JButton btnPersona;
-    private com.toedter.calendar.JDateChooser dcFechaFin;
-    private com.toedter.calendar.JDateChooser dcFechaInicio;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
+    private javax.swing.JComboBox<String> cboProcedencia;
+    private com.toedter.calendar.JDateChooser dcFechaEntrada;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
-    private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
-    private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lblAutores;
     private javax.swing.JLabel lblBusqueda;
-    private javax.swing.JLabel lblCodigo;
     private javax.swing.JLabel lblEdicion;
+    private javax.swing.JLabel lblEdicion1;
     private javax.swing.JLabel lblEditorial;
     private javax.swing.JLabel lblMateria;
-    private javax.swing.JLabel lblMensaje;
+    private javax.swing.JLabel lblMateria1;
     private javax.swing.JLabel lblSeccion;
     private javax.swing.JLabel lblTitulo;
+    private javax.swing.JLabel lblTitulo1;
     private javax.swing.JLabel lblTituloVentana;
     private javax.swing.JPanel pnlBusquedaLibro;
     private javax.swing.JPanel pnlDatosLibro;
     private javax.swing.JPanel pnlEjemplar;
     private javax.swing.JPanel pnlEjemplaresDisponibles;
-    private javax.swing.JPanel pnlPersona;
     private javax.swing.JPanel pnlPersona1;
-    private org.jdesktop.swingx.JXTable tblEjemplar;
+    private javax.swing.JTextField txtCodigo;
     private javax.swing.JTextField txtLibro;
-    private javax.swing.JTextField txtPersona;
     // End of variables declaration//GEN-END:variables
 
     private void initComponents2() {
-        prestamoControlador = PrestamoControlador.getInstance();
         ejemplarControlador = EjemplarControlador.getInstance();
+        procedenciaControlador = ProcedenciaControlador.getInstance();
 
-        ejemplarList = ObservableCollections.observableList(new ArrayList<Ejemplar>());
+        procedenciaList = procedenciaControlador.buscarTodos();
 
-        BeanProperty codigo = BeanProperty.create("codigo");
-        BeanProperty fechaEntrada = BeanProperty.create("fechaEntrada");
-        BeanProperty estado = BeanProperty.create("estado");
-        BeanProperty disponibleDesde = BeanProperty.create("prestamo.fechaDevolucion");
-        JTableBinding bindeoTabla = SwingBindings.createJTableBinding(AutoBinding.UpdateStrategy.READ, ejemplarList, tblEjemplar);
-        bindeoTabla.addColumnBinding(codigo).setColumnName("Código").setEditable(false);
-        bindeoTabla.addColumnBinding(fechaEntrada).setColumnName("Fecha de ingreso").setEditable(false).setColumnClass(Date.class);
-        bindeoTabla.addColumnBinding(estado).setColumnName("Disponible").setEditable(false);
-        bindeoTabla.addColumnBinding(disponibleDesde).setColumnName("Disponibilidad desde").setEditable(false).setColumnClass(Date.class);
-        bindeoTabla.bind();
+        JComboBoxBinding procedenciaBind = SwingBindings.createJComboBoxBinding(AutoBinding.UpdateStrategy.READ, procedenciaList, cboProcedencia);
+        procedenciaBind.bind();
 
-        tblEjemplar.setDefaultRenderer(Date.class, new DefaultTableCellRenderer() {
-            final DateFormat dfFecha = new SimpleDateFormat("dd/MM/yyyy");
-
+        cboProcedencia.setRenderer(new AbstractListCellRenderer<Procedencia>() {
             @Override
-            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-                String fecha = "";
-                if (value != null) {
-                    Date date = (Date) value;
-                    fecha = dfFecha.format(date);
-                }
-                return super.getTableCellRendererComponent(table, fecha, isSelected, hasFocus, row, column); //To change body of generated methods, choose Tools | Templates.
+            public String getTexto(Procedencia value) {
+                return value.getNombre();
             }
 
-        });
-
-        tblEjemplar.getColumn(2).setCellRenderer(new DefaultTableCellRenderer() {
             @Override
-            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-                String disponible = "";
-                if (value != null) {
-                    int estado = Integer.parseInt(value.toString());
-                    if (estado == 0) {
-                        disponible = "NO";
-                    } else {
-                        disponible = "SI";
-                    }
-                }
-                return super.getTableCellRendererComponent(table, disponible, isSelected, hasFocus, row, column); //To change body of generated methods, choose Tools | Templates.
+            public ImageIcon getIcono(Procedencia value) {
+                return null;
             }
-
         });
     }
 
-    private void volcarData(Prestamo seleccionado) {
-        seleccionado.setFechaPrestamo(dcFechaInicio.getDate());
-        seleccionado.setFechaDevolucion(dcFechaFin.getDate());
-        seleccionado.setEjemplar(ejemplarSeleccionado);
-        seleccionado.setPersona(personaSeleccionada);
+    private void volcarData(Ejemplar seleccionado) {
+        seleccionado.setLibro(libroSeleccionado);
+        seleccionado.setFechaEntrada(dcFechaEntrada.getDate());
+        seleccionado.setCodigo(txtCodigo.getText());
+        seleccionado.setProcedencia((Procedencia) cboProcedencia.getSelectedItem());
         if (this.accion == NUEVO) {
             seleccionado.setFechaHoraCreacion(new Date());
 
         }
     }
 
-    private void inicializar(Prestamo prestamo, int accion) {
+    private void inicializar(Ejemplar ejemplar, int accion) {
         switch (accion) {
             case NUEVO:
 
-                lblTituloVentana.setText("Registrar préstamo");
+                lblTituloVentana.setText("Registrar ejemplar");
                 btnCancelar.setText("Cancelar");
                 break;
             case MODIFICAR:
-                lblTituloVentana.setText("Modificar inf. de préstamo");
+                lblTituloVentana.setText("Modificar inf. de ejemplar");
                 btnCancelar.setText("Cancelar");
                 break;
             case LEER:
-                lblTituloVentana.setText("Ver inf. de préstamo");
+                lblTituloVentana.setText("Ver inf. de ejemplar");
                 btnCancelar.setText("Cerrar");
                 break;
         }
 
-        prestamoControlador.setSeleccionado(prestamo);
+        ejemplarControlador.setSeleccionado(ejemplar);
 
         inicializarControles(accion);
         if (accion == MODIFICAR || accion == LEER) {
-            llenarCampos(prestamo);
+            llenarCampos(ejemplar);
         }
 
     }
 
-    private void llenarCampos(Prestamo prestamo) {
+    private void llenarCampos(Ejemplar ejemplar) {
+        mostrarDatosLibro(ejemplar.getLibro());
+        dcFechaEntrada.setDate(ejemplar.getFechaEntrada());
+        txtCodigo.setText(ejemplar.getCodigo());
+        cboProcedencia.setSelectedItem(ejemplar.getProcedencia());
     }
 
     private void inicializarControles(int accion) {
@@ -651,22 +525,12 @@ public class PrestamoCRUD extends javax.swing.JDialog {
         this.btnEditar.setVisible(accion == LEER);
         this.btnEliminar.setVisible(leerModificar);
         this.btnGuardar.setVisible(nuevoModificar);
-        txtPersona.setEditable(false);
         txtLibro.setEditable(false);
-        FormularioUtil.activarComponente(dcFechaInicio, !leer);
-        FormularioUtil.activarComponente(dcFechaFin, !leer);
+        FormularioUtil.activarComponente(dcFechaEntrada, !leer);
 
-        this.lblMensaje.setVisible(false);
-        this.lblCodigo.setVisible(false);
+        cboProcedencia.setEnabled(!leer);
+        txtCodigo.setEditable(!leer);
 
-    }
-
-    private Ejemplar obtenerEjemplarSeleccionado() {
-        int fila = tblEjemplar.getSelectedRow();
-        if (fila != -1) {
-            return ejemplarList.get(fila);
-        }
-        return null;
     }
 
     private void mostrarDatosLibro(Libro libro) {
@@ -676,15 +540,5 @@ public class PrestamoCRUD extends javax.swing.JDialog {
         lblSeccion.setText(String.format("Sección: %s", libro.getSeccion().getNombre()));
         lblAutores.setText(String.format("Autor(es): %s", libro.getAutoresNombre()));
         lblEditorial.setText(String.format("Editorial: %s", libro.getEditorial().getNombre()));
-    }
-    
-    public void setEjemplarPrestamo(Ejemplar ejemplar){
-        ejemplarSeleccionado = ejemplar;
-        mostrarDatosLibro(ejemplar.getLibro());
-        this.lblCodigo.setText(String.format("Código ejemplar: %s", ejemplar.getCodigo()));
-        this.lblCodigo.setVisible(true);
-        this.lblBusqueda.setVisible(false);
-        this.pnlBusquedaLibro.setVisible(false);
-        this.pnlEjemplaresDisponibles.setVisible(false);
     }
 }

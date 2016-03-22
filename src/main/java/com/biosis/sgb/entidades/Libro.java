@@ -97,8 +97,14 @@ public class Libro {
     @OrderBy("orden ASC")
     private List<Indice> indiceList;
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "libro", targetEntity = Ejemplar.class, orphanRemoval = true, cascade = CascadeType.ALL)
-    @OrderBy("fechaEnttrada ASC")
+    @OrderBy("fechaEntrada ASC")
     private List<Ejemplar> ejemplarList;
+
+    public String getAutoresNombre() {
+        StringBuilder sb = new StringBuilder();
+        libroAutorList.stream().forEach(la -> sb.append(String.format("%s %s, ", la.getAutor().getPaterno(), la.getAutor().getNombres())));
+        return sb.toString().substring(0, sb.toString().length() - 2);
+    }
 
     public List<Ejemplar> getEjemplarList() {
         return ejemplarList;

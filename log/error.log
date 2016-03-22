@@ -1826,3 +1826,5 @@ Caused by: java.lang.IllegalArgumentException: Can not set double field com.bios
 	at java.lang.reflect.Field.set(Field.java:764)
 	at org.hibernate.property.DirectPropertyAccessor$DirectSetter.set(DirectPropertyAccessor.java:122)
 	... 34 more
+21-03-2016 12:14:18.470	ERROR	[AWT-EventQueue-0]	CLASE: SqlExceptionHelper	 METODO: logExceptions	LINEA:146	MSJE:ERROR: no existe la columna ejemplarli0_.fechaenttrada
+  Position: 607

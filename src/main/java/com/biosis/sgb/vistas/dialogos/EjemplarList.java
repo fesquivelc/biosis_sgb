@@ -6,7 +6,9 @@
 package com.biosis.sgb.vistas.dialogos;
 
 import static com.biosis.sgb.Application.*;
+import static com.biosis.sgb.controlador.Controlador.NUEVO;
 import com.biosis.sgb.controlador.EjemplarControlador;
+import com.biosis.sgb.controlador.PrestamoControlador;
 import com.biosis.sgb.entidades.Autor;
 import com.biosis.sgb.entidades.Ejemplar;
 import com.biosis.sgb.entidades.Libro;
@@ -49,10 +51,12 @@ public class EjemplarList extends javax.swing.JDialog {
     private Autor autor;
 
     private final EjemplarControlador ejemplarControlador;
+    private final PrestamoControlador prestamoControlador;
 
     public EjemplarList(Component parent, Libro libro, boolean modal) {
         super(JOptionPane.getFrameForComponent(parent), modal);
         this.libroSeleccionado = libro;
+        this.prestamoControlador = PrestamoControlador.getInstance();
         initComponents();
         initComponents2();
         this.ejemplarControlador = EjemplarControlador.getInstance();
@@ -248,6 +252,11 @@ public class EjemplarList extends javax.swing.JDialog {
         jButton1.setFont(ESTILO1);
         jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Properties/Properties_16x16.png"))); // NOI18N
         jButton1.setText("Registrar préstamo");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
         pnlAccion.add(jButton1);
 
         pnlSecundario.add(pnlAccion, java.awt.BorderLayout.PAGE_END);
@@ -335,6 +344,24 @@ public class EjemplarList extends javax.swing.JDialog {
         busqueda.execute();
     }//GEN-LAST:event_btnBuscarActionPerformed
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        Ejemplar ejemplar = obtenerEjemplarSeleccionado();
+        if (ejemplar != null) {
+            if (ejemplar.getEstado() == 0) {
+                prestamoControlador.prepararCrear();
+                PrestamoCRUD prestamoCRUD = new PrestamoCRUD(this.getParent(), true, NUEVO, prestamoControlador.getSeleccionado());
+                prestamoCRUD.setEjemplarPrestamo(ejemplar);
+                this.dispose();
+                prestamoCRUD.setVisible(true);
+            } else {
+                JOptionPane.showMessageDialog(this, "Este ejemplar no se encuentra disponible", "Mensaje del sistema", JOptionPane.WARNING_MESSAGE);
+            }
+        }
+
+
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnterior;
@@ -378,19 +405,20 @@ public class EjemplarList extends javax.swing.JDialog {
         bindeoTabla.addColumnBinding(disponibleDesde).setColumnName("Disponibilidad desde").setEditable(false).setColumnClass(Date.class);
         grupo.addBinding(bindeoTabla);
         grupo.bind();
-        
+
         tblEjemplarList.setDefaultRenderer(Date.class, new DefaultTableCellRenderer() {
             final DateFormat dfFecha = new SimpleDateFormat("dd/MM/yyyy");
+
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
                 String fecha = "";
-                if(value != null){
+                if (value != null) {
                     Date date = (Date) value;
                     fecha = dfFecha.format(date);
                 }
                 return super.getTableCellRendererComponent(table, fecha, isSelected, hasFocus, row, column); //To change body of generated methods, choose Tools | Templates.
             }
-            
+
         });
 
         tblEjemplarList.getColumn(2).setCellRenderer(new DefaultTableCellRenderer() {
@@ -493,6 +521,14 @@ public class EjemplarList extends javax.swing.JDialog {
 
         this.btnAnterior.setEnabled(paginaActual != 1);
         this.btnPrimero2.setEnabled(paginaActual != 1);
+    }
+
+    private Ejemplar obtenerEjemplarSeleccionado() {
+        int fila = tblEjemplarList.getSelectedRow();
+        if (fila != -1) {
+            return ejemplarList.get(fila);
+        }
+        return null;
     }
 
     private class Busqueda extends SwingWorker<Double, Void> {

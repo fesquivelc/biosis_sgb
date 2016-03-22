@@ -42,6 +42,8 @@ public class Prestamo {
     private Integer atraso;
     @Column(precision = 2, length = 10, name = "multa_pagada")
     private Double multaPagada;
+    @Column
+    private String observaciones;
 
     @ManyToOne(targetEntity = Ejemplar.class)
     @JoinColumn(name = "ejemplar_id", referencedColumnName = "ejemplar_id")
@@ -49,6 +51,14 @@ public class Prestamo {
     @ManyToOne(targetEntity = Persona.class)
     @JoinColumn(name = "persona_id", referencedColumnName = "persona_id")
     private Persona persona;
+
+    public String getObservaciones() {
+        return observaciones;
+    }
+
+    public void setObservaciones(String observaciones) {
+        this.observaciones = observaciones;
+    }
 
     public long getId() {
         return id;

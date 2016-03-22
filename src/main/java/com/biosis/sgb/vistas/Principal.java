@@ -69,7 +69,7 @@ public class Principal extends javax.swing.JFrame {
 
         jButton3.setFont(ESTILO4);
         jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/library.png"))); // NOI18N
-        jButton3.setText("   Gestión de biblioteca   ");
+        jButton3.setText("  Ejemplares en biblioteca  ");
         jButton3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         jButton3.setFocusable(false);
         jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -132,6 +132,7 @@ public class Principal extends javax.swing.JFrame {
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
+        agregarPestaña("Ejemplares", new EjemplarView());
     }//GEN-LAST:event_jButton3ActionPerformed
 
     /**
