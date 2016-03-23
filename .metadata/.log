@@ -34,3 +34,15 @@ user global configuration and to define the default location to store repositori
 not correct please set the HOME environment variable and restart Eclipse. Otherwise Git for Windows and
 EGit might behave differently since they see different configuration options.
 This warning can be switched off on the Team > Git > Confirmations and Warnings preference page.
+!SESSION 2016-03-23 08:05:44.740 -----------------------------------------------
+eclipse.buildId=unknown
+java.version=1.7.0_80
+java.vendor=Oracle Corporation
+BootLoader constants: OS=win32, ARCH=x86_64, WS=win32, NL=es_PE
+Command-line arguments:  -os win32 -ws win32 -arch x86_64 -data @noDefault
+
+!ENTRY com.jaspersoft.studio 1 0 2016-03-23 08:05:48.290
+!MESSAGE Starting JaspersoftStudio bundle - Version: 6.1.1.final
+
+!ENTRY org.eclipse.core.resources 2 10035 2016-03-23 08:05:48.495
+!MESSAGE The workspace exited with unsaved changes in the previous session; refreshing workspace to recover changes.

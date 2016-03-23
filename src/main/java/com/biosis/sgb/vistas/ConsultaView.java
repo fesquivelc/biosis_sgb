@@ -412,7 +412,7 @@ public class ConsultaView extends javax.swing.JPanel {
 
         btnNuevo.setFont(ESTILO7       );
         btnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Add/Add_24x24.png"))); // NOI18N
-        btnNuevo.setText("Registrar ejemplar");
+        btnNuevo.setText("Nuevo libro");
         btnNuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNuevoActionPerformed(evt);
@@ -422,7 +422,7 @@ public class ConsultaView extends javax.swing.JPanel {
 
         btnModificar.setFont(ESTILO7       );
         btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Edit/Edit_24x24.png"))); // NOI18N
-        btnModificar.setText("Modificar");
+        btnModificar.setText("Modificar libro");
         btnModificar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnModificarActionPerformed(evt);
@@ -432,7 +432,7 @@ public class ConsultaView extends javax.swing.JPanel {
 
         btnEliminar.setFont(ESTILO7       );
         btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Delete/Delete_24x24.png"))); // NOI18N
-        btnEliminar.setText("Eliminar");
+        btnEliminar.setText("Eliminar libro");
         btnEliminar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnEliminarActionPerformed(evt);

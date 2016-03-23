@@ -5,26 +5,23 @@
  */
 package com.biosis.sgb.vistas;
 
-import static com.biosis.sgb.Application.ESTILO1;
-import static com.biosis.sgb.Application.ESTILO2;
-import static com.biosis.sgb.Application.ESTILO5;
-import static com.biosis.sgb.Application.ESTILO7;
-import static com.biosis.sgb.controlador.Controlador.LEER;
-import static com.biosis.sgb.controlador.Controlador.NUEVO;
+import static com.biosis.sgb.Application.*;
+import static com.biosis.sgb.controlador.Controlador.*;
 import com.biosis.sgb.controlador.MateriaControlador;
+import com.biosis.sgb.controlador.SeccionControlador;
 import com.biosis.sgb.entidades.Materia;
-import com.biosis.sgb.vistas.dialogos.MateriaSeccionCRUD;
+import com.biosis.sgb.entidades.Seccion;
+import com.biosis.sgb.util.render.TrRenderMateriaSeccion;
+import com.biosis.sgb.util.render.TrRenderTema;
+import com.biosis.sgb.vistas.dialogos.MateriaCRUD;
+import com.biosis.sgb.vistas.dialogos.SeccionCRUD;
 import com.personal.utiles.FormularioUtil;
-import java.util.ArrayList;
 import java.util.List;
-import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingWorker;
-import org.jdesktop.beansbinding.AutoBinding;
-import org.jdesktop.beansbinding.BeanProperty;
-import org.jdesktop.beansbinding.BindingGroup;
-import org.jdesktop.observablecollections.ObservableCollections;
-import org.jdesktop.swingbinding.JTableBinding;
-import org.jdesktop.swingbinding.SwingBindings;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreeModel;
+import javax.swing.tree.TreeNode;
 
 /**
  *
@@ -33,23 +30,22 @@ import org.jdesktop.swingbinding.SwingBindings;
 public class MateriaSeccionView extends javax.swing.JPanel {
 
     private final MateriaControlador materiaControlador;
-//    private Autor autorSeleccionado;
-//    private Editorial editorialSeleccionada;
-    /*
-    Controles de navegacion
-     */
-    private int paginaActual = 1;
-    private int totalPaginas = 0;
-    private int tamanioPagina = 0;
+    private final SeccionControlador seccionControlador;
+
+    private TreeModel trModeloMateriaSeccion;
+    private final TrRenderMateriaSeccion renderMateriaSeccion;
 
     private List<Materia> materiaList;
 
     public MateriaSeccionView() {
+        this.materiaControlador = MateriaControlador.getInstance();
+        this.seccionControlador = SeccionControlador.getInstance();
+        this.renderMateriaSeccion = new TrRenderMateriaSeccion();
         initComponents();
         initComponents2();
-        this.materiaControlador = MateriaControlador.getInstance();
-        Busqueda busquedaLibro = new Busqueda();
-        busquedaLibro.execute();
+        
+        Busqueda busqueda = new Busqueda();
+        busqueda.execute();
     }
 
     /**
@@ -60,34 +56,22 @@ public class MateriaSeccionView extends javax.swing.JPanel {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
         grupoOpcionesBusqueda = new javax.swing.ButtonGroup();
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
-        pnlBusqueda = new javax.swing.JPanel();
-        txtNombre = new javax.swing.JTextField();
-        jPanel2 = new javax.swing.JPanel();
-        btnBuscar = new javax.swing.JButton();
-        lblEspere = new org.jdesktop.swingx.JXBusyLabel();
-        jLabel2 = new javax.swing.JLabel();
         pnlAcciones = new javax.swing.JPanel();
         btnVer = new javax.swing.JButton();
-        btnVerLibros = new javax.swing.JButton();
-        btnNuevo = new javax.swing.JButton();
+        btnMateriaNuevo = new javax.swing.JButton();
+        btnSeccionNuevo = new javax.swing.JButton();
         btnModificar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         pnlListado = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tblMateriaList = new org.jdesktop.swingx.JXTable();
-        pnlNavegacion2 = new javax.swing.JPanel();
-        btnPrimero2 = new javax.swing.JButton();
-        btnAnterior = new javax.swing.JButton();
-        spPagina = new javax.swing.JSpinner();
-        txtTotal = new javax.swing.JTextField();
-        btnSiguiente = new javax.swing.JButton();
-        btnUltimo = new javax.swing.JButton();
-        cboTamanio = new javax.swing.JComboBox();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        trTemaSubtema = new javax.swing.JTree();
+        pnlRefrescar = new javax.swing.JPanel();
+        btnActualizar = new javax.swing.JButton();
+        lblEspere = new org.jdesktop.swingx.JXBusyLabel();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setLayout(new java.awt.BorderLayout());
@@ -103,55 +87,6 @@ public class MateriaSeccionView extends javax.swing.JPanel {
         jPanel1.setOpaque(false);
         jPanel1.setLayout(new java.awt.BorderLayout());
 
-        pnlBusqueda.setBackground(new java.awt.Color(255, 255, 255));
-        pnlBusqueda.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Parámetros de búsqueda", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, ESTILO1));
-        java.awt.GridBagLayout pnlBusquedaLayout = new java.awt.GridBagLayout();
-        pnlBusquedaLayout.columnWidths = new int[] {0, 5, 0, 5, 0};
-        pnlBusquedaLayout.rowHeights = new int[] {0, 5, 0};
-        pnlBusqueda.setLayout(pnlBusquedaLayout);
-
-        txtNombre.setFont(ESTILO2);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.gridwidth = 3;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 0.1;
-        pnlBusqueda.add(txtNombre, gridBagConstraints);
-
-        jPanel2.setBackground(new java.awt.Color(255, 255, 255));
-        jPanel2.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 0, 5));
-
-        btnBuscar.setFont(ESTILO1);
-        btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Find/Find_16x16.png"))); // NOI18N
-        btnBuscar.setText("Buscar");
-        btnBuscar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnBuscarActionPerformed(evt);
-            }
-        });
-        jPanel2.add(btnBuscar);
-
-        lblEspere.setText("Cargando resultados...");
-        lblEspere.setFont(ESTILO1);
-        jPanel2.add(lblEspere);
-
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 5;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        pnlBusqueda.add(jPanel2, gridBagConstraints);
-
-        jLabel2.setFont(ESTILO1);
-        jLabel2.setText("Nombre:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        pnlBusqueda.add(jLabel2, gridBagConstraints);
-
-        jPanel1.add(pnlBusqueda, java.awt.BorderLayout.PAGE_START);
-
         pnlAcciones.setBackground(new java.awt.Color(255, 255, 255));
 
         btnVer.setFont(ESTILO7       );
@@ -164,25 +99,25 @@ public class MateriaSeccionView extends javax.swing.JPanel {
         });
         pnlAcciones.add(btnVer);
 
-        btnVerLibros.setFont(ESTILO7       );
-        btnVerLibros.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Find/Find_24x24.png"))); // NOI18N
-        btnVerLibros.setText("Ver libros");
-        btnVerLibros.addActionListener(new java.awt.event.ActionListener() {
+        btnMateriaNuevo.setFont(ESTILO7);
+        btnMateriaNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Add/Add_24x24.png"))); // NOI18N
+        btnMateriaNuevo.setText("Nueva materia");
+        btnMateriaNuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnVerLibrosActionPerformed(evt);
+                btnMateriaNuevoActionPerformed(evt);
             }
         });
-        pnlAcciones.add(btnVerLibros);
+        pnlAcciones.add(btnMateriaNuevo);
 
-        btnNuevo.setFont(ESTILO7       );
-        btnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Add/Add_24x24.png"))); // NOI18N
-        btnNuevo.setText("Nuevo");
-        btnNuevo.addActionListener(new java.awt.event.ActionListener() {
+        btnSeccionNuevo.setFont(ESTILO7);
+        btnSeccionNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Add/Add_24x24.png"))); // NOI18N
+        btnSeccionNuevo.setText("Nueva sección");
+        btnSeccionNuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNuevoActionPerformed(evt);
+                btnSeccionNuevoActionPerformed(evt);
             }
         });
-        pnlAcciones.add(btnNuevo);
+        pnlAcciones.add(btnSeccionNuevo);
 
         btnModificar.setFont(ESTILO7       );
         btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Edit/Edit_24x24.png"))); // NOI18N
@@ -197,296 +132,205 @@ public class MateriaSeccionView extends javax.swing.JPanel {
         btnEliminar.setFont(ESTILO7       );
         btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Delete/Delete_24x24.png"))); // NOI18N
         btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
         pnlAcciones.add(btnEliminar);
 
         jPanel1.add(pnlAcciones, java.awt.BorderLayout.PAGE_END);
 
         pnlListado.setBackground(new java.awt.Color(255, 255, 255));
-        pnlListado.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Listado", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, ESTILO1        ));
-        pnlListado.setLayout(new java.awt.BorderLayout());
+        pnlListado.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Materias y secciones", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, ESTILO1        ));
+        pnlListado.setLayout(new java.awt.BorderLayout(5, 5));
 
-        tblMateriaList.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        tblMateriaList.setFont(ESTILO2);
-        tblMateriaList.setRowHeight(20);
-        jScrollPane1.setViewportView(tblMateriaList);
+        trTemaSubtema.setRowHeight(30);
+        jScrollPane2.setViewportView(trTemaSubtema);
 
-        pnlListado.add(jScrollPane1, java.awt.BorderLayout.CENTER);
+        pnlListado.add(jScrollPane2, java.awt.BorderLayout.CENTER);
 
-        pnlNavegacion2.setBackground(new java.awt.Color(255, 255, 255));
-        pnlNavegacion2.setLayout(new java.awt.GridBagLayout());
+        pnlRefrescar.setOpaque(false);
+        pnlRefrescar.setLayout(new javax.swing.BoxLayout(pnlRefrescar, javax.swing.BoxLayout.LINE_AXIS));
 
-        btnPrimero2.setText("<<");
-        btnPrimero2.addActionListener(new java.awt.event.ActionListener() {
+        btnActualizar.setFont(ESTILO7);
+        btnActualizar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Refresh/Refresh_24x24.png"))); // NOI18N
+        btnActualizar.setText("Actualizar");
+        btnActualizar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPrimero2ActionPerformed(evt);
+                btnActualizarActionPerformed(evt);
             }
         });
-        pnlNavegacion2.add(btnPrimero2, new java.awt.GridBagConstraints());
+        pnlRefrescar.add(btnActualizar);
 
-        btnAnterior.setText("<");
-        btnAnterior.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAnteriorActionPerformed(evt);
-            }
-        });
-        pnlNavegacion2.add(btnAnterior, new java.awt.GridBagConstraints());
+        lblEspere.setText("Cargando datos...");
+        lblEspere.setFont(ESTILO1);
+        pnlRefrescar.add(lblEspere);
 
-        spPagina.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
-        spPagina.setMinimumSize(new java.awt.Dimension(60, 20));
-        spPagina.setPreferredSize(new java.awt.Dimension(60, 20));
-        spPagina.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                spPaginaStateChanged(evt);
-            }
-        });
-        pnlNavegacion2.add(spPagina, new java.awt.GridBagConstraints());
-
-        txtTotal.setEditable(false);
-        txtTotal.setColumns(3);
-        txtTotal.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        txtTotal.setText("1");
-        pnlNavegacion2.add(txtTotal, new java.awt.GridBagConstraints());
-
-        btnSiguiente.setText(">");
-        btnSiguiente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSiguienteActionPerformed(evt);
-            }
-        });
-        pnlNavegacion2.add(btnSiguiente, new java.awt.GridBagConstraints());
-
-        btnUltimo.setText(">>");
-        btnUltimo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnUltimoActionPerformed(evt);
-            }
-        });
-        pnlNavegacion2.add(btnUltimo, new java.awt.GridBagConstraints());
-
-        cboTamanio.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "5", "10", "15", "20", "25", "40", "50" }));
-        cboTamanio.setMinimumSize(new java.awt.Dimension(53, 24));
-        cboTamanio.setPreferredSize(new java.awt.Dimension(53, 24));
-        cboTamanio.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cboTamanioActionPerformed(evt);
-            }
-        });
-        pnlNavegacion2.add(cboTamanio, new java.awt.GridBagConstraints());
-
-        pnlListado.add(pnlNavegacion2, java.awt.BorderLayout.SOUTH);
+        pnlListado.add(pnlRefrescar, java.awt.BorderLayout.NORTH);
 
         jPanel1.add(pnlListado, java.awt.BorderLayout.CENTER);
 
         add(jPanel1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnPrimero2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrimero2ActionPerformed
+    private void btnMateriaNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnMateriaNuevoActionPerformed
         // TODO add your handling code here:
-        primero();
-    }//GEN-LAST:event_btnPrimero2ActionPerformed
-
-    private void btnAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnteriorActionPerformed
-        // TODO add your handling code here:
-        anterior();
-    }//GEN-LAST:event_btnAnteriorActionPerformed
-
-    private void spPaginaStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spPaginaStateChanged
-        // TODO add your handling code here:
-        this.seleccionPagina();
-    }//GEN-LAST:event_spPaginaStateChanged
-
-    private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
-        // TODO add your handling code here:
-        siguiente();
-    }//GEN-LAST:event_btnSiguienteActionPerformed
-
-    private void btnUltimoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUltimoActionPerformed
-        // TODO add your handling code here:
-        ultimo();
-    }//GEN-LAST:event_btnUltimoActionPerformed
-
-    private void cboTamanioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboTamanioActionPerformed
-        // TODO add your handling code here:
-        this.paginaActual = 1;
-        buscar();
-        this.actualizarControlesNavegacion();
-    }//GEN-LAST:event_cboTamanioActionPerformed
-
-    private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        // TODO add your handling code here:
-        Busqueda busqueda = new Busqueda();
-        busqueda.execute();
-    }//GEN-LAST:event_btnBuscarActionPerformed
-
-    private void btnVerLibrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerLibrosActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnVerLibrosActionPerformed
-
-    private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
-        // TODO add your handling code here:
-//        AutorCRUD autorCRUD = new AutorCRUD(this, true);
-//        autorCRUD.setVisible(true);
         materiaControlador.prepararCrear();
-        MateriaSeccionCRUD materiaSeccionCRUD = new MateriaSeccionCRUD(this, true, NUEVO, materiaControlador.getSeleccionado());
-        materiaSeccionCRUD.setVisible(true);
-        if(materiaSeccionCRUD.isAccionRealizada()){
-            this.materiaList.add(materiaSeccionCRUD.getMateria());
+        MateriaCRUD materiaCRUD = new MateriaCRUD(this, true, NUEVO, materiaControlador.getSeleccionado());
+        materiaCRUD.setVisible(true);
+        if (materiaCRUD.isAccionRealizada()) {
+            Busqueda busqueda = new Busqueda();
+            busqueda.execute();
         }
-    }//GEN-LAST:event_btnNuevoActionPerformed
+    }//GEN-LAST:event_btnMateriaNuevoActionPerformed
 
     private void btnVerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerActionPerformed
         // TODO add your handling code here:
-        int fila = tblMateriaList.getSelectedRow();
-        if(fila != -1){
-            Materia materia = materiaList.get(fila);
-            MateriaSeccionCRUD materiaSeccionCRUD = new MateriaSeccionCRUD(this, true, LEER, materia);
-            materiaSeccionCRUD.setVisible(true);
+        //        
+        Object seleccionado = obtenerTemaArbol();
+        if (seleccionado != null) {
+            if (seleccionado instanceof Materia) {
+                MateriaCRUD materiaCRUD = new MateriaCRUD(this, true, NUEVO, (Materia) seleccionado);
+                materiaCRUD.setVisible(true);
+                if (materiaCRUD.isAccionRealizada()) {
+                    Busqueda busqueda = new Busqueda();
+                    busqueda.execute();
+                }
+            } else if (seleccionado instanceof Seccion) {
+                SeccionCRUD seccionCRUD = new SeccionCRUD(this, true, NUEVO, (Seccion) seleccionado);
+                seccionCRUD.setVisible(true);
+                if (seccionCRUD.isAccionRealizada()) {
+                    Busqueda busqueda = new Busqueda();
+                    busqueda.execute();
+                }
+            }
         }
-        
     }//GEN-LAST:event_btnVerActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         // TODO add your handling code here:
-        
+        Object seleccionado = obtenerTemaArbol();
+        if (seleccionado != null) {
+            if (seleccionado instanceof Materia) {
+                MateriaCRUD materiaCRUD = new MateriaCRUD(this, true, MODIFICAR, (Materia) seleccionado);
+                materiaCRUD.setVisible(true);
+                if (materiaCRUD.isAccionRealizada()) {
+                    Busqueda busqueda = new Busqueda();
+                    busqueda.execute();
+                }
+            } else if (seleccionado instanceof Seccion) {
+                SeccionCRUD seccionCRUD = new SeccionCRUD(this, true, MODIFICAR, (Seccion) seleccionado);
+                seccionCRUD.setVisible(true);
+                if (seccionCRUD.isAccionRealizada()) {
+                    Busqueda busqueda = new Busqueda();
+                    busqueda.execute();
+                }
+            }
+        }
     }//GEN-LAST:event_btnModificarActionPerformed
+
+    private void btnActualizarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnActualizarActionPerformed
+        // TODO add your handling code here:
+        Busqueda busqueda = new Busqueda();
+        busqueda.execute();
+    }//GEN-LAST:event_btnActualizarActionPerformed
+
+    private void btnSeccionNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeccionNuevoActionPerformed
+        // TODO add your handling code here:
+        seccionControlador.prepararCrear();
+        SeccionCRUD seccionCRUD = new SeccionCRUD(this, true, NUEVO, seccionControlador.getSeleccionado());
+        seccionCRUD.setVisible(true);
+        if (seccionCRUD.isAccionRealizada()) {
+            Busqueda busqueda = new Busqueda();
+            busqueda.execute();
+        }
+    }//GEN-LAST:event_btnSeccionNuevoActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEliminarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAnterior;
-    private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnActualizar;
     private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton btnMateriaNuevo;
     private javax.swing.JButton btnModificar;
-    private javax.swing.JButton btnNuevo;
-    private javax.swing.JButton btnPrimero2;
-    private javax.swing.JButton btnSiguiente;
-    private javax.swing.JButton btnUltimo;
+    private javax.swing.JButton btnSeccionNuevo;
     private javax.swing.JButton btnVer;
-    private javax.swing.JButton btnVerLibros;
-    private javax.swing.JComboBox cboTamanio;
     private javax.swing.ButtonGroup grupoOpcionesBusqueda;
     private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
-    private javax.swing.JPanel jPanel2;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
     private org.jdesktop.swingx.JXBusyLabel lblEspere;
     private javax.swing.JPanel pnlAcciones;
-    private javax.swing.JPanel pnlBusqueda;
     private javax.swing.JPanel pnlListado;
-    private javax.swing.JPanel pnlNavegacion2;
-    private javax.swing.JSpinner spPagina;
-    private org.jdesktop.swingx.JXTable tblMateriaList;
-    private javax.swing.JTextField txtNombre;
-    private javax.swing.JTextField txtTotal;
+    private javax.swing.JPanel pnlRefrescar;
+    private javax.swing.JTree trTemaSubtema;
     // End of variables declaration//GEN-END:variables
 
     private void initComponents2() {
         lblEspere.setVisible(false);
-        this.materiaList = ObservableCollections.observableList(new ArrayList<Materia>());
+//        this.materiaList = ObservableCollections.observableList(new ArrayList<Tema>());
 
         //procedemos a bindear
+        /*
         BindingGroup grupo = new BindingGroup();
 
-        BeanProperty nombre = BeanProperty.create("nombre");
-        BeanProperty descripcion = BeanProperty.create("descripcion");
-        JTableBinding bindeoTabla = SwingBindings.createJTableBinding(AutoBinding.UpdateStrategy.READ, materiaList, tblMateriaList);
-        bindeoTabla.addColumnBinding(nombre).setColumnName("Materia").setEditable(false);
-        bindeoTabla.addColumnBinding(descripcion).setColumnName("Descripción").setEditable(false);
+        BeanProperty paterno = BeanProperty.create("Tema principal");
+        BeanProperty materno = BeanProperty.create("materno");
+        BeanProperty nombres = BeanProperty.create("nombres");
+        JTableBinding bindeoTabla = SwingBindings.createJTableBinding(AutoBinding.UpdateStrategy.READ, temaList, tblAutorList);
+        bindeoTabla.addColumnBinding(paterno).setColumnName("Apellido paterno").setEditable(false);
+        bindeoTabla.addColumnBinding(materno).setColumnName("Apellido materno").setEditable(false);
+        bindeoTabla.addColumnBinding(nombres).setColumnName("nombres").setEditable(false);
         grupo.addBinding(bindeoTabla);
         grupo.bind();
+         */
     }
-    
-    private void controles(boolean busqueda){
-        FormularioUtil.activarComponente(pnlBusqueda, !busqueda);
+
+    private void controles(boolean busqueda) {
+//        FormularioUtil.activarComponente(pnlBusqueda, !busqueda);
         FormularioUtil.activarComponente(pnlAcciones, !busqueda);
+        btnActualizar.setEnabled(!busqueda);
     }
 
     //cambiamos acorde a lo que se requiere
     private void buscar() {
 //        String busqueda = txtBusqueda.getText();
-        tamanioPagina = Integer.parseInt(cboTamanio.getSelectedItem().toString());
 
         //AQUI LO PASAMOS A UN SWING WORKER
-        materiaList.clear();
-
-        materiaList.addAll(this.listar(paginaActual, tamanioPagina));
-
-        tblMateriaList.packAll();
-    }
-
-    private List<Materia> listar(int pagina, int tamanio) {
-        int total = 0;
-
-        total = this.materiaControlador.contarXNombre(txtNombre.getText());
-
-        if (total % tamanio == 0) {
-            totalPaginas = total / tamanio;
-        } else {
-            totalPaginas = (total / tamanio) + 1;
+        TreeNode nodoPrincipal = new DefaultMutableTreeNode("Materias y secciones");
+        trModeloMateriaSeccion = new DefaultTreeModel(nodoPrincipal);
+        trTemaSubtema.setModel(trModeloMateriaSeccion);
+        trTemaSubtema.setCellRenderer(renderMateriaSeccion);
+        materiaList = materiaControlador.buscarTodos();
+        llenarArbol((DefaultTreeModel) trModeloMateriaSeccion, materiaList, (DefaultMutableTreeNode) nodoPrincipal);
+        for (int i = 0; i < trTemaSubtema.getRowCount(); i++) {
+            trTemaSubtema.expandRow(i);
         }
+    }
 
-        if (totalPaginas == 0) {
-            totalPaginas = 1;
+    private void llenarArbol(DefaultTreeModel modelo, List listado, DefaultMutableTreeNode padre) {
+        for (Object elemento : listado) {
+            DefaultMutableTreeNode nodo = new DefaultMutableTreeNode(elemento);
+            modelo.insertNodeInto(nodo, padre, padre.getChildCount());
+            if (elemento instanceof Materia) {
+                Materia materia = (Materia) elemento;
+                List<Seccion> subTemaList = materia.getSeccionList();
+                llenarArbol(modelo, subTemaList, nodo);
+            }
         }
-
-        int desde = (pagina - 1) * tamanio;
-
-        return this.materiaControlador.buscarXNombre(txtNombre.getText(), desde, tamanio);
     }
 
-    private void siguiente() {
-        paginaActual++;
-        buscar();
-        this.actualizarControlesNavegacion();
-    }
-
-    private void ultimo() {
-        paginaActual = totalPaginas;
-        buscar();
-        this.actualizarControlesNavegacion();
-    }
-
-    private void primero() {
-        paginaActual = 1;
-        buscar();
-        this.actualizarControlesNavegacion();
-    }
-
-    private void anterior() {
-        paginaActual--;
-        buscar();
-        this.actualizarControlesNavegacion();
-    }
-
-    private void seleccionPagina() {
-        paginaActual = (int) spPagina.getValue();
-        buscar();
-        this.actualizarControlesNavegacion();
-    }
-
-    private void actualizarControlesNavegacion() {
-        spPagina.setValue(paginaActual);
-        txtTotal.setText(totalPaginas + "");
-
-        SpinnerNumberModel modeloSP = (SpinnerNumberModel) spPagina.getModel();
-        Comparable<Integer> maximo = totalPaginas;
-        modeloSP.setMaximum(maximo);
-
-        this.btnSiguiente.setEnabled(paginaActual != totalPaginas);
-        this.btnUltimo.setEnabled(paginaActual != totalPaginas);
-
-        this.btnAnterior.setEnabled(paginaActual != 1);
-        this.btnPrimero2.setEnabled(paginaActual != 1);
+    private Object obtenerTemaArbol() {
+        DefaultMutableTreeNode nodo = (DefaultMutableTreeNode) trTemaSubtema.getLastSelectedPathComponent();
+        if (nodo != null) {
+            Object elemento = nodo.getUserObject();
+            return elemento;
+        }
+        return null;
     }
 
     private class Busqueda extends SwingWorker<Double, Void> {
@@ -497,9 +341,9 @@ public class MateriaSeccionView extends javax.swing.JPanel {
             lblEspere.setEnabled(true);
             lblEspere.setVisible(true);
             lblEspere.setBusy(true);
-            paginaActual = 1;
+//            paginaActual = 1;            
             buscar();
-            actualizarControlesNavegacion();
+//            actualizarControlesNavegacion();
             return 0.0;
         }
 

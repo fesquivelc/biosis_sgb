@@ -12,6 +12,7 @@ import static com.biosis.sgb.Application.ESTILO7;
 import static com.biosis.sgb.controlador.Controlador.MODIFICAR;
 import static com.biosis.sgb.controlador.Controlador.NUEVO;
 import com.biosis.sgb.controlador.EjemplarControlador;
+import com.biosis.sgb.controlador.PrestamoControlador;
 import com.biosis.sgb.entidades.Autor;
 import com.biosis.sgb.entidades.Editorial;
 import com.biosis.sgb.entidades.Ejemplar;
@@ -21,13 +22,14 @@ import com.biosis.sgb.entidades.Tema;
 import com.biosis.sgb.vistas.dialogos.AutorSelect;
 import com.biosis.sgb.vistas.dialogos.EditorialSelect;
 import com.biosis.sgb.vistas.dialogos.EjemplarCRUD;
-import com.biosis.sgb.vistas.dialogos.LibroCRUD;
+import com.biosis.sgb.vistas.dialogos.PrestamoCRUD;
 import com.biosis.sgb.vistas.dialogos.SeccionSelect;
 import com.biosis.sgb.vistas.dialogos.TemaSelect;
 import com.personal.utiles.FormularioUtil;
 import java.awt.Component;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingWorker;
@@ -46,6 +48,8 @@ import org.jdesktop.swingbinding.SwingBindings;
 public class EjemplarView extends javax.swing.JPanel {
 
     private final EjemplarControlador ejemplarControlador;
+    private final PrestamoControlador prestamoControlador;
+
     private Autor autorSeleccionado;
     private Editorial editorialSeleccionada;
     private Seccion seccionSeleccionada;
@@ -60,10 +64,11 @@ public class EjemplarView extends javax.swing.JPanel {
     private List<Ejemplar> ejemplarList;
 
     public EjemplarView() {
+        prestamoControlador = PrestamoControlador.getInstance();
         initComponents();
         initComponents2();
         this.ejemplarControlador = EjemplarControlador.getInstance();
-        BusquedaLibro busquedaLibro = new BusquedaLibro();
+        Busqueda busquedaLibro = new Busqueda();
         busquedaLibro.execute();
     }
 
@@ -108,10 +113,11 @@ public class EjemplarView extends javax.swing.JPanel {
         btnEjemplares = new javax.swing.JButton();
         btnNuevo = new javax.swing.JButton();
         btnModificar = new javax.swing.JButton();
+        jButton1 = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         pnlListado = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        tblLibroList = new org.jdesktop.swingx.JXTable();
+        tblEjemplarList = new org.jdesktop.swingx.JXTable();
         pnlNavegacion2 = new javax.swing.JPanel();
         btnPrimero2 = new javax.swing.JButton();
         btnAnterior = new javax.swing.JButton();
@@ -127,7 +133,7 @@ public class EjemplarView extends javax.swing.JPanel {
         jLabel1.setBackground(new java.awt.Color(204, 204, 255));
         jLabel1.setFont(ESTILO5);
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Consultas");
+        jLabel1.setText("Ejemplares en biblioteca");
         jLabel1.setOpaque(true);
         add(jLabel1, java.awt.BorderLayout.PAGE_START);
 
@@ -382,7 +388,7 @@ public class EjemplarView extends javax.swing.JPanel {
         pnlBusqueda.add(jLabel2, gridBagConstraints);
 
         chkSoloDisponibles.setFont(ESTILO1);
-        chkSoloDisponibles.setText("Mostrar sólo con ejemplares disponibles");
+        chkSoloDisponibles.setText("Mostrar sólo ejemplares disponibles");
         chkSoloDisponibles.setOpaque(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -412,7 +418,7 @@ public class EjemplarView extends javax.swing.JPanel {
 
         btnNuevo.setFont(ESTILO7       );
         btnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Add/Add_24x24.png"))); // NOI18N
-        btnNuevo.setText("Registrar ejemplar");
+        btnNuevo.setText("Registrar");
         btnNuevo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNuevoActionPerformed(evt);
@@ -430,6 +436,16 @@ public class EjemplarView extends javax.swing.JPanel {
         });
         pnlAcciones.add(btnModificar);
 
+        jButton1.setFont(ESTILO7);
+        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Properties/Properties_24x24.png"))); // NOI18N
+        jButton1.setText("Préstamo");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+        pnlAcciones.add(jButton1);
+
         btnEliminar.setFont(ESTILO7       );
         btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Delete/Delete_24x24.png"))); // NOI18N
         btnEliminar.setText("Eliminar");
@@ -446,7 +462,7 @@ public class EjemplarView extends javax.swing.JPanel {
         pnlListado.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Listado", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, ESTILO1        ));
         pnlListado.setLayout(new java.awt.BorderLayout());
 
-        tblLibroList.setModel(new javax.swing.table.DefaultTableModel(
+        tblEjemplarList.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -457,10 +473,10 @@ public class EjemplarView extends javax.swing.JPanel {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        tblLibroList.setFont(ESTILO2);
-        tblLibroList.setHorizontalScrollEnabled(true);
-        tblLibroList.setRowHeight(20);
-        jScrollPane1.setViewportView(tblLibroList);
+        tblEjemplarList.setFont(ESTILO2);
+        tblEjemplarList.setHorizontalScrollEnabled(true);
+        tblEjemplarList.setRowHeight(20);
+        jScrollPane1.setViewportView(tblEjemplarList);
 
         pnlListado.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
@@ -597,7 +613,7 @@ public class EjemplarView extends javax.swing.JPanel {
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
-        BusquedaLibro busquedaLibro = new BusquedaLibro();
+        Busqueda busquedaLibro = new Busqueda();
         busquedaLibro.execute();
     }//GEN-LAST:event_btnBuscarActionPerformed
 
@@ -607,7 +623,8 @@ public class EjemplarView extends javax.swing.JPanel {
         EjemplarCRUD ejemplarCRUD = new EjemplarCRUD(this, true, NUEVO, ejemplarControlador.getSeleccionado());
         ejemplarCRUD.setVisible(true);
         if (ejemplarCRUD.isAccionRealizada()) {
-            this.ejemplarList.add(ejemplarCRUD.getEjemplar());
+            Busqueda busqueda = new Busqueda();
+            busqueda.execute();
         }
     }//GEN-LAST:event_btnNuevoActionPerformed
 
@@ -622,12 +639,12 @@ public class EjemplarView extends javax.swing.JPanel {
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         // TODO add your handling code here:
-        Ejemplar ejemplar = obtenerLibroSeleccionado();
+        Ejemplar ejemplar = obtenerEjemplarSeleccionado();
         if (ejemplar != null) {
             EjemplarCRUD ejemplarCRUD = new EjemplarCRUD(this, true, MODIFICAR, ejemplar);
             ejemplarCRUD.setVisible(true);
             if (ejemplarCRUD.isAccionRealizada()) {
-                BusquedaLibro busqueda = new BusquedaLibro();
+                Busqueda busqueda = new Busqueda();
                 busqueda.execute();
             }
         }
@@ -699,6 +716,26 @@ public class EjemplarView extends javax.swing.JPanel {
         checkboxes();
     }//GEN-LAST:event_chkTemaStateChanged
 
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        Ejemplar ejemplar = obtenerEjemplarSeleccionado();
+        if (ejemplar != null) {
+            if (ejemplar.getEstado() == 0) {
+                prestamoControlador.prepararCrear();
+                PrestamoCRUD prestamoCRUD = new PrestamoCRUD(this.getParent(), true, NUEVO, prestamoControlador.getSeleccionado());
+                prestamoCRUD.setEjemplarPrestamo(ejemplar);
+                prestamoCRUD.setVisible(true);
+                if (prestamoCRUD.isAccionRealizada()) {
+                    Busqueda busqueda = new Busqueda();
+                    busqueda.execute();
+                }
+            } else {
+                JOptionPane.showMessageDialog(this, "Este ejemplar no se encuentra disponible", "Mensaje del sistema", JOptionPane.WARNING_MESSAGE);
+            }
+        }
+
+    }//GEN-LAST:event_jButton1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnterior;
@@ -722,6 +759,7 @@ public class EjemplarView extends javax.swing.JPanel {
     private javax.swing.JCheckBox chkSoloDisponibles;
     private javax.swing.JCheckBox chkTema;
     private javax.swing.ButtonGroup grupoOpcionesBusqueda;
+    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
@@ -737,7 +775,7 @@ public class EjemplarView extends javax.swing.JPanel {
     private javax.swing.JPanel pnlListado;
     private javax.swing.JPanel pnlNavegacion2;
     private javax.swing.JSpinner spPagina;
-    private org.jdesktop.swingx.JXTable tblLibroList;
+    private org.jdesktop.swingx.JXTable tblEjemplarList;
     private javax.swing.JTextField txtAutor;
     private javax.swing.JTextField txtEditorial;
     private javax.swing.JTextField txtSeccion;
@@ -753,7 +791,7 @@ public class EjemplarView extends javax.swing.JPanel {
         BindingGroup grupo = new BindingGroup();
 
         BeanProperty bCodigo = BeanProperty.create("codigo");
-        
+
         BeanProperty bTitulo = BeanProperty.create("libro.titulo");
         BeanProperty bIsbn10 = BeanProperty.create("libro.isbn10");
         BeanProperty bIsbn13 = BeanProperty.create("libro.isbn13");
@@ -762,8 +800,8 @@ public class EjemplarView extends javax.swing.JPanel {
         BeanProperty bSeccion = BeanProperty.create("libro.seccion.nombre");
         BeanProperty fechaEntrada = BeanProperty.create("fechaEntrada");
         BeanProperty fechaDisponible = BeanProperty.create("prestamo.fechaDevolucion");
-        JTableBinding bindeoTabla = SwingBindings.createJTableBinding(AutoBinding.UpdateStrategy.READ, ejemplarList, tblLibroList);
-        
+        JTableBinding bindeoTabla = SwingBindings.createJTableBinding(AutoBinding.UpdateStrategy.READ, ejemplarList, tblEjemplarList);
+
         bindeoTabla.addColumnBinding(bCodigo).setColumnName("Código").setEditable(false);
         bindeoTabla.addColumnBinding(bTitulo).setColumnName("Titulo").setEditable(false);
         bindeoTabla.addColumnBinding(bAutores).setColumnName("Autor(es)").setEditable(false).setColumnClass(List.class);
@@ -777,7 +815,7 @@ public class EjemplarView extends javax.swing.JPanel {
         grupo.addBinding(bindeoTabla);
         grupo.bind();
 
-        tblLibroList.getColumn(2).setCellRenderer(new DefaultTableCellRenderer() {
+        tblEjemplarList.getColumn(2).setCellRenderer(new DefaultTableCellRenderer() {
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
                 if (value != null) {
@@ -802,7 +840,7 @@ public class EjemplarView extends javax.swing.JPanel {
 
         ejemplarList.addAll(this.listar(paginaActual, tamanioPagina));
 
-        tblLibroList.packAll();
+        tblEjemplarList.packAll();
     }
 
     private void controles(boolean busqueda) {
@@ -903,15 +941,15 @@ public class EjemplarView extends javax.swing.JPanel {
         btnTema.setEnabled(chkTema.isSelected());
     }
 
-    private Ejemplar obtenerLibroSeleccionado() {
-        int fila = tblLibroList.getSelectedRow();
+    private Ejemplar obtenerEjemplarSeleccionado() {
+        int fila = tblEjemplarList.getSelectedRow();
         if (fila != -1) {
             return ejemplarList.get(fila);
         }
         return null;
     }
 
-    private class BusquedaLibro extends SwingWorker<Double, Void> {
+    private class Busqueda extends SwingWorker<Double, Void> {
 
         @Override
         protected Double doInBackground() throws Exception {
