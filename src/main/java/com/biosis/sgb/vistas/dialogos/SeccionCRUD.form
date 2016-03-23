@@ -150,6 +150,9 @@
             </Component>
             <Component class="javax.swing.JLabel" name="jLabel1">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="ESTILO1" type="code"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Materia:"/>
               </Properties>
               <Constraints>

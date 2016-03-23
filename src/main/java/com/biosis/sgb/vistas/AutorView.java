@@ -352,6 +352,10 @@ public class AutorView extends javax.swing.JPanel {
             Autor autor = autorList.get(fila);
             AutorCRUD autorCRUD = new AutorCRUD(this, true, LEER, autor);
             autorCRUD.setVisible(true);
+            if(autorCRUD.isAccionRealizada()){
+                Busqueda busqueda = new Busqueda();
+                busqueda.execute();
+            }
         }
         
     }//GEN-LAST:event_btnVerActionPerformed
@@ -362,6 +366,10 @@ public class AutorView extends javax.swing.JPanel {
         if(autor != null){
             AutorCRUD autorCRUD = new AutorCRUD(this, true, MODIFICAR, autor);
             autorCRUD.setVisible(true);
+            if(autorCRUD.isAccionRealizada()){
+                Busqueda busqueda = new Busqueda();
+                busqueda.execute();
+            }
         }
     }//GEN-LAST:event_btnModificarActionPerformed
 

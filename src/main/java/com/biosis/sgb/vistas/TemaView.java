@@ -128,6 +128,11 @@ public class TemaView extends javax.swing.JPanel {
         btnEliminar.setFont(ESTILO7       );
         btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Delete/Delete_24x24.png"))); // NOI18N
         btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
         pnlAcciones.add(btnEliminar);
 
         jPanel1.add(pnlAcciones, java.awt.BorderLayout.PAGE_END);
@@ -208,6 +213,10 @@ public class TemaView extends javax.swing.JPanel {
         Busqueda busqueda = new Busqueda();
         busqueda.execute();
     }//GEN-LAST:event_btnActualizarActionPerformed
+
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnEliminarActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

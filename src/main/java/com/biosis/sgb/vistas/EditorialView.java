@@ -341,24 +341,39 @@ public class EditorialView extends javax.swing.JPanel {
         editorialControlador.prepararCrear();
         EditorialCRUD editorialCRUD = new EditorialCRUD(this, true, NUEVO, editorialControlador.getSeleccionado());
         editorialCRUD.setVisible(true);
-        if(editorialCRUD.isAccionRealizada()){
-            this.editorialList.add(editorialCRUD.getEditorial());
+        if (editorialCRUD.isAccionRealizada()) {
+            Busqueda busqueda = new Busqueda();
+            busqueda.execute();
         }
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnVerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerActionPerformed
         // TODO add your handling code here:
         int fila = tblEditorialList.getSelectedRow();
-        if(fila != -1){
+        if (fila != -1) {
             Editorial editorial = editorialList.get(fila);
             EditorialCRUD editorialCRUD = new EditorialCRUD(this, true, LEER, editorial);
             editorialCRUD.setVisible(true);
+            if (editorialCRUD.isAccionRealizada()) {
+                Busqueda busqueda = new Busqueda();
+                busqueda.execute();
+            }
         }
-        
+
     }//GEN-LAST:event_btnVerActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         // TODO add your handling code here:
+        int fila = tblEditorialList.getSelectedRow();
+        if (fila != -1) {
+            Editorial editorial = editorialList.get(fila);
+            EditorialCRUD editorialCRUD = new EditorialCRUD(this, true, LEER, editorial);
+            editorialCRUD.setVisible(true);
+            if (editorialCRUD.isAccionRealizada()) {
+                Busqueda busqueda = new Busqueda();
+                busqueda.execute();
+            }
+        }
     }//GEN-LAST:event_btnModificarActionPerformed
 
 
@@ -404,8 +419,8 @@ public class EditorialView extends javax.swing.JPanel {
         grupo.addBinding(bindeoTabla);
         grupo.bind();
     }
-    
-    private void controles(boolean busqueda){
+
+    private void controles(boolean busqueda) {
         FormularioUtil.activarComponente(pnlBusqueda, !busqueda);
         FormularioUtil.activarComponente(pnlAcciones, !busqueda);
     }

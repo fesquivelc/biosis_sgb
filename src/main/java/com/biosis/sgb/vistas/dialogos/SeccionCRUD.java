@@ -156,6 +156,7 @@ public class SeccionCRUD extends javax.swing.JDialog {
         gridBagConstraints.weightx = 0.1;
         jPanel2.add(txtDescripcion, gridBagConstraints);
 
+        jLabel1.setFont(ESTILO1);
         jLabel1.setText("Materia:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
