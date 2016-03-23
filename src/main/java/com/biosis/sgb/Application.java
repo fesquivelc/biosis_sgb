@@ -24,6 +24,7 @@ public class Application {
     
     public static File IMG_LOGO_REPORTE;
     public static File REPORTE_LIBRO;
+    public static File REPORTE_EJEMPLAR;
     public static void main(String[] args) {
         //Cargamos estilo 1
         Properties props_interfaz = PropertiesUtil.cargarProperties("configuracion/interfaz.properties");
@@ -37,6 +38,7 @@ public class Application {
         ESTILO7 = new Font(props_interfaz.getProperty("estilo7_font","SansSerif"), Integer.parseInt(props_interfaz.getProperty("estilo7_style","1")), Integer.parseInt(props_interfaz.getProperty("estilo7_size","18")));
         
         REPORTE_LIBRO = new File(props_recursos.getProperty("reporte_libro"));
+        REPORTE_EJEMPLAR = new File(props_recursos.getProperty("reporte_ejemplar"));
         IMG_LOGO_REPORTE = new File(props_recursos.getProperty("img_logo_reporte"));
         
         REPORTE_INSTITUCION = props_interfaz.getProperty("reporte_institucion");

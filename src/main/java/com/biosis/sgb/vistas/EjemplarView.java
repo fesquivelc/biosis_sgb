@@ -9,6 +9,10 @@ import static com.biosis.sgb.Application.ESTILO1;
 import static com.biosis.sgb.Application.ESTILO2;
 import static com.biosis.sgb.Application.ESTILO5;
 import static com.biosis.sgb.Application.ESTILO7;
+import static com.biosis.sgb.Application.IMG_LOGO_REPORTE;
+import static com.biosis.sgb.Application.REPORTE_EJEMPLAR;
+import static com.biosis.sgb.Application.REPORTE_INSTITUCION;
+import static com.biosis.sgb.Application.REPORTE_RUC;
 import static com.biosis.sgb.controlador.Controlador.MODIFICAR;
 import static com.biosis.sgb.controlador.Controlador.NUEVO;
 import com.biosis.sgb.controlador.EjemplarControlador;
@@ -26,9 +30,12 @@ import com.biosis.sgb.vistas.dialogos.PrestamoCRUD;
 import com.biosis.sgb.vistas.dialogos.SeccionSelect;
 import com.biosis.sgb.vistas.dialogos.TemaSelect;
 import com.personal.utiles.FormularioUtil;
+import com.personal.utiles.ReporteUtil;
 import java.awt.Component;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.SpinnerNumberModel;
@@ -62,8 +69,11 @@ public class EjemplarView extends javax.swing.JPanel {
     private int tamanioPagina = 0;
 
     private List<Ejemplar> ejemplarList;
+    
+    private final ReporteUtil reporteUtil;
 
     public EjemplarView() {
+        this.reporteUtil = new ReporteUtil();
         prestamoControlador = PrestamoControlador.getInstance();
         initComponents();
         initComponents2();
@@ -729,6 +739,19 @@ public class EjemplarView extends javax.swing.JPanel {
 
     private void btnModificar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificar1ActionPerformed
         // TODO add your handling code here:
+        List<Ejemplar> reporteList = ejemplarControlador.consultaMultiple(
+                chkAutor.isSelected() ? autorSeleccionado : null,
+                chkEditorial.isSelected() ? editorialSeleccionada : null,
+                chkSeccion.isSelected() ? seccionSeleccionada : null,
+                chkTema.isSelected() ? temaSeleccionado : null,
+                txtTitulo.getText().trim().toUpperCase(),
+                chkSoloDisponibles.isSelected());
+        Map<String,Object> param = new HashMap();
+        param.put("reporte_logo", IMG_LOGO_REPORTE.getAbsolutePath());
+        param.put("reporte_ruc", REPORTE_RUC);
+        param.put("reporte_institucion", REPORTE_INSTITUCION);
+        Component reporteComponente = reporteUtil.obtenerReporte(reporteList, REPORTE_EJEMPLAR, param);
+        Principal.agregarPestaña("Reporte de libros", reporteComponente);
     }//GEN-LAST:event_btnModificar1ActionPerformed
 
 

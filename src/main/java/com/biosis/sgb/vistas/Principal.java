@@ -49,9 +49,6 @@ public class Principal extends javax.swing.JFrame {
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
-        jMenu4 = new javax.swing.JMenu();
-        jMenuItem7 = new javax.swing.JMenuItem();
-        jMenuItem8 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -163,17 +160,6 @@ public class Principal extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu3);
 
-        jMenu4.setText("Reportes");
-        jMenu4.setFont(ESTILO4);
-
-        jMenuItem7.setText("Reporte de material bibliográfico");
-        jMenu4.add(jMenuItem7);
-
-        jMenuItem8.setText("Reporte de material más utilizado");
-        jMenu4.add(jMenuItem8);
-
-        jMenuBar1.add(jMenu4);
-
         setJMenuBar(jMenuBar1);
 
         pack();
@@ -260,7 +246,6 @@ public class Principal extends javax.swing.JFrame {
     private static javax.swing.JButton jButton3;
     private static javax.swing.JMenu jMenu1;
     private static javax.swing.JMenu jMenu3;
-    private static javax.swing.JMenu jMenu4;
     private static javax.swing.JMenuBar jMenuBar1;
     private static javax.swing.JMenuItem jMenuItem1;
     private static javax.swing.JMenuItem jMenuItem2;
@@ -268,8 +253,6 @@ public class Principal extends javax.swing.JFrame {
     private static javax.swing.JMenuItem jMenuItem4;
     private static javax.swing.JMenuItem jMenuItem5;
     private static javax.swing.JMenuItem jMenuItem6;
-    private static javax.swing.JMenuItem jMenuItem7;
-    private static javax.swing.JMenuItem jMenuItem8;
     private static javax.swing.JToolBar jToolBar1;
     private static javax.swing.JPanel pnlPrincipal;
     private static javax.swing.JTabbedPane tabPrincipal;
