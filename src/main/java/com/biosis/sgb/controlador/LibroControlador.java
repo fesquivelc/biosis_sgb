@@ -62,6 +62,34 @@ public class LibroControlador extends Controlador<Libro> {
         return this.buscar(sb.toString(), params, inicio, tamanio);
     }
 
+    public List<Libro> consultaMultiple(Autor autor, Editorial editorial, Seccion seccion, Tema tema, String tituloISBN, boolean soloDisponibles) {
+        StringBuilder sb = new StringBuilder("SELECT l FROM Libro l WHERE (l.titulo LIKE CONCAT('%',:titulo,'%') OR l.isbn10 = :titulo OR l.isbn13 = :titulo)");
+        Map<String, Object> params = new HashMap();
+        params.put("titulo", tituloISBN);
+        if (autor != null) {
+            params.put("autor", autor);
+            sb.append(" AND EXISTS(SELECT la.id FROM LibroAutor la WHERE la.libro = l AND la.autor = :autor)");
+        }
+        if (editorial != null) {
+            params.put("editorial", editorial);
+            sb.append(" AND l.editorial = :editorial");
+        }
+        if (seccion != null) {
+            params.put("seccion", seccion);
+            sb.append(" AND l.seccion = :seccion");
+        }
+        if (tema != null) {
+            params.put("tema", tema);
+            sb.append(" AND EXISTS(SELECT lt.id FROM LibroTema lt WHERE lt.tema = :tema AND lt.libro = l)");
+        }
+        if (soloDisponibles) {
+            sb.append(" AND l.ejemplarDisponible > 0");
+        }
+        sb.append(" ORDER BY l.seccion.materia.nombre,l.seccion.nombre,l.titulo ASC");
+
+        return this.buscar(sb.toString(), params);
+    }
+
     public List<Libro> buscarXAutor(Autor autor, int inicio, int tamanio) {
         String jpql = "SELECT DISTINCT la.libro FROM LibroAutor la WHERE la.autor = :autor ORDER BY la.libro.titulo ASC";
         Map<String, Object> param = new HashMap();

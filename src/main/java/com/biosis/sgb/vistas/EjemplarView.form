@@ -1450,20 +1450,6 @@
                 <Property name="text" type="java.lang.String" value="Ver informaci&#xf3;n"/>
               </Properties>
             </Component>
-            <Component class="javax.swing.JButton" name="btnEjemplares">
-              <Properties>
-                <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
-                  <Connection code="ESTILO7       " type="code"/>
-                </Property>
-                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
-                  <Image iconType="3" name="/icon/Find/Find_24x24.png"/>
-                </Property>
-                <Property name="text" type="java.lang.String" value="Ver ejemplares"/>
-              </Properties>
-              <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnEjemplaresActionPerformed"/>
-              </Events>
-            </Component>
             <Component class="javax.swing.JButton" name="btnNuevo">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
@@ -1504,6 +1490,20 @@
               </Properties>
               <Events>
                 <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="jButton1ActionPerformed"/>
+              </Events>
+            </Component>
+            <Component class="javax.swing.JButton" name="btnModificar1">
+              <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="ESTILO7       " type="code"/>
+                </Property>
+                <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
+                  <Image iconType="3" name="/icon/Print/Print_24x24.png"/>
+                </Property>
+                <Property name="text" type="java.lang.String" value="Generar reporte"/>
+              </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnModificar1ActionPerformed"/>
               </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnEliminar">

@@ -110,10 +110,10 @@ public class EjemplarView extends javax.swing.JPanel {
         chkSoloDisponibles = new javax.swing.JCheckBox();
         pnlAcciones = new javax.swing.JPanel();
         btnVer = new javax.swing.JButton();
-        btnEjemplares = new javax.swing.JButton();
         btnNuevo = new javax.swing.JButton();
         btnModificar = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
+        btnModificar1 = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         pnlListado = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -406,16 +406,6 @@ public class EjemplarView extends javax.swing.JPanel {
         btnVer.setText("Ver información");
         pnlAcciones.add(btnVer);
 
-        btnEjemplares.setFont(ESTILO7       );
-        btnEjemplares.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Find/Find_24x24.png"))); // NOI18N
-        btnEjemplares.setText("Ver ejemplares");
-        btnEjemplares.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEjemplaresActionPerformed(evt);
-            }
-        });
-        pnlAcciones.add(btnEjemplares);
-
         btnNuevo.setFont(ESTILO7       );
         btnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Add/Add_24x24.png"))); // NOI18N
         btnNuevo.setText("Registrar");
@@ -445,6 +435,16 @@ public class EjemplarView extends javax.swing.JPanel {
             }
         });
         pnlAcciones.add(jButton1);
+
+        btnModificar1.setFont(ESTILO7       );
+        btnModificar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Print/Print_24x24.png"))); // NOI18N
+        btnModificar1.setText("Generar reporte");
+        btnModificar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificar1ActionPerformed(evt);
+            }
+        });
+        pnlAcciones.add(btnModificar1);
 
         btnEliminar.setFont(ESTILO7       );
         btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Delete/Delete_24x24.png"))); // NOI18N
@@ -628,15 +628,6 @@ public class EjemplarView extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnNuevoActionPerformed
 
-    private void btnEjemplaresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEjemplaresActionPerformed
-        // TODO add your handling code here:
-//        Ejemplar ejemplar = obtenerLibroSeleccionado();
-//        if (ejemplar != null) {
-//            EjemplarList ejemplarList = new EjemplarList(this, ejemplar, true);
-//            ejemplarList.setVisible(true);
-//        }
-    }//GEN-LAST:event_btnEjemplaresActionPerformed
-
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         // TODO add your handling code here:
         Ejemplar ejemplar = obtenerEjemplarSeleccionado();
@@ -736,15 +727,19 @@ public class EjemplarView extends javax.swing.JPanel {
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
+    private void btnModificar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificar1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnModificar1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnterior;
     private javax.swing.JButton btnAutor;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnEditorial;
-    private javax.swing.JButton btnEjemplares;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnModificar;
+    private javax.swing.JButton btnModificar1;
     private javax.swing.JButton btnNuevo;
     private javax.swing.JButton btnPrimero2;
     private javax.swing.JButton btnSeccion;

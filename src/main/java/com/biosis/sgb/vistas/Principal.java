@@ -5,6 +5,7 @@
  */
 package com.biosis.sgb.vistas;
 
+import static com.biosis.sgb.Application.ESTILO1;
 import static com.biosis.sgb.Application.ESTILO4;
 import com.biosis.sgb.util.ButtonTabComponent;
 import java.awt.Component;
@@ -55,6 +56,8 @@ public class Principal extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         pnlPrincipal.setLayout(new java.awt.BorderLayout());
+
+        tabPrincipal.setFont(ESTILO1);
         pnlPrincipal.add(tabPrincipal, java.awt.BorderLayout.CENTER);
 
         jToolBar1.setFloatable(false);
@@ -252,24 +255,24 @@ public class Principal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
-    private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu3;
-    private javax.swing.JMenu jMenu4;
-    private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuItem jMenuItem1;
-    private javax.swing.JMenuItem jMenuItem2;
-    private javax.swing.JMenuItem jMenuItem3;
-    private javax.swing.JMenuItem jMenuItem4;
-    private javax.swing.JMenuItem jMenuItem5;
-    private javax.swing.JMenuItem jMenuItem6;
-    private javax.swing.JMenuItem jMenuItem7;
-    private javax.swing.JMenuItem jMenuItem8;
-    private javax.swing.JToolBar jToolBar1;
-    private javax.swing.JPanel pnlPrincipal;
-    private javax.swing.JTabbedPane tabPrincipal;
+    private static javax.swing.JButton jButton1;
+    private static javax.swing.JButton jButton2;
+    private static javax.swing.JButton jButton3;
+    private static javax.swing.JMenu jMenu1;
+    private static javax.swing.JMenu jMenu3;
+    private static javax.swing.JMenu jMenu4;
+    private static javax.swing.JMenuBar jMenuBar1;
+    private static javax.swing.JMenuItem jMenuItem1;
+    private static javax.swing.JMenuItem jMenuItem2;
+    private static javax.swing.JMenuItem jMenuItem3;
+    private static javax.swing.JMenuItem jMenuItem4;
+    private static javax.swing.JMenuItem jMenuItem5;
+    private static javax.swing.JMenuItem jMenuItem6;
+    private static javax.swing.JMenuItem jMenuItem7;
+    private static javax.swing.JMenuItem jMenuItem8;
+    private static javax.swing.JToolBar jToolBar1;
+    private static javax.swing.JPanel pnlPrincipal;
+    private static javax.swing.JTabbedPane tabPrincipal;
     // End of variables declaration//GEN-END:variables
 
     private void iniciarTab(int numero) {
@@ -283,7 +286,7 @@ public class Principal extends javax.swing.JFrame {
 //        }
     }
 
-    private void agregarPestaña(String titulo, Component ventana) {
+    public static void agregarPestaña(String titulo, Component ventana) {
         int index = tabPrincipal.indexOfComponent(ventana);
         if (index >= 0) {
             tabPrincipal.setSelectedIndex(index);

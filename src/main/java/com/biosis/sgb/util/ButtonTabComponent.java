@@ -30,6 +30,7 @@
  */
 package com.biosis.sgb.util;
 
+import static com.biosis.sgb.Application.ESTILO7;
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicButtonUI;
 import java.awt.*;
@@ -54,8 +55,10 @@ public class ButtonTabComponent extends JPanel {
 
         //make JLabel read titles from JTabbedPane
         JLabel label = new JLabel() {
+            
             @Override
             public String getText() {
+                
                 int i = pane.indexOfTabComponent(ButtonTabComponent.this);
                 if (i != -1) {
                     return pane.getTitleAt(i);
@@ -63,7 +66,7 @@ public class ButtonTabComponent extends JPanel {
                 return null;
             }
         };
-
+        label.setFont(ESTILO7);
         add(label);
         //add more space between the label and the button
         label.setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 5));

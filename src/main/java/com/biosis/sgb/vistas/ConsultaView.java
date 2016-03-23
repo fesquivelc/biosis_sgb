@@ -9,6 +9,10 @@ import static com.biosis.sgb.Application.ESTILO1;
 import static com.biosis.sgb.Application.ESTILO2;
 import static com.biosis.sgb.Application.ESTILO5;
 import static com.biosis.sgb.Application.ESTILO7;
+import static com.biosis.sgb.Application.IMG_LOGO_REPORTE;
+import static com.biosis.sgb.Application.REPORTE_INSTITUCION;
+import static com.biosis.sgb.Application.REPORTE_LIBRO;
+import static com.biosis.sgb.Application.REPORTE_RUC;
 import static com.biosis.sgb.controlador.Controlador.MODIFICAR;
 import static com.biosis.sgb.controlador.Controlador.NUEVO;
 import com.biosis.sgb.controlador.LibroControlador;
@@ -25,9 +29,12 @@ import com.biosis.sgb.vistas.dialogos.LibroCRUD;
 import com.biosis.sgb.vistas.dialogos.SeccionSelect;
 import com.biosis.sgb.vistas.dialogos.TemaSelect;
 import com.personal.utiles.FormularioUtil;
+import com.personal.utiles.ReporteUtil;
 import java.awt.Component;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.swing.JTable;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingWorker;
@@ -46,6 +53,7 @@ import org.jdesktop.swingbinding.SwingBindings;
 public class ConsultaView extends javax.swing.JPanel {
 
     private final LibroControlador libroControlador;
+    private final ReporteUtil reporteUtil;
     private Autor autorSeleccionado;
     private Editorial editorialSeleccionada;
     private Seccion seccionSeleccionada;
@@ -60,6 +68,7 @@ public class ConsultaView extends javax.swing.JPanel {
     private List<Libro> libroList;
 
     public ConsultaView() {
+        reporteUtil = new ReporteUtil();
         initComponents();
         initComponents2();
         this.libroControlador = LibroControlador.getInstance();
@@ -108,6 +117,7 @@ public class ConsultaView extends javax.swing.JPanel {
         btnEjemplares = new javax.swing.JButton();
         btnNuevo = new javax.swing.JButton();
         btnModificar = new javax.swing.JButton();
+        btnImprimir = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         pnlListado = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -430,6 +440,16 @@ public class ConsultaView extends javax.swing.JPanel {
         });
         pnlAcciones.add(btnModificar);
 
+        btnImprimir.setFont(ESTILO7       );
+        btnImprimir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Print/Print_24x24.png"))); // NOI18N
+        btnImprimir.setText("Generar reporte");
+        btnImprimir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnImprimirActionPerformed(evt);
+            }
+        });
+        pnlAcciones.add(btnImprimir);
+
         btnEliminar.setFont(ESTILO7       );
         btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Delete/Delete_24x24.png"))); // NOI18N
         btnEliminar.setText("Eliminar libro");
@@ -699,6 +719,22 @@ public class ConsultaView extends javax.swing.JPanel {
         checkboxes();
     }//GEN-LAST:event_chkTemaStateChanged
 
+    private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
+        List<Libro> libroReporte = libroControlador.consultaMultiple(
+                chkAutor.isSelected() ? autorSeleccionado : null,
+                chkEditorial.isSelected() ? editorialSeleccionada : null,
+                chkSeccion.isSelected() ? seccionSeleccionada : null,
+                chkTema.isSelected() ? temaSeleccionado : null,
+                txtTitulo.getText().trim().toUpperCase(),
+                chkSoloDisponibles.isSelected());
+        Map<String,Object> param = new HashMap();
+        param.put("reporte_logo", IMG_LOGO_REPORTE.getAbsolutePath());
+        param.put("reporte_ruc", REPORTE_RUC);
+        param.put("reporte_institucion", REPORTE_INSTITUCION);
+        Component reporteComponente = reporteUtil.obtenerReporte(libroReporte, REPORTE_LIBRO, param);
+        Principal.agregarPestaña("Reporte de libros", reporteComponente);
+    }//GEN-LAST:event_btnImprimirActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnterior;
@@ -707,6 +743,7 @@ public class ConsultaView extends javax.swing.JPanel {
     private javax.swing.JButton btnEditorial;
     private javax.swing.JButton btnEjemplares;
     private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton btnImprimir;
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnNuevo;
     private javax.swing.JButton btnPrimero2;

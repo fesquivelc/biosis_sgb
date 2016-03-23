@@ -348,7 +348,7 @@ public class EjemplarList extends javax.swing.JDialog {
         // TODO add your handling code here:
         Ejemplar ejemplar = obtenerEjemplarSeleccionado();
         if (ejemplar != null) {
-            if (ejemplar.getEstado() == 0) {
+            if (ejemplar.getEstado() == 1) {
                 prestamoControlador.prepararCrear();
                 PrestamoCRUD prestamoCRUD = new PrestamoCRUD(this.getParent(), true, NUEVO, prestamoControlador.getSeleccionado());
                 prestamoCRUD.setEjemplarPrestamo(ejemplar);
