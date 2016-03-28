@@ -177,7 +177,7 @@ public class TemaView extends javax.swing.JPanel {
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
         // TODO add your handling code here:
         temaControlador.prepararCrear();
-        TemaCRUD temaCRUD = new TemaCRUD(this, true, NUEVO, temaControlador.getSeleccionado());
+        TemaCRUD temaCRUD = new TemaCRUD(this, true, NUEVO, temaControlador.getSeleccionado(), false);
         temaCRUD.setVisible(true);
         if (temaCRUD.isAccionRealizada()) {
             Busqueda busqueda = new Busqueda();
@@ -189,7 +189,7 @@ public class TemaView extends javax.swing.JPanel {
         // TODO add your handling code here:
         //        
         Tema temaSeleccionado = obtenerTemaArbol();
-        TemaCRUD temaCRUD = new TemaCRUD(this, true, LEER, temaSeleccionado);
+        TemaCRUD temaCRUD = new TemaCRUD(this, true, LEER, temaSeleccionado, false);
         temaCRUD.setVisible(true);
         if (temaCRUD.isAccionRealizada()) {
             Busqueda busqueda = new Busqueda();
@@ -200,7 +200,7 @@ public class TemaView extends javax.swing.JPanel {
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         // TODO add your handling code here:
         Tema temaSeleccionado = obtenerTemaArbol();
-        TemaCRUD temaCRUD = new TemaCRUD(this, true, MODIFICAR, temaSeleccionado);
+        TemaCRUD temaCRUD = new TemaCRUD(this, true, MODIFICAR, temaSeleccionado, false);
         temaCRUD.setVisible(true);
         if (temaCRUD.isAccionRealizada()) {
             Busqueda busqueda = new Busqueda();

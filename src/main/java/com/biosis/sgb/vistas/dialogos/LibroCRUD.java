@@ -163,6 +163,7 @@ public class LibroCRUD extends javax.swing.JDialog {
         dcFechaPublicacion = new com.toedter.calendar.JDateChooser();
         jLabel12 = new javax.swing.JLabel();
         cboTipoLibro = new javax.swing.JComboBox<>();
+        btnEditorialNuevo = new javax.swing.JButton();
         jPanel3 = new javax.swing.JPanel();
         btnGuardar = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
@@ -194,7 +195,7 @@ public class LibroCRUD extends javax.swing.JDialog {
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
         jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
         java.awt.GridBagLayout jPanel2Layout = new java.awt.GridBagLayout();
-        jPanel2Layout.columnWidths = new int[] {0, 3, 0};
+        jPanel2Layout.columnWidths = new int[] {0, 3, 0, 3, 0};
         jPanel2Layout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
         jPanel2.setLayout(jPanel2Layout);
 
@@ -211,6 +212,7 @@ public class LibroCRUD extends javax.swing.JDialog {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.weightx = 0.1;
@@ -237,6 +239,7 @@ public class LibroCRUD extends javax.swing.JDialog {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.weightx = 0.1;
@@ -246,6 +249,7 @@ public class LibroCRUD extends javax.swing.JDialog {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 0.1;
         jPanel2.add(txtTitulo, gridBagConstraints);
@@ -253,7 +257,7 @@ public class LibroCRUD extends javax.swing.JDialog {
         pnlClasificacion1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Clasificación", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, ESTILO1));
         pnlClasificacion1.setOpaque(false);
         java.awt.GridBagLayout pnlClasificacion1Layout = new java.awt.GridBagLayout();
-        pnlClasificacion1Layout.columnWidths = new int[] {0, 3, 0, 3, 0, 3, 0, 3, 0};
+        pnlClasificacion1Layout.columnWidths = new int[] {0, 3, 0, 3, 0};
         pnlClasificacion1Layout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0};
         pnlClasificacion1.setLayout(pnlClasificacion1Layout);
 
@@ -268,7 +272,7 @@ public class LibroCRUD extends javax.swing.JDialog {
         txtSeccion.setEditable(false);
         txtSeccion.setFont(ESTILO2);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 0.1;
@@ -283,7 +287,7 @@ public class LibroCRUD extends javax.swing.JDialog {
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 8;
+        gridBagConstraints.gridx = 4;
         gridBagConstraints.gridy = 0;
         pnlClasificacion1.add(btnSeccion, gridBagConstraints);
 
@@ -298,7 +302,7 @@ public class LibroCRUD extends javax.swing.JDialog {
         txtNumero.setColumns(4);
         txtNumero.setFont(ESTILO2);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlClasificacion1.add(txtNumero, gridBagConstraints);
@@ -314,7 +318,7 @@ public class LibroCRUD extends javax.swing.JDialog {
         txtTomo.setColumns(4);
         txtTomo.setFont(ESTILO2);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 6;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlClasificacion1.add(txtTomo, gridBagConstraints);
@@ -330,7 +334,7 @@ public class LibroCRUD extends javax.swing.JDialog {
         txtVolumen.setColumns(4);
         txtVolumen.setFont(ESTILO2);
         gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlClasificacion1.add(txtVolumen, gridBagConstraints);
@@ -338,7 +342,7 @@ public class LibroCRUD extends javax.swing.JDialog {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 16;
-        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.gridwidth = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.weightx = 0.1;
@@ -358,6 +362,7 @@ public class LibroCRUD extends javax.swing.JDialog {
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 8;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 0.1;
         jPanel2.add(cboEditorial, gridBagConstraints);
 
         jLabel2.setFont(ESTILO1);
@@ -380,6 +385,7 @@ public class LibroCRUD extends javax.swing.JDialog {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel2.add(txtEdicion, gridBagConstraints);
@@ -388,6 +394,7 @@ public class LibroCRUD extends javax.swing.JDialog {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 12;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel2.add(txtNroPaginas, gridBagConstraints);
@@ -550,7 +557,7 @@ public class LibroCRUD extends javax.swing.JDialog {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 18;
-        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.gridwidth = 5;
         gridBagConstraints.fill = java.awt.GridBagConstraints.BOTH;
         gridBagConstraints.weightx = 0.1;
         gridBagConstraints.weighty = 0.1;
@@ -568,6 +575,7 @@ public class LibroCRUD extends javax.swing.JDialog {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 14;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel2.add(dcFechaPublicacion, gridBagConstraints);
@@ -585,8 +593,21 @@ public class LibroCRUD extends javax.swing.JDialog {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridwidth = 3;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         jPanel2.add(cboTipoLibro, gridBagConstraints);
+
+        btnEditorialNuevo.setFont(ESTILO1);
+        btnEditorialNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Add/Add_16x16.png"))); // NOI18N
+        btnEditorialNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEditorialNuevoActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 8;
+        jPanel2.add(btnEditorialNuevo, gridBagConstraints);
 
         pnlPrincipal.add(jPanel2, java.awt.BorderLayout.CENTER);
 
@@ -843,6 +864,16 @@ public class LibroCRUD extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnBajarIndiceActionPerformed
 
+    private void btnEditorialNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditorialNuevoActionPerformed
+        // TODO add your handling code here:
+        EditorialCRUD editorialCRUD = new EditorialCRUD(this, true, NUEVO, new Editorial());
+        editorialCRUD.setVisible(true);
+        if (editorialCRUD.isAccionRealizada()) {
+            bindEditorial();
+            cboEditorial.setSelectedItem(editorialCRUD.getEditorial());
+        }
+    }//GEN-LAST:event_btnEditorialNuevoActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAniadirAutor;
     private javax.swing.JButton btnAniadirIndice;
@@ -850,6 +881,7 @@ public class LibroCRUD extends javax.swing.JDialog {
     private javax.swing.JButton btnBajarIndice;
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnEditar;
+    private javax.swing.JButton btnEditorialNuevo;
     private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnGuardar;
     private javax.swing.JButton btnQuitarAutor;
@@ -948,6 +980,8 @@ public class LibroCRUD extends javax.swing.JDialog {
     }
 
     private void volcarData(Libro seleccionado) {
+        FormularioUtil.convertirAMayusculas(txtTitulo);
+        
         seleccionado.setActivo(true);
         seleccionado.setTitulo(txtTitulo.getText());
         seleccionado.setIsbn10(txtISBN10.getText());
@@ -1034,23 +1068,10 @@ public class LibroCRUD extends javax.swing.JDialog {
     }
 
     private void bindComboBox() {
-        editorialList = editorialControlador.buscarTodos();
+        bindEditorial();
         tipoLibroList = tipoLibroControlador.buscarTodos();
         JComboBoxBinding bindTipoLibro = SwingBindings.createJComboBoxBinding(AutoBinding.UpdateStrategy.READ, tipoLibroList, cboTipoLibro);
         bindTipoLibro.bind();
-        JComboBoxBinding bindComboEditorial = SwingBindings.createJComboBoxBinding(AutoBinding.UpdateStrategy.READ, editorialList, cboEditorial);
-        bindComboEditorial.bind();
-        cboEditorial.setRenderer(new AbstractListCellRenderer<Editorial>() {
-            @Override
-            public String getTexto(Editorial value) {
-                return value.getNombre();
-            }
-
-            @Override
-            public ImageIcon getIcono(Editorial value) {
-                return null;
-            }
-        });
 
         cboTipoLibro.setRenderer(new AbstractListCellRenderer<TipoLibro>() {
 
@@ -1072,5 +1093,24 @@ public class LibroCRUD extends javax.swing.JDialog {
         if (this.seccionSeleccionada != null) {
             txtSeccion.setText(String.format("%s / %s", this.seccionSeleccionada.getMateria().getNombre(), this.seccionSeleccionada.getNombre()));
         }
+    }
+
+    private void bindEditorial() {
+        editorialList = editorialControlador.buscarTodos();
+
+        JComboBoxBinding bindComboEditorial = SwingBindings.createJComboBoxBinding(AutoBinding.UpdateStrategy.READ, editorialList, cboEditorial);
+        bindComboEditorial.bind();
+        
+        cboEditorial.setRenderer(new AbstractListCellRenderer<Editorial>() {
+            @Override
+            public String getTexto(Editorial value) {
+                return value.getNombre();
+            }
+
+            @Override
+            public ImageIcon getIcono(Editorial value) {
+                return null;
+            }
+        });
     }
 }

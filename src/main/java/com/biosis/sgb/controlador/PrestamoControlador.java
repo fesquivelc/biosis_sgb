@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package com.biosis.sgb.controlador;
 
 import com.biosis.sgb.entidades.Libro;
@@ -87,6 +82,93 @@ public class PrestamoControlador extends Controlador<Prestamo> {
         return this.buscar(jpql.toString(), params, inicio, tamanio);
     }
 
+    public List<Prestamo> consultaMultiple(Persona persona, Libro libro, boolean devolucionPendiente, Date fechaInicio, Date fechaFin) {
+        StringBuilder jpql = new StringBuilder("SELECT p FROM Prestamo p ");
+        StringBuilder condiciones = new StringBuilder("");
+        Map<String, Object> params = new HashMap();
+        int conteo = 0;
+        if (persona != null) {
+            conteo++;
+            params.put("persona", persona);
+            condiciones.append("(p.persona = :persona)");
+        }
+        if (libro != null) {
+            params.put("libro", libro);
+            if (conteo > 0) {
+                condiciones.append(" AND ");
+            }
+            conteo++;
+            condiciones.append("(p.ejemplar.libro = :libro)");
+        }
+        if (devolucionPendiente) {
+            if (conteo > 0) {
+                condiciones.append(" AND ");
+            }
+            conteo++;
+            Date fechaActual = FechaUtil.soloFecha(new Date());
+            params.put("fechaActual", fechaActual);
+            condiciones.append("(p.fechaEntrega IS NULL AND :fechaActual >= p.fechaDevolucion)");
+        }
+        if (fechaInicio != null && fechaFin != null) {
+            if (conteo > 0) {
+                condiciones.append(" AND ");
+            }
+            conteo++;
+            params.put("fechaInicio", fechaInicio);
+            params.put("fechaFin", fechaFin);
+            condiciones.append("(:fechaInicio <= p.fechaPrestamo AND p.fechaPrestamo <= :fechaFin)");
+        }
+        jpql.append(condiciones);
+        jpql.append("ORDER BY p.ejemplar.libro.seccion.materia.nombre, p.ejemplar.libro.seccion.nombre, p.ejemplar.libro.titulo, p.ejemplar.libro.id p.fechaEntrega DESC");
+        System.out.println("CONSULTA MULTIPLE PRESTAMO: " + jpql.toString());
+        return this.buscar(jpql.toString(), params);
+    }
+
+    public List<Prestamo> consultaMultiple(Persona persona, Libro libro, boolean devolucionPendiente, Date fechaInicio, Date fechaFin, int inicio, int tamanio) {
+        StringBuilder jpql = new StringBuilder("SELECT p FROM Prestamo p");
+        StringBuilder condiciones = new StringBuilder("");
+        Map<String, Object> params = new HashMap();
+        int conteo = 0;
+        if (persona != null) {
+            conteo++;
+            params.put("persona", persona);
+            condiciones.append("(p.persona = :persona)");
+        }
+        if (libro != null) {
+            params.put("libro", libro);
+            if (conteo > 0) {
+                condiciones.append(" AND ");
+            }
+            conteo++;
+            condiciones.append("(p.ejemplar.libro = :libro)");
+        }
+        if (devolucionPendiente) {
+            if (conteo > 0) {
+                condiciones.append(" AND ");
+            }
+            conteo++;
+            Date fechaActual = FechaUtil.soloFecha(new Date());
+            params.put("fechaActual", fechaActual);
+            condiciones.append("(p.fechaEntrega IS NULL AND :fechaActual >= p.fechaDevolucion)");
+        }
+        if (fechaInicio != null && fechaFin != null) {
+            if (conteo > 0) {
+                condiciones.append(" AND ");
+            }
+            conteo++;
+            params.put("fechaInicio", fechaInicio);
+            params.put("fechaFin", fechaFin);
+            condiciones.append("(:fechaInicio <= p.fechaPrestamo AND p.fechaPrestamo <= :fechaFin)");
+        }
+        if (conteo > 0) {
+            jpql.append(" WHERE ");
+            jpql.append(condiciones);
+        }
+        jpql.append(" ORDER BY p.ejemplar.libro.seccion.materia.nombre, p.ejemplar.libro.seccion.nombre, p.ejemplar.libro.titulo, p.fechaEntrega DESC");
+        System.out.println("CONSULTA MULTIPLE PRESTAMO: " + jpql.toString());
+        return this.buscar(jpql.toString(), params, inicio, tamanio);
+    }
+
     public int contarXPersona(Persona persona, boolean devolucionPendiente, Date fechaInicio, Date fechaFin) {
         StringBuilder jpql = new StringBuilder("SELECT COUNT(p) FROM Prestamo p WHERE p.persona = :persona ");
         Map<String, Object> params = new HashMap();
@@ -101,6 +183,52 @@ public class PrestamoControlador extends Controlador<Prestamo> {
             params.put("fechaFin", fechaFin);
             jpql.append("AND (:fechaInicio <= p.fechaPrestamo AND p.fechaPrestamo <= :fechaFin) ");
         }
+        return this.contar(jpql.toString(), params);
+    }
+
+    public int contarMultiple(Persona persona, Libro libro, boolean devolucionPendiente, Date fechaInicio, Date fechaFin) {
+        StringBuilder jpql = new StringBuilder("SELECT COUNT(p) FROM Prestamo p ");
+        StringBuilder condiciones = new StringBuilder("");
+        Map<String, Object> params = new HashMap();
+        int conteo = 0;
+        if (persona != null) {
+            conteo++;
+            params.put("persona", persona);
+            condiciones.append("(p.persona = :persona)");
+        }
+        if (libro != null) {
+            params.put("libro", libro);
+            if (conteo > 0) {
+                condiciones.append(" AND ");
+            }
+            conteo++;
+            condiciones.append("(p.ejemplar.libro = :libro)");
+        }
+        if (devolucionPendiente) {
+            if (conteo > 0) {
+                condiciones.append(" AND ");
+            }
+            conteo++;
+            Date fechaActual = FechaUtil.soloFecha(new Date());
+            params.put("fechaActual", fechaActual);
+            condiciones.append("(p.fechaEntrega IS NULL AND :fechaActual >= p.fechaDevolucion)");
+        }
+        if (fechaInicio != null && fechaFin != null) {
+            if (conteo > 0) {
+                condiciones.append(" AND ");
+            }
+            conteo++;
+            params.put("fechaInicio", fechaInicio);
+            params.put("fechaFin", fechaFin);
+            condiciones.append("(:fechaInicio <= p.fechaPrestamo AND p.fechaPrestamo <= :fechaFin)");
+        }
+        if (conteo > 0) {
+            jpql.append(" WHERE ");
+            jpql.append(condiciones);
+        }
+
+//        jpql.append("ORDER BY p.ejemplar.libro.seccion.materia.nombre, p.ejemplar.libro.seccion.nombre, p.ejemplar.libro.titulo, p.fechaEntrega DESC");
+        System.out.println("CONTAR CONSULTA MULTIPLE PRESTAMO: " + jpql.toString());
         return this.contar(jpql.toString(), params);
     }
 }

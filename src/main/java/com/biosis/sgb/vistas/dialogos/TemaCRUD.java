@@ -43,6 +43,7 @@ public class TemaCRUD extends javax.swing.JDialog {
     private int accion;
     private boolean accionRealizada = false;
     private Tema tema;
+    private boolean soloSubTema;
 
     public Tema getTema() {
         return tema;
@@ -58,12 +59,13 @@ public class TemaCRUD extends javax.swing.JDialog {
         initComponents2();
     }
 
-    public TemaCRUD(Component component, boolean modal, int accion, Tema autor) {
+    public TemaCRUD(Component component, boolean modal, int accion, Tema autor, boolean soloSubTema) {
         super(JOptionPane.getFrameForComponent(component), modal);
         initComponents();
         initComponents2();
         this.tema = autor;
         this.accion = accion;
+        this.soloSubTema = soloSubTema;
         inicializar(autor, accion);
         this.setLocationRelativeTo(component);
     }
@@ -229,7 +231,7 @@ public class TemaCRUD extends javax.swing.JDialog {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
-        if(isErrores()){
+        if (isErrores()) {
             return;
         }
         volcarData(temaControlador.getSeleccionado());
@@ -309,6 +311,7 @@ public class TemaCRUD extends javax.swing.JDialog {
     }
 
     private void volcarData(Tema seleccionado) {
+        FormularioUtil.convertirAMayusculas(txtNombre, txtDescripcion);
         if (chkTemaSuperior.isSelected()) {
             seleccionado.setTemaSuperior((Tema) cboTemaSuperior.getSelectedItem());
         }
@@ -369,8 +372,11 @@ public class TemaCRUD extends javax.swing.JDialog {
         this.cboTemaSuperior.setEnabled(!leer);
         this.txtNombre.setEditable(!leer);
         this.txtDescripcion.setEditable(!leer);
-        this.chkTemaSuperior.setEnabled(!leer);
+        this.chkTemaSuperior.setEnabled(!leer && !soloSubTema);
         this.cboTemaSuperior.setEnabled(!leer);
+        if (soloSubTema) {
+            this.chkTemaSuperior.setSelected(true);
+        }
         if (!leer) {
             checkbox();
         }
@@ -383,20 +389,20 @@ public class TemaCRUD extends javax.swing.JDialog {
     private boolean isErrores() {
         /*
         EN EL CASO QUE SEA UN TEMA SUPERIOR        
-        */
+         */
         List<Mensaje> mensajesError = new ArrayList<>();
         boolean hayErrores = false;
-        if(this.tema.getTemaSuperior() == null){
+        if (this.tema.getTemaSuperior() == null) {
             //si es un tema superior con subtemas no puede ser convertido a subtema
-            if(this.tema.getCantidadSubtema() > 0){
-                if(chkTemaSuperior.isSelected()){
-                    mensajesError.add(new Mensaje("Cambio de tema a subtema","Si un tema se cambia a subtema evite que tenga subtemas agregados"));
+            if (this.tema.getCantidadSubtema() > 0) {
+                if (chkTemaSuperior.isSelected()) {
+                    mensajesError.add(new Mensaje("Cambio de tema a subtema", "Si un tema se cambia a subtema evite que tenga subtemas agregados"));
                     hayErrores = true;
                 }
             }
         }
-        
-        if(hayErrores){
+
+        if (hayErrores) {
             mostrarErrores(mensajesError);
         }
         return hayErrores;

@@ -233,6 +233,7 @@ public class EditorialCRUD extends javax.swing.JDialog {
     }
 
     private void volcarData(Editorial seleccionado) {
+        FormularioUtil.convertirAMayusculas(txtNombres);
         seleccionado.setActivo(true);
 //        seleccionado.setTipoAutor(cboTipoAutor.getSelectedIndex() + 1);
         seleccionado.setNombre(txtNombres.getText());
@@ -249,15 +250,15 @@ public class EditorialCRUD extends javax.swing.JDialog {
         switch (accion) {
             case NUEVO:
                 
-                lblTitulo.setText("Registrar autor");
+                lblTitulo.setText("Registrar editorial");
                 btnCancelar.setText("Cancelar");
                 break;
             case MODIFICAR:
-                lblTitulo.setText("Modificar inf. de autor");
+                lblTitulo.setText("Modificar inf. de editorial");
                 btnCancelar.setText("Cancelar");
                 break;
             case LEER:
-                lblTitulo.setText("Ver inf. de autor");
+                lblTitulo.setText("Ver inf. de editorial");
                 btnCancelar.setText("Cerrar");
                 break;
         }

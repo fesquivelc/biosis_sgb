@@ -293,22 +293,23 @@ public class AutorCRUD extends javax.swing.JDialog {
     }
 
     private void volcarData(Autor seleccionado) {
+        FormularioUtil.convertirAMayusculas(txtNombres, txtPaterno, txtMaterno);
         seleccionado.setActivo(true);
         seleccionado.setTipoAutor(cboTipoAutor.getSelectedIndex() + 1);
         seleccionado.setNombres(txtNombres.getText());
         seleccionado.setPaterno(txtPaterno.getText());
         seleccionado.setMaterno(txtMaterno.getText());
-        if(this.accion == NUEVO){
+        if (this.accion == NUEVO) {
             seleccionado.setFechaHoraCreacion(new Date());
-        }else if(this.accion == MODIFICAR){
+        } else if (this.accion == MODIFICAR) {
             seleccionado.setFechaHoraModificacion(new Date());
         }
     }
-    
+
     private void inicializar(Autor autor, int accion) {
         switch (accion) {
             case NUEVO:
-                
+
                 lblTitulo.setText("Registrar autor");
                 btnCancelar.setText("Cancelar");
                 break;
@@ -323,7 +324,7 @@ public class AutorCRUD extends javax.swing.JDialog {
         }
 
         autorControlador.setSeleccionado(autor);
-        
+
         inicializarControles(accion);
         if (accion == MODIFICAR || accion == LEER) {
             llenarCampos(autor);
@@ -337,8 +338,8 @@ public class AutorCRUD extends javax.swing.JDialog {
         txtPaterno.setText(autor.getPaterno());
         txtMaterno.setText(autor.getMaterno());
     }
-    
-    private void inicializarControles(int accion){
+
+    private void inicializarControles(int accion) {
         boolean leer = accion == LEER;
         boolean leerModificar = accion == LEER || accion == MODIFICAR;
         boolean nuevoModificar = accion == NUEVO || accion == MODIFICAR;
@@ -346,7 +347,7 @@ public class AutorCRUD extends javax.swing.JDialog {
         this.btnEditar.setVisible(accion == LEER);
         this.btnEliminar.setVisible(leerModificar);
         this.btnGuardar.setVisible(nuevoModificar);
-        
+
         this.cboTipoAutor.setEnabled(!leer);
         this.txtNombres.setEditable(!leer);
         this.txtPaterno.setEditable(!leer);

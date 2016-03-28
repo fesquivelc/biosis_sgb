@@ -9,6 +9,10 @@ import static com.biosis.sgb.Application.ESTILO1;
 import static com.biosis.sgb.Application.ESTILO2;
 import static com.biosis.sgb.Application.ESTILO5;
 import static com.biosis.sgb.Application.ESTILO7;
+import static com.biosis.sgb.Application.IMG_LOGO_REPORTE;
+import static com.biosis.sgb.Application.REPORTE_INSTITUCION;
+import static com.biosis.sgb.Application.REPORTE_PRESTAMO;
+import static com.biosis.sgb.Application.REPORTE_RUC;
 import static com.biosis.sgb.controlador.Controlador.MODIFICAR;
 import static com.biosis.sgb.controlador.Controlador.NUEVO;
 import com.biosis.sgb.controlador.PrestamoControlador;
@@ -20,12 +24,15 @@ import com.biosis.sgb.vistas.dialogos.LibroSelect;
 import com.biosis.sgb.vistas.dialogos.PersonaSelect;
 import com.biosis.sgb.vistas.dialogos.PrestamoCRUD;
 import com.personal.utiles.FormularioUtil;
+import com.personal.utiles.ReporteUtil;
 import java.awt.Component;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import javax.swing.JTable;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingWorker;
@@ -58,7 +65,10 @@ public class PrestamoView extends javax.swing.JPanel {
 
     private List<Prestamo> prestamoList;
 
+    private final ReporteUtil reporteUtil;
+
     public PrestamoView() {
+        this.reporteUtil = new ReporteUtil();
         initComponents();
         initComponents2();
         this.prestamoControlador = PrestamoControlador.getInstance();
@@ -97,10 +107,12 @@ public class PrestamoView extends javax.swing.JPanel {
         dcFechaInicio = new com.toedter.calendar.JDateChooser();
         jLabel2 = new javax.swing.JLabel();
         dcFechaFin = new com.toedter.calendar.JDateChooser();
+        radTodos = new javax.swing.JRadioButton();
         pnlAcciones = new javax.swing.JPanel();
         btnVer = new javax.swing.JButton();
         btnNuevo = new javax.swing.JButton();
         btnModificar = new javax.swing.JButton();
+        btnReporte = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         pnlListado = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -131,8 +143,8 @@ public class PrestamoView extends javax.swing.JPanel {
         pnlBusqueda.setBackground(new java.awt.Color(255, 255, 255));
         pnlBusqueda.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Parámetros de búsqueda", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, ESTILO1));
         java.awt.GridBagLayout pnlBusquedaLayout = new java.awt.GridBagLayout();
-        pnlBusquedaLayout.columnWidths = new int[] {0, 5, 0};
-        pnlBusquedaLayout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0};
+        pnlBusquedaLayout.columnWidths = new int[] {0, 5, 0, 5, 0};
+        pnlBusquedaLayout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
         pnlBusqueda.setLayout(pnlBusquedaLayout);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
@@ -154,13 +166,12 @@ public class PrestamoView extends javax.swing.JPanel {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 8;
+        gridBagConstraints.gridy = 10;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlBusqueda.add(jPanel2, gridBagConstraints);
 
         radPersona.setFont(ESTILO1);
-        radPersona.setSelected(true);
         radPersona.setText("Persona:");
         radPersona.setOpaque(false);
         radPersona.addChangeListener(new javax.swing.event.ChangeListener() {
@@ -170,7 +181,7 @@ public class PrestamoView extends javax.swing.JPanel {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlBusqueda.add(radPersona, gridBagConstraints);
 
@@ -184,7 +195,7 @@ public class PrestamoView extends javax.swing.JPanel {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlBusqueda.add(radLibro, gridBagConstraints);
 
@@ -203,7 +214,7 @@ public class PrestamoView extends javax.swing.JPanel {
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlBusqueda.add(chkEntreFechas, gridBagConstraints);
 
@@ -212,7 +223,7 @@ public class PrestamoView extends javax.swing.JPanel {
         chkPendienteDevolucion.setOpaque(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
+        gridBagConstraints.gridy = 8;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlBusqueda.add(chkPendienteDevolucion, gridBagConstraints);
@@ -248,7 +259,7 @@ public class PrestamoView extends javax.swing.JPanel {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
+        gridBagConstraints.gridy = 2;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.weightx = 0.1;
         pnlBusqueda.add(jPanel3, gridBagConstraints);
@@ -283,7 +294,7 @@ public class PrestamoView extends javax.swing.JPanel {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 4;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         pnlBusqueda.add(jPanel4, gridBagConstraints);
 
@@ -303,9 +314,19 @@ public class PrestamoView extends javax.swing.JPanel {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 6;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlBusqueda.add(jPanel5, gridBagConstraints);
+
+        radTodos.setFont(ESTILO1);
+        radTodos.setSelected(true);
+        radTodos.setText("Todos");
+        radTodos.setOpaque(false);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlBusqueda.add(radTodos, gridBagConstraints);
 
         jPanel1.add(pnlBusqueda, java.awt.BorderLayout.PAGE_START);
 
@@ -340,6 +361,16 @@ public class PrestamoView extends javax.swing.JPanel {
             }
         });
         pnlAcciones.add(btnModificar);
+
+        btnReporte.setFont(ESTILO7       );
+        btnReporte.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Print/Print_24x24.png"))); // NOI18N
+        btnReporte.setText("Generar reporte");
+        btnReporte.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnReporteActionPerformed(evt);
+            }
+        });
+        pnlAcciones.add(btnReporte);
 
         btnEliminar.setFont(ESTILO7       );
         btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Delete/Delete_24x24.png"))); // NOI18N
@@ -542,6 +573,22 @@ public class PrestamoView extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnLibroActionPerformed
 
+    private void btnReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReporteActionPerformed
+        // TODO add your handling code here:
+        List<Prestamo> reporteList = prestamoControlador.consultaMultiple(
+                radPersona.isSelected() ? personaSeleccionada : null,
+                radLibro.isSelected() ? libroSeleccionado : null,
+                chkPendienteDevolucion.isSelected(),
+                chkEntreFechas.isSelected() ? dcFechaInicio.getDate() : null,
+                chkEntreFechas.isSelected() ? dcFechaFin.getDate() : null);
+        Map<String, Object> param = new HashMap();
+        param.put("reporte_logo", IMG_LOGO_REPORTE.getAbsolutePath());
+        param.put("reporte_ruc", REPORTE_RUC);
+        param.put("reporte_institucion", REPORTE_INSTITUCION);
+        Component reporteComponente = reporteUtil.obtenerReporte(reporteList, REPORTE_PRESTAMO, param);
+        Principal.agregarPestaña("Reporte de ejemplares", reporteComponente);
+    }//GEN-LAST:event_btnReporteActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnterior;
@@ -552,6 +599,7 @@ public class PrestamoView extends javax.swing.JPanel {
     private javax.swing.JButton btnNuevo;
     private javax.swing.JButton btnPersona;
     private javax.swing.JButton btnPrimero2;
+    private javax.swing.JButton btnReporte;
     private javax.swing.JButton btnSiguiente;
     private javax.swing.JButton btnUltimo;
     private javax.swing.JButton btnVer;
@@ -576,6 +624,7 @@ public class PrestamoView extends javax.swing.JPanel {
     private javax.swing.JPanel pnlNavegacion2;
     private javax.swing.JRadioButton radLibro;
     private javax.swing.JRadioButton radPersona;
+    private javax.swing.JRadioButton radTodos;
     private javax.swing.JSpinner spPagina;
     private org.jdesktop.swingx.JXTable tblPrestamoList;
     private javax.swing.JTextField txtLibro;
@@ -587,6 +636,7 @@ public class PrestamoView extends javax.swing.JPanel {
         lblEspere.setVisible(false);
         grupoOpcionesBusqueda.add(radPersona);
         grupoOpcionesBusqueda.add(radLibro);
+        grupoOpcionesBusqueda.add(radTodos);
         this.prestamoList = ObservableCollections.observableList(new ArrayList<Prestamo>());
 
         //procedemos a bindear
@@ -657,12 +707,19 @@ public class PrestamoView extends javax.swing.JPanel {
 
     private List<Prestamo> listar(int pagina, int tamanio) {
         int total = 0;
-        boolean entreFechas = chkEntreFechas.isSelected();
-        if (radPersona.isSelected()) {
-            total = prestamoControlador.contarXPersona(personaSeleccionada, chkPendienteDevolucion.isSelected(), entreFechas ? dcFechaInicio.getDate() : null, entreFechas ? dcFechaInicio.getDate() : null);
-        } else {
-            total = prestamoControlador.contarXLibro(libroSeleccionado, chkPendienteDevolucion.isSelected(), entreFechas ? dcFechaInicio.getDate() : null, entreFechas ? dcFechaInicio.getDate() : null);
-        }
+//        boolean entreFechas = chkEntreFechas.isSelected();
+
+        total = prestamoControlador.contarMultiple(
+                radPersona.isSelected() ? personaSeleccionada : null,
+                radLibro.isSelected() ? libroSeleccionado : null,
+                chkPendienteDevolucion.isSelected(),
+                chkEntreFechas.isSelected() ? dcFechaInicio.getDate() : null,
+                chkEntreFechas.isSelected() ? dcFechaFin.getDate() : null);
+//        if (radPersona.isSelected()) {
+//            total = prestamoControlador.contarXPersona(personaSeleccionada, chkPendienteDevolucion.isSelected(), entreFechas ? dcFechaInicio.getDate() : null, entreFechas ? dcFechaInicio.getDate() : null);
+//        } else {
+//            total = prestamoControlador.contarXLibro(libroSeleccionado, chkPendienteDevolucion.isSelected(), entreFechas ? dcFechaInicio.getDate() : null, entreFechas ? dcFechaInicio.getDate() : null);
+//        }
 
         if (total % tamanio == 0) {
             totalPaginas = total / tamanio;
@@ -676,11 +733,18 @@ public class PrestamoView extends javax.swing.JPanel {
 
         int desde = (pagina - 1) * tamanio;
 
-        if (radPersona.isSelected()) {
-            return prestamoControlador.buscarXPersona(personaSeleccionada, chkPendienteDevolucion.isSelected(), entreFechas ? dcFechaInicio.getDate() : null, entreFechas ? dcFechaInicio.getDate() : null, desde, tamanio);
-        } else {
-            return prestamoControlador.buscarXLibro(libroSeleccionado, chkPendienteDevolucion.isSelected(), entreFechas ? dcFechaInicio.getDate() : null, entreFechas ? dcFechaFin.getDate() : null, desde, tamanio);
-        }
+//        if (radPersona.isSelected()) {
+//            return prestamoControlador.buscarXPersona(personaSeleccionada, chkPendienteDevolucion.isSelected(), entreFechas ? dcFechaInicio.getDate() : null, entreFechas ? dcFechaInicio.getDate() : null, desde, tamanio);
+//        } else {
+//            return prestamoControlador.buscarXLibro(libroSeleccionado, chkPendienteDevolucion.isSelected(), entreFechas ? dcFechaInicio.getDate() : null, entreFechas ? dcFechaFin.getDate() : null, desde, tamanio);
+//        }
+        return prestamoControlador.consultaMultiple(
+                radPersona.isSelected() ? personaSeleccionada : null,
+                radLibro.isSelected() ? libroSeleccionado : null,
+                chkPendienteDevolucion.isSelected(),
+                chkEntreFechas.isSelected() ? dcFechaInicio.getDate() : null,
+                chkEntreFechas.isSelected() ? dcFechaFin.getDate() : null,
+                desde, tamanio);
 
     }
 

@@ -7,6 +7,7 @@ package com.biosis.sgb.vistas.dialogos;
 
 import static com.biosis.sgb.Application.*;
 import com.biosis.sgb.controlador.AutorControlador;
+import static com.biosis.sgb.controlador.Controlador.NUEVO;
 import com.biosis.sgb.entidades.Autor;
 import com.personal.utiles.FormularioUtil;
 import java.awt.Component;
@@ -74,6 +75,7 @@ public class AutorSelect extends javax.swing.JDialog {
         txtNombre = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         btnBuscar = new javax.swing.JButton();
+        btnBuscar1 = new javax.swing.JButton();
         lblEspere = new org.jdesktop.swingx.JXBusyLabel();
         jLabel2 = new javax.swing.JLabel();
         pnlListado = new javax.swing.JPanel();
@@ -131,6 +133,16 @@ public class AutorSelect extends javax.swing.JDialog {
             }
         });
         jPanel2.add(btnBuscar);
+
+        btnBuscar1.setFont(ESTILO1);
+        btnBuscar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Add/Add_16x16.png"))); // NOI18N
+        btnBuscar1.setText("Nuevo");
+        btnBuscar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscar1ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnBuscar1);
 
         lblEspere.setText("Cargando resultados...");
         lblEspere.setFont(ESTILO1);
@@ -340,11 +352,22 @@ public class AutorSelect extends javax.swing.JDialog {
             txtNombre.requestFocus();
         }
     }//GEN-LAST:event_tblAutorListKeyReleased
+
+    private void btnBuscar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscar1ActionPerformed
+        // TODO add your handling code here:
+        AutorCRUD autorCRUD = new AutorCRUD(this, true, NUEVO, new Autor());
+        autorCRUD.setVisible(true);
+        if(autorCRUD.isAccionRealizada()){
+            this.autor = autorCRUD.getAutor();
+            this.dispose();
+        }
+    }//GEN-LAST:event_btnBuscar1ActionPerformed
   
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnterior;
     private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnBuscar1;
     private javax.swing.JButton btnPrimero2;
     private javax.swing.JButton btnSiguiente;
     private javax.swing.JButton btnUltimo;

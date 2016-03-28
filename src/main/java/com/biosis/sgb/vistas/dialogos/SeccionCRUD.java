@@ -303,6 +303,7 @@ public class SeccionCRUD extends javax.swing.JDialog {
     }
 
     private void volcarData(Seccion seleccionado) {
+        FormularioUtil.convertirAMayusculas(txtNombre, txtDescripcion);
         seleccionado.setMateria((Materia) cboMateria.getSelectedItem());
         seleccionado.setNombre(txtNombre.getText());
         seleccionado.setDescripcion(txtDescripcion.getText());

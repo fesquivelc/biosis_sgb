@@ -751,7 +751,7 @@ public class EjemplarView extends javax.swing.JPanel {
         param.put("reporte_ruc", REPORTE_RUC);
         param.put("reporte_institucion", REPORTE_INSTITUCION);
         Component reporteComponente = reporteUtil.obtenerReporte(reporteList, REPORTE_EJEMPLAR, param);
-        Principal.agregarPestaña("Reporte de libros", reporteComponente);
+        Principal.agregarPestaña("Reporte de ejemplares", reporteComponente);
     }//GEN-LAST:event_btnModificar1ActionPerformed
 
 

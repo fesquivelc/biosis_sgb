@@ -204,7 +204,7 @@ public class TipoLibroCRUD extends javax.swing.JDialog {
             FormularioUtil.mensajeExito(this, accion);
             this.accionRealizada = true;
             this.dispose();
-        } else { 
+        } else {
             FormularioUtil.mensajeError(this, accion);
         }
     }//GEN-LAST:event_btnGuardarActionPerformed
@@ -252,20 +252,21 @@ public class TipoLibroCRUD extends javax.swing.JDialog {
     }
 
     private void volcarData(TipoLibro seleccionado) {
+        FormularioUtil.convertirAMayusculas(txtNombre, txtDescripcion);
         seleccionado.setActivo(true);
         seleccionado.setNombre(txtNombre.getText());
         seleccionado.setDescripcion(txtDescripcion.getText());
-        if(this.accion == NUEVO){
+        if (this.accion == NUEVO) {
             seleccionado.setFechaHoraCreacion(new Date());
-        }else if(this.accion == MODIFICAR){
+        } else if (this.accion == MODIFICAR) {
             seleccionado.setFechaHoraModificacion(new Date());
         }
     }
-    
+
     private void inicializar(TipoLibro tipoLibro, int accion) {
         switch (accion) {
             case NUEVO:
-                
+
                 lblTitulo.setText("Registrar tipo libro");
                 btnCancelar.setText("Cancelar");
                 break;
@@ -280,7 +281,7 @@ public class TipoLibroCRUD extends javax.swing.JDialog {
         }
 
         tipoLibroControlador.setSeleccionado(tipoLibro);
-        
+
         inicializarControles(accion);
         if (accion == MODIFICAR || accion == LEER) {
             llenarCampos(tipoLibro);
@@ -292,8 +293,8 @@ public class TipoLibroCRUD extends javax.swing.JDialog {
         txtNombre.setText(tipoLibro.getNombre());
         txtDescripcion.setText(tipoLibro.getDescripcion());
     }
-    
-    private void inicializarControles(int accion){
+
+    private void inicializarControles(int accion) {
         boolean leer = accion == LEER;
         boolean leerModificar = accion == LEER || accion == MODIFICAR;
         boolean nuevoModificar = accion == NUEVO || accion == MODIFICAR;
@@ -301,7 +302,7 @@ public class TipoLibroCRUD extends javax.swing.JDialog {
         this.btnEditar.setVisible(accion == LEER);
         this.btnEliminar.setVisible(leerModificar);
         this.btnGuardar.setVisible(nuevoModificar);
-        
+
         this.txtNombre.setEditable(!leer);
         this.txtDescripcion.setEditable(!leer);
     }

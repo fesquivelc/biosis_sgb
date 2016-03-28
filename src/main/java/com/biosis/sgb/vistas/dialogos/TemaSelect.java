@@ -6,6 +6,7 @@
 package com.biosis.sgb.vistas.dialogos;
 
 import static com.biosis.sgb.Application.*;
+import static com.biosis.sgb.controlador.Controlador.NUEVO;
 import com.biosis.sgb.controlador.TemaControlador;
 import com.biosis.sgb.entidades.Tema;
 import com.biosis.sgb.util.AbstractListCellRenderer;
@@ -41,25 +42,24 @@ public class TemaSelect extends javax.swing.JDialog {
 
     private List<Tema> temaList;
     private List<Tema> temaSuperiorList;
-    
+
     private Tema tema;
-    
+
     private final TemaControlador temaControlador;
-    
+
     public TemaSelect(Component parent, boolean modal) {
         super(JOptionPane.getFrameForComponent(parent), modal);
         this.temaControlador = TemaControlador.getInstance();
         initComponents();
         initComponents2();
         Busqueda busquedaLibro = new Busqueda();
-        busquedaLibro.execute();        
+        busquedaLibro.execute();
         this.setLocationRelativeTo(parent);
     }
 
     public Tema getTema() {
         return tema;
     }
-    
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -78,6 +78,7 @@ public class TemaSelect extends javax.swing.JDialog {
         txtNombre = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         btnBuscar = new javax.swing.JButton();
+        btnBuscar1 = new javax.swing.JButton();
         lblEspere = new org.jdesktop.swingx.JXBusyLabel();
         jLabel2 = new javax.swing.JLabel();
         chkTema = new javax.swing.JCheckBox();
@@ -137,6 +138,16 @@ public class TemaSelect extends javax.swing.JDialog {
             }
         });
         jPanel2.add(btnBuscar);
+
+        btnBuscar1.setFont(ESTILO1);
+        btnBuscar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Add/Add_16x16.png"))); // NOI18N
+        btnBuscar1.setText("Nuevo");
+        btnBuscar1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnBuscar1ActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnBuscar1);
 
         lblEspere.setText("Cargando resultados...");
         lblEspere.setFont(ESTILO1);
@@ -336,7 +347,7 @@ public class TemaSelect extends javax.swing.JDialog {
     private void tblAutorListMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tblAutorListMouseClicked
         // TODO add your handling code here:
         int conteo = evt.getClickCount();
-        if(conteo == 2){
+        if (conteo == 2) {
             int fila = tblAutorList.getSelectedRow();
             this.tema = this.temaList.get(fila);
             this.dispose();
@@ -345,8 +356,8 @@ public class TemaSelect extends javax.swing.JDialog {
 
     private void txtNombreKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txtNombreKeyPressed
         // TODO add your handling code here:
-        if(evt.getKeyCode() == KeyEvent.VK_DOWN){
-            if(this.temaList.size() > 0){
+        if (evt.getKeyCode() == KeyEvent.VK_DOWN) {
+            if (this.temaList.size() > 0) {
                 tblAutorList.requestFocus();
                 tblAutorList.setRowSelectionInterval(0, 0);
             }
@@ -355,13 +366,13 @@ public class TemaSelect extends javax.swing.JDialog {
 
     private void tblAutorListKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_tblAutorListKeyReleased
         // TODO add your handling code here:
-        
-        if(evt.getKeyCode() == KeyEvent.VK_ENTER){
+
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             int fila = tblAutorList.getSelectedRow();
             this.tema = this.temaList.get(fila);
             this.dispose();
         }
-        if(evt.getKeyCode() == KeyEvent.VK_UP && tblAutorList.getSelectedRow() == 0){
+        if (evt.getKeyCode() == KeyEvent.VK_UP && tblAutorList.getSelectedRow() == 0) {
             txtNombre.requestFocus();
         }
     }//GEN-LAST:event_tblAutorListKeyReleased
@@ -370,11 +381,22 @@ public class TemaSelect extends javax.swing.JDialog {
         // TODO add your handling code here:
         checkbox();
     }//GEN-LAST:event_chkTemaActionPerformed
-  
+
+    private void btnBuscar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscar1ActionPerformed
+        // TODO add your handling code here:
+        TemaCRUD temaCRUD = new TemaCRUD(this, true, NUEVO, new Tema(), true);
+        temaCRUD.setVisible(true);
+        if (temaCRUD.isAccionRealizada()) {
+            this.tema = temaCRUD.getTema();
+            this.dispose();
+        }
+    }//GEN-LAST:event_btnBuscar1ActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnterior;
     private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnBuscar1;
     private javax.swing.JButton btnPrimero2;
     private javax.swing.JButton btnSiguiente;
     private javax.swing.JButton btnUltimo;
@@ -412,11 +434,11 @@ public class TemaSelect extends javax.swing.JDialog {
         bindeoTabla.addColumnBinding(nombre).setColumnName("Subtema").setEditable(false);
         bindeoTabla.addColumnBinding(descripcion).setColumnName("Descripcion").setEditable(false);
         grupo.addBinding(bindeoTabla);
-        
+
         JComboBoxBinding bindTemaSuperior = SwingBindings.createJComboBoxBinding(AutoBinding.UpdateStrategy.READ, temaSuperiorList, cboTema);
         grupo.addBinding(bindTemaSuperior);
         grupo.bind();
-        
+
         cboTema.setRenderer(new AbstractListCellRenderer<Tema>() {
             @Override
             public String getTexto(Tema value) {
@@ -429,10 +451,10 @@ public class TemaSelect extends javax.swing.JDialog {
             }
         });
     }
-    
-    private void controles(boolean busqueda){
+
+    private void controles(boolean busqueda) {
         FormularioUtil.activarComponente(pnlBusqueda, !busqueda);
-        if(!busqueda){
+        if (!busqueda) {
             checkbox();
         }
 //        FormularioUtil.activarComponente(pnlAcciones, !busqueda);
@@ -455,10 +477,10 @@ public class TemaSelect extends javax.swing.JDialog {
         int total = 0;
         String nombreStr = txtNombre.getText();
         Tema tema = null;
-        if(this.chkTema.isSelected()){
-            tema = (Tema)cboTema.getSelectedItem();
+        if (this.chkTema.isSelected()) {
+            tema = (Tema) cboTema.getSelectedItem();
             total = temaControlador.contarSubtemaXNombreYTema(nombreStr, tema);
-        }else{
+        } else {
             total = temaControlador.contarSubtemaXNombre(nombreStr);
         }
         if (total % tamanio == 0) {
@@ -473,9 +495,9 @@ public class TemaSelect extends javax.swing.JDialog {
 
         int desde = (pagina - 1) * tamanio;
 
-        if(this.chkTema.isSelected()){
+        if (this.chkTema.isSelected()) {
             return this.temaControlador.buscarSubtemaXNombreYTema(nombreStr, tema, desde, tamanio);
-        }else{
+        } else {
             return this.temaControlador.buscarSubtemaXNombre(nombreStr, desde, tamanio);
         }
     }

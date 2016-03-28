@@ -273,6 +273,7 @@ public class MateriaCRUD extends javax.swing.JDialog {
     }
 
     private void volcarData(Materia seleccionado) {
+        FormularioUtil.convertirAMayusculas(txtNombre, txtDescripcion);
         seleccionado.setNombre(txtNombre.getText());
         seleccionado.setDescripcion(txtDescripcion.getText());
         seleccionado.setActivo(true);
@@ -309,7 +310,7 @@ public class MateriaCRUD extends javax.swing.JDialog {
 
     }
 
-    private void llenarCampos(Materia materia) {        
+    private void llenarCampos(Materia materia) {
         txtNombre.setText(materia.getNombre());
         txtDescripcion.setText(materia.getDescripcion());
     }

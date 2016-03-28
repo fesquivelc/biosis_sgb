@@ -6,6 +6,7 @@
 package com.biosis.sgb.vistas.dialogos;
 
 import static com.biosis.sgb.Application.*;
+import static com.biosis.sgb.controlador.Controlador.NUEVO;
 import com.biosis.sgb.controlador.MateriaControlador;
 import com.biosis.sgb.controlador.SeccionControlador;
 import com.biosis.sgb.entidades.Materia;
@@ -14,7 +15,6 @@ import com.biosis.sgb.util.AbstractListCellRenderer;
 import com.personal.utiles.FormularioUtil;
 import java.awt.Component;
 import java.awt.event.KeyEvent;
-import java.util.AbstractList;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.ImageIcon;
@@ -83,6 +83,7 @@ public class SeccionSelect extends javax.swing.JDialog {
         txtNombre = new javax.swing.JTextField();
         jPanel2 = new javax.swing.JPanel();
         btnBuscar = new javax.swing.JButton();
+        btnNuevo = new javax.swing.JButton();
         lblEspere = new org.jdesktop.swingx.JXBusyLabel();
         jLabel2 = new javax.swing.JLabel();
         chkMateria = new javax.swing.JCheckBox();
@@ -141,6 +142,16 @@ public class SeccionSelect extends javax.swing.JDialog {
             }
         });
         jPanel2.add(btnBuscar);
+
+        btnNuevo.setFont(ESTILO1);
+        btnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Add/Add_16x16.png"))); // NOI18N
+        btnNuevo.setText("Nuevo");
+        btnNuevo.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNuevoActionPerformed(evt);
+            }
+        });
+        jPanel2.add(btnNuevo);
 
         lblEspere.setText("Cargando resultados...");
         lblEspere.setFont(ESTILO1);
@@ -366,17 +377,27 @@ public class SeccionSelect extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_tblAutorListKeyReleased
 
+    private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
+        // TODO add your handling code here:
+        SeccionCRUD seccionCRUD = new SeccionCRUD(this, true, NUEVO, new Seccion());
+        seccionCRUD.setVisible(true);
+        if(seccionCRUD.isAccionRealizada()){
+            this.seccion = seccionCRUD.getSeccion();
+            this.dispose();
+        }
+    }//GEN-LAST:event_btnNuevoActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnterior;
     private javax.swing.JButton btnBuscar;
+    private javax.swing.JButton btnNuevo;
     private javax.swing.JButton btnPrimero2;
     private javax.swing.JButton btnSiguiente;
     private javax.swing.JButton btnUltimo;
     private javax.swing.JComboBox<String> cboMateria;
     private javax.swing.JComboBox cboTamanio;
     private javax.swing.JCheckBox chkMateria;
-    private javax.swing.JCheckBox chkTema;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel2;
