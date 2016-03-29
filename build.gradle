@@ -72,7 +72,7 @@ task copyToLib(type: Copy) {
 
 task copyConfig(type: Copy){
     into "$buildDir/libs/configuracion"
-    from "config"
+    from "configuracion"
 }
 
 task copyReportes(type: Copy){
