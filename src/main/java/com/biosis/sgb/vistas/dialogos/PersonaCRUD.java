@@ -20,6 +20,7 @@ import com.personal.utiles.FormularioUtil;
 import java.awt.Component;
 import java.util.Date;
 import javax.swing.JOptionPane;
+import org.apache.commons.validator.routines.EmailValidator;
 
 /**
  *
@@ -161,6 +162,7 @@ public class PersonaCRUD extends javax.swing.JDialog {
         gridBagConstraints.weightx = 0.1;
         jPanel2.add(txtMaterno, gridBagConstraints);
 
+        jLabel1.setFont(ESTILO1);
         jLabel1.setText("(*) DNI:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -168,6 +170,7 @@ public class PersonaCRUD extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel2.add(jLabel1, gridBagConstraints);
 
+        jLabel2.setFont(ESTILO1);
         jLabel2.setText("Teléfono fijo:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -175,6 +178,7 @@ public class PersonaCRUD extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel2.add(jLabel2, gridBagConstraints);
 
+        jLabel6.setFont(ESTILO1);
         jLabel6.setText("Celular:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -182,18 +186,23 @@ public class PersonaCRUD extends javax.swing.JDialog {
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel2.add(jLabel6, gridBagConstraints);
 
+        jLabel7.setFont(ESTILO1);
         jLabel7.setText("E-mail:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 12;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel2.add(jLabel7, gridBagConstraints);
+
+        txtTelefonoFijo.setFont(ESTILO2);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 8;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel2.add(txtTelefonoFijo, gridBagConstraints);
+
+        txtDNI.setFont(ESTILO2);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 0;
@@ -208,12 +217,16 @@ public class PersonaCRUD extends javax.swing.JDialog {
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel2.add(jTextField3, gridBagConstraints);
+
+        txtEmail.setFont(ESTILO2);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 12;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         jPanel2.add(txtEmail, gridBagConstraints);
+
+        txtCelular.setFont(ESTILO2);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
         gridBagConstraints.gridy = 10;
@@ -287,6 +300,7 @@ public class PersonaCRUD extends javax.swing.JDialog {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
+        
         volcarData(personaControlador.getSeleccionado());
 
         if (personaControlador.accion(accion)) {
@@ -308,7 +322,7 @@ public class PersonaCRUD extends javax.swing.JDialog {
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         // TODO add your handling code here:
         this.accion = ELIMINAR;
-        if (JOptionPane.showConfirmDialog(this, "¿Está seguro que desea eliminar este autor(a)?", "Mensaje del sistema", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+        if (JOptionPane.showConfirmDialog(this, "¿Está seguro que desea eliminar esta persona?", "Mensaje del sistema", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
             if (this.personaControlador.accion(accion)) {
                 FormularioUtil.mensajeExito(this, accion);
                 this.persona = null;
@@ -417,5 +431,9 @@ public class PersonaCRUD extends javax.swing.JDialog {
         this.txtNombres.setEditable(!leer);
         this.txtPaterno.setEditable(!leer);
         this.txtMaterno.setEditable(!leer);
+        txtDNI.setEditable(!leer);
+        txtCelular.setEditable(!leer);
+        txtTelefonoFijo.setEditable(!leer);
+        txtEmail.setEditable(!leer);
     }
 }

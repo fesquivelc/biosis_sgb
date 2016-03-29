@@ -35,6 +35,7 @@ dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
     
     compile(
+        'commons-validator:commons-validator:1.5.0',
         'org.hibernate:hibernate-entitymanager:4.3.11.Final',
         'com.toedter:jcalendar:1.4',
         'net.sf.jasperreports:jasperreports:6.1.0',

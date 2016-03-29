@@ -10,24 +10,25 @@ import static com.biosis.sgb.Application.ESTILO2;
 import static com.biosis.sgb.Application.ESTILO5;
 import static com.biosis.sgb.Application.ESTILO7;
 import static com.biosis.sgb.Application.IMG_LOGO_REPORTE;
+import static com.biosis.sgb.Application.REPORTE_EJEMPLAR;
 import static com.biosis.sgb.Application.REPORTE_INSTITUCION;
-import static com.biosis.sgb.Application.REPORTE_LIBRO;
 import static com.biosis.sgb.Application.REPORTE_RUC;
 import static com.biosis.sgb.controlador.Controlador.MODIFICAR;
 import static com.biosis.sgb.controlador.Controlador.NUEVO;
-import com.biosis.sgb.controlador.LibroControlador;
+import com.biosis.sgb.controlador.EjemplarControlador;
+import com.biosis.sgb.controlador.PrestamoControlador;
 import com.biosis.sgb.controlador.reportes.LibroPrestamoControlador;
 import com.biosis.sgb.entidades.Autor;
 import com.biosis.sgb.entidades.Editorial;
-import com.biosis.sgb.entidades.Libro;
+import com.biosis.sgb.entidades.Ejemplar;
 import com.biosis.sgb.entidades.LibroAutor;
 import com.biosis.sgb.entidades.Seccion;
 import com.biosis.sgb.entidades.Tema;
-import com.biosis.sgb.entidades.reporte.LibroPrestamo;
+import com.biosis.sgb.util.ButtonTabComponent;
 import com.biosis.sgb.vistas.dialogos.AutorSelect;
 import com.biosis.sgb.vistas.dialogos.EditorialSelect;
-import com.biosis.sgb.vistas.dialogos.EjemplarList;
-import com.biosis.sgb.vistas.dialogos.LibroCRUD;
+import com.biosis.sgb.vistas.dialogos.EjemplarCRUD;
+import com.biosis.sgb.vistas.dialogos.PrestamoCRUD;
 import com.biosis.sgb.vistas.dialogos.SeccionSelect;
 import com.biosis.sgb.vistas.dialogos.TemaSelect;
 import com.personal.utiles.FormularioUtil;
@@ -37,6 +38,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingWorker;
@@ -52,10 +54,12 @@ import org.jdesktop.swingbinding.SwingBindings;
  *
  * @author Francis
  */
-public class ConsultaView extends javax.swing.JPanel {
+public class ReporteEjemplarView extends javax.swing.JPanel {
 
-    private final LibroControlador libroControlador;
-    private final ReporteUtil reporteUtil;
+    private final EjemplarControlador ejemplarControlador;
+    private final LibroPrestamoControlador libroPrestamoControlador;
+    private final PrestamoControlador prestamoControlador;
+
     private Autor autorSeleccionado;
     private Editorial editorialSeleccionada;
     private Seccion seccionSeleccionada;
@@ -67,15 +71,28 @@ public class ConsultaView extends javax.swing.JPanel {
     private int totalPaginas = 0;
     private int tamanioPagina = 0;
 
-    private List<Libro> libroList;
+    private List<Ejemplar> ejemplarList;
 
-    public ConsultaView() {
-        reporteUtil = new ReporteUtil();
+    private final ReporteUtil reporteUtil;
+
+    public static ReporteEjemplarView instance;
+
+    public static ReporteEjemplarView getInstance() {
+        if (instance == null) {
+            instance = new ReporteEjemplarView();
+        }
+        return instance;
+    }
+
+    private ReporteEjemplarView() {
+        this.reporteUtil = new ReporteUtil();
+        libroPrestamoControlador = LibroPrestamoControlador.getInstance();
+        prestamoControlador = PrestamoControlador.getInstance();
         initComponents();
         initComponents2();
-        this.libroControlador = LibroControlador.getInstance();
-        BusquedaLibro busquedaLibro = new BusquedaLibro();
-        busquedaLibro.execute();
+        this.ejemplarControlador = EjemplarControlador.getInstance();
+//        Busqueda busquedaLibro = new Busqueda();
+//        busquedaLibro.execute();
     }
 
     /**
@@ -89,6 +106,7 @@ public class ConsultaView extends javax.swing.JPanel {
         java.awt.GridBagConstraints gridBagConstraints;
 
         grupoOpcionesBusqueda = new javax.swing.ButtonGroup();
+        grupoUtilizados = new javax.swing.ButtonGroup();
         jLabel1 = new javax.swing.JLabel();
         jPanel1 = new javax.swing.JPanel();
         pnlBusqueda = new javax.swing.JPanel();
@@ -114,24 +132,15 @@ public class ConsultaView extends javax.swing.JPanel {
         btnAutor = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         chkSoloDisponibles = new javax.swing.JCheckBox();
-        pnlAcciones = new javax.swing.JPanel();
-        btnVer = new javax.swing.JButton();
-        btnEjemplares = new javax.swing.JButton();
-        btnNuevo = new javax.swing.JButton();
-        btnModificar = new javax.swing.JButton();
-        btnImprimir = new javax.swing.JButton();
-        btnEliminar = new javax.swing.JButton();
+        chkMasUtilizados = new javax.swing.JCheckBox();
+        jPanel7 = new javax.swing.JPanel();
+        rad10 = new javax.swing.JRadioButton();
+        rad20 = new javax.swing.JRadioButton();
+        rad30 = new javax.swing.JRadioButton();
+        rad40 = new javax.swing.JRadioButton();
+        rad50 = new javax.swing.JRadioButton();
         pnlListado = new javax.swing.JPanel();
-        jScrollPane1 = new javax.swing.JScrollPane();
-        tblLibroList = new org.jdesktop.swingx.JXTable();
-        pnlNavegacion2 = new javax.swing.JPanel();
-        btnPrimero2 = new javax.swing.JButton();
-        btnAnterior = new javax.swing.JButton();
-        spPagina = new javax.swing.JSpinner();
-        txtTotal = new javax.swing.JTextField();
-        btnSiguiente = new javax.swing.JButton();
-        btnUltimo = new javax.swing.JButton();
-        cboTamanio = new javax.swing.JComboBox();
+        tabVistaPrevia = new javax.swing.JTabbedPane();
 
         setBackground(new java.awt.Color(255, 255, 255));
         setLayout(new java.awt.BorderLayout());
@@ -139,7 +148,7 @@ public class ConsultaView extends javax.swing.JPanel {
         jLabel1.setBackground(new java.awt.Color(204, 204, 255));
         jLabel1.setFont(ESTILO5);
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-        jLabel1.setText("Consultas");
+        jLabel1.setText("Reporte de ejemplares");
         jLabel1.setOpaque(true);
         add(jLabel1, java.awt.BorderLayout.PAGE_START);
 
@@ -150,8 +159,8 @@ public class ConsultaView extends javax.swing.JPanel {
         pnlBusqueda.setBackground(new java.awt.Color(255, 255, 255));
         pnlBusqueda.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Parámetros de búsqueda", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, ESTILO1));
         java.awt.GridBagLayout pnlBusquedaLayout = new java.awt.GridBagLayout();
-        pnlBusquedaLayout.columnWidths = new int[] {0, 3, 0, 3, 0};
-        pnlBusquedaLayout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
+        pnlBusquedaLayout.columnWidths = new int[] {0, 3, 0};
+        pnlBusquedaLayout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
         pnlBusqueda.setLayout(pnlBusquedaLayout);
 
         txtTitulo.setFont(ESTILO2);
@@ -166,8 +175,8 @@ public class ConsultaView extends javax.swing.JPanel {
         jPanel2.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 0, 5));
 
         btnBuscar.setFont(ESTILO1);
-        btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Find/Find_16x16.png"))); // NOI18N
-        btnBuscar.setText("Buscar");
+        btnBuscar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Print/Print_16x16.png"))); // NOI18N
+        btnBuscar.setText("Generar vista previa");
         btnBuscar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnBuscarActionPerformed(evt);
@@ -181,7 +190,7 @@ public class ConsultaView extends javax.swing.JPanel {
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 12;
+        gridBagConstraints.gridy = 14;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlBusqueda.add(jPanel2, gridBagConstraints);
@@ -391,275 +400,84 @@ public class ConsultaView extends javax.swing.JPanel {
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 8;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlBusqueda.add(jLabel2, gridBagConstraints);
 
         chkSoloDisponibles.setFont(ESTILO1);
-        chkSoloDisponibles.setText("Mostrar sólo con ejemplares disponibles");
+        chkSoloDisponibles.setText("Mostrar sólo ejemplares disponibles");
         chkSoloDisponibles.setOpaque(false);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridy = 12;
         gridBagConstraints.gridwidth = 3;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlBusqueda.add(chkSoloDisponibles, gridBagConstraints);
 
-        jPanel1.add(pnlBusqueda, java.awt.BorderLayout.PAGE_START);
-
-        pnlAcciones.setBackground(new java.awt.Color(255, 255, 255));
-
-        btnVer.setFont(ESTILO7       );
-        btnVer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Information/Information_24x24.png"))); // NOI18N
-        btnVer.setText("Ver información");
-        pnlAcciones.add(btnVer);
-
-        btnEjemplares.setFont(ESTILO7       );
-        btnEjemplares.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Find/Find_24x24.png"))); // NOI18N
-        btnEjemplares.setText("Ver ejemplares");
-        btnEjemplares.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEjemplaresActionPerformed(evt);
-            }
-        });
-        pnlAcciones.add(btnEjemplares);
-
-        btnNuevo.setFont(ESTILO7       );
-        btnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Add/Add_24x24.png"))); // NOI18N
-        btnNuevo.setText("Nuevo libro");
-        btnNuevo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnNuevoActionPerformed(evt);
-            }
-        });
-        pnlAcciones.add(btnNuevo);
-
-        btnModificar.setFont(ESTILO7       );
-        btnModificar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Edit/Edit_24x24.png"))); // NOI18N
-        btnModificar.setText("Modificar libro");
-        btnModificar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnModificarActionPerformed(evt);
-            }
-        });
-        pnlAcciones.add(btnModificar);
-
-        btnImprimir.setFont(ESTILO7       );
-        btnImprimir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Print/Print_24x24.png"))); // NOI18N
-        btnImprimir.setText("Generar reporte");
-        btnImprimir.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnImprimirActionPerformed(evt);
-            }
-        });
-        pnlAcciones.add(btnImprimir);
-
-        btnEliminar.setFont(ESTILO7       );
-        btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Delete/Delete_24x24.png"))); // NOI18N
-        btnEliminar.setText("Eliminar libro");
-        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEliminarActionPerformed(evt);
-            }
-        });
-        pnlAcciones.add(btnEliminar);
-
-        jPanel1.add(pnlAcciones, java.awt.BorderLayout.PAGE_END);
-
-        pnlListado.setBackground(new java.awt.Color(255, 255, 255));
-        pnlListado.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Listado", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, ESTILO1        ));
-        pnlListado.setLayout(new java.awt.BorderLayout());
-
-        tblLibroList.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
-            new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
-            }
-        ));
-        tblLibroList.setFont(ESTILO2);
-        tblLibroList.setHorizontalScrollEnabled(true);
-        tblLibroList.setRowHeight(20);
-        jScrollPane1.setViewportView(tblLibroList);
-
-        pnlListado.add(jScrollPane1, java.awt.BorderLayout.CENTER);
-
-        pnlNavegacion2.setBackground(new java.awt.Color(255, 255, 255));
-        java.awt.GridBagLayout pnlNavegacion2Layout = new java.awt.GridBagLayout();
-        pnlNavegacion2Layout.columnWidths = new int[] {0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0};
-        pnlNavegacion2Layout.rowHeights = new int[] {0};
-        pnlNavegacion2.setLayout(pnlNavegacion2Layout);
-
-        btnPrimero2.setText("<<");
-        btnPrimero2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPrimero2ActionPerformed(evt);
+        chkMasUtilizados.setFont(ESTILO1);
+        chkMasUtilizados.setText("Libros más utilizados:");
+        chkMasUtilizados.setOpaque(false);
+        chkMasUtilizados.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                chkMasUtilizadosStateChanged(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
-        pnlNavegacion2.add(btnPrimero2, gridBagConstraints);
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlBusqueda.add(chkMasUtilizados, gridBagConstraints);
 
-        btnAnterior.setText("<");
-        btnAnterior.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnAnteriorActionPerformed(evt);
-            }
-        });
+        jPanel7.setOpaque(false);
+
+        rad10.setFont(ESTILO2);
+        rad10.setSelected(true);
+        rad10.setText("10");
+        rad10.setOpaque(false);
+        jPanel7.add(rad10);
+
+        rad20.setFont(ESTILO2);
+        rad20.setText("20");
+        rad20.setOpaque(false);
+        jPanel7.add(rad20);
+
+        rad30.setFont(ESTILO2);
+        rad30.setText("30");
+        rad30.setOpaque(false);
+        jPanel7.add(rad30);
+
+        rad40.setFont(ESTILO2);
+        rad40.setText("40");
+        rad40.setOpaque(false);
+        jPanel7.add(rad40);
+
+        rad50.setFont(ESTILO2);
+        rad50.setText("50");
+        rad50.setOpaque(false);
+        jPanel7.add(rad50);
+
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
-        pnlNavegacion2.add(btnAnterior, gridBagConstraints);
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlBusqueda.add(jPanel7, gridBagConstraints);
 
-        spPagina.setModel(new javax.swing.SpinnerNumberModel(1, 1, null, 1));
-        spPagina.setMinimumSize(new java.awt.Dimension(60, 20));
-        spPagina.setPreferredSize(new java.awt.Dimension(60, 20));
-        spPagina.addChangeListener(new javax.swing.event.ChangeListener() {
-            public void stateChanged(javax.swing.event.ChangeEvent evt) {
-                spPaginaStateChanged(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
-        pnlNavegacion2.add(spPagina, gridBagConstraints);
+        jPanel1.add(pnlBusqueda, java.awt.BorderLayout.PAGE_START);
 
-        txtTotal.setEditable(false);
-        txtTotal.setColumns(3);
-        txtTotal.setHorizontalAlignment(javax.swing.JTextField.RIGHT);
-        txtTotal.setText("1");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 6;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
-        pnlNavegacion2.add(txtTotal, gridBagConstraints);
-
-        btnSiguiente.setText(">");
-        btnSiguiente.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnSiguienteActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 8;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
-        pnlNavegacion2.add(btnSiguiente, gridBagConstraints);
-
-        btnUltimo.setText(">>");
-        btnUltimo.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnUltimoActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 10;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
-        pnlNavegacion2.add(btnUltimo, gridBagConstraints);
-
-        cboTamanio.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "5", "10", "15", "20", "25", "40", "50" }));
-        cboTamanio.setMinimumSize(new java.awt.Dimension(53, 24));
-        cboTamanio.setPreferredSize(new java.awt.Dimension(53, 24));
-        cboTamanio.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cboTamanioActionPerformed(evt);
-            }
-        });
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 12;
-        gridBagConstraints.gridy = 0;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.VERTICAL;
-        pnlNavegacion2.add(cboTamanio, gridBagConstraints);
-
-        pnlListado.add(pnlNavegacion2, java.awt.BorderLayout.SOUTH);
+        pnlListado.setBackground(new java.awt.Color(255, 255, 255));
+        pnlListado.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Vista previa", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, ESTILO1        ));
+        pnlListado.setLayout(new java.awt.BorderLayout());
+        pnlListado.add(tabVistaPrevia, java.awt.BorderLayout.CENTER);
 
         jPanel1.add(pnlListado, java.awt.BorderLayout.CENTER);
 
         add(jPanel1, java.awt.BorderLayout.CENTER);
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnPrimero2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrimero2ActionPerformed
-        // TODO add your handling code here:
-        primero();
-    }//GEN-LAST:event_btnPrimero2ActionPerformed
-
-    private void btnAnteriorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAnteriorActionPerformed
-        // TODO add your handling code here:
-        anterior();
-    }//GEN-LAST:event_btnAnteriorActionPerformed
-
-    private void spPaginaStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_spPaginaStateChanged
-        // TODO add your handling code here:
-        this.seleccionPagina();
-    }//GEN-LAST:event_spPaginaStateChanged
-
-    private void btnSiguienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiguienteActionPerformed
-        // TODO add your handling code here:
-        siguiente();
-    }//GEN-LAST:event_btnSiguienteActionPerformed
-
-    private void btnUltimoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUltimoActionPerformed
-        // TODO add your handling code here:
-        ultimo();
-    }//GEN-LAST:event_btnUltimoActionPerformed
-
-    private void cboTamanioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboTamanioActionPerformed
-        // TODO add your handling code here:
-        this.paginaActual = 1;
-        buscar();
-        this.actualizarControlesNavegacion();
-    }//GEN-LAST:event_cboTamanioActionPerformed
-
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
         // TODO add your handling code here:
-        BusquedaLibro busquedaLibro = new BusquedaLibro();
+        Busqueda busquedaLibro = new Busqueda();
         busquedaLibro.execute();
     }//GEN-LAST:event_btnBuscarActionPerformed
-
-    private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
-        // TODO add your handling code here:
-        libroControlador.prepararCrear();
-        LibroCRUD libroCRUD = new LibroCRUD(this, true, NUEVO, libroControlador.getSeleccionado());
-        libroCRUD.setVisible(true);
-        if (libroCRUD.isAccionRealizada()) {
-            this.libroList.add(libroCRUD.getLibro());
-        }
-    }//GEN-LAST:event_btnNuevoActionPerformed
-
-    private void btnEjemplaresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEjemplaresActionPerformed
-        // TODO add your handling code here:
-        Libro libro = obtenerLibroSeleccionado();
-        if (libro != null) {
-            List<LibroPrestamo> ejemplarPrestamoList = LibroPrestamoControlador.getInstance().buscarTodos();
-            ejemplarPrestamoList.stream().forEach((LibroPrestamo ep) -> System.out.println(String.format("%s %s", ep.getLibro().getTitulo(),ep.getConteo())));
-            EjemplarList ejemplarList = new EjemplarList(this, libro, true);
-            ejemplarList.setVisible(true);
-        }
-    }//GEN-LAST:event_btnEjemplaresActionPerformed
-
-    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-        // TODO add your handling code here:
-        Libro libro = obtenerLibroSeleccionado();
-        if (libro != null) {
-            LibroCRUD libroCRUD = new LibroCRUD(this, true, MODIFICAR, libro);
-            libroCRUD.setVisible(true);
-            if (libroCRUD.isAccionRealizada()) {
-                BusquedaLibro busqueda = new BusquedaLibro();
-                busqueda.execute();
-            }
-        }
-    }//GEN-LAST:event_btnModificarActionPerformed
-
-    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnSeccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeccionActionPerformed
         // TODO add your handling code here:
@@ -723,46 +541,26 @@ public class ConsultaView extends javax.swing.JPanel {
         checkboxes();
     }//GEN-LAST:event_chkTemaStateChanged
 
-    private void btnImprimirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnImprimirActionPerformed
-        List<Libro> libroReporte = libroControlador.consultaMultiple(
-                chkAutor.isSelected() ? autorSeleccionado : null,
-                chkEditorial.isSelected() ? editorialSeleccionada : null,
-                chkSeccion.isSelected() ? seccionSeleccionada : null,
-                chkTema.isSelected() ? temaSeleccionado : null,
-                txtTitulo.getText().trim().toUpperCase(),
-                chkSoloDisponibles.isSelected());
-        Map<String,Object> param = new HashMap();
-        param.put("reporte_logo", IMG_LOGO_REPORTE.getAbsolutePath());
-        param.put("reporte_ruc", REPORTE_RUC);
-        param.put("reporte_institucion", REPORTE_INSTITUCION);
-        Component reporteComponente = reporteUtil.obtenerReporte(libroReporte, REPORTE_LIBRO, param);
-        Principal.agregarPestaña("Reporte de libros", reporteComponente);
-    }//GEN-LAST:event_btnImprimirActionPerformed
+    private void chkMasUtilizadosStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_chkMasUtilizadosStateChanged
+        // TODO add your handling code here:
+        checkMasUtilizados();
+    }//GEN-LAST:event_chkMasUtilizadosStateChanged
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnAnterior;
     private javax.swing.JButton btnAutor;
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnEditorial;
-    private javax.swing.JButton btnEjemplares;
-    private javax.swing.JButton btnEliminar;
-    private javax.swing.JButton btnImprimir;
-    private javax.swing.JButton btnModificar;
-    private javax.swing.JButton btnNuevo;
-    private javax.swing.JButton btnPrimero2;
     private javax.swing.JButton btnSeccion;
-    private javax.swing.JButton btnSiguiente;
     private javax.swing.JButton btnTema;
-    private javax.swing.JButton btnUltimo;
-    private javax.swing.JButton btnVer;
-    private javax.swing.JComboBox cboTamanio;
     private javax.swing.JCheckBox chkAutor;
     private javax.swing.JCheckBox chkEditorial;
+    private javax.swing.JCheckBox chkMasUtilizados;
     private javax.swing.JCheckBox chkSeccion;
     private javax.swing.JCheckBox chkSoloDisponibles;
     private javax.swing.JCheckBox chkTema;
     private javax.swing.ButtonGroup grupoOpcionesBusqueda;
+    private javax.swing.ButtonGroup grupoUtilizados;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
@@ -771,89 +569,76 @@ public class ConsultaView extends javax.swing.JPanel {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
-    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JPanel jPanel7;
     private org.jdesktop.swingx.JXBusyLabel lblEspere;
-    private javax.swing.JPanel pnlAcciones;
     private javax.swing.JPanel pnlBusqueda;
     private javax.swing.JPanel pnlListado;
-    private javax.swing.JPanel pnlNavegacion2;
-    private javax.swing.JSpinner spPagina;
-    private org.jdesktop.swingx.JXTable tblLibroList;
+    private javax.swing.JRadioButton rad10;
+    private javax.swing.JRadioButton rad20;
+    private javax.swing.JRadioButton rad30;
+    private javax.swing.JRadioButton rad40;
+    private javax.swing.JRadioButton rad50;
+    private javax.swing.JTabbedPane tabVistaPrevia;
     private javax.swing.JTextField txtAutor;
     private javax.swing.JTextField txtEditorial;
     private javax.swing.JTextField txtSeccion;
     private javax.swing.JTextField txtTema;
     private javax.swing.JTextField txtTitulo;
-    private javax.swing.JTextField txtTotal;
     // End of variables declaration//GEN-END:variables
 
     private void initComponents2() {
+
+        grupoUtilizados.add(rad10);
+        grupoUtilizados.add(rad20);
+        grupoUtilizados.add(rad30);
+        grupoUtilizados.add(rad40);
+        grupoUtilizados.add(rad50);
+
         lblEspere.setVisible(false);
-        this.libroList = ObservableCollections.observableList(new ArrayList<Libro>());
-        //procedemos a bindear
-        BindingGroup grupo = new BindingGroup();
-
-        BeanProperty bTitulo = BeanProperty.create("titulo");
-        BeanProperty bIsbn10 = BeanProperty.create("isbn10");
-        BeanProperty bIsbn13 = BeanProperty.create("isbn13");
-        BeanProperty bEjemplarTotal = BeanProperty.create("ejemplarTotal");
-        BeanProperty bEjemplarDisponible = BeanProperty.create("ejemplarDisponible");
-        BeanProperty bAutores = BeanProperty.create("libroAutorList");
-        BeanProperty bMateria = BeanProperty.create("seccion.materia.nombre");
-        BeanProperty bSeccion = BeanProperty.create("seccion.nombre");
-        JTableBinding bindeoTabla = SwingBindings.createJTableBinding(AutoBinding.UpdateStrategy.READ, libroList, tblLibroList);
-        bindeoTabla.addColumnBinding(bTitulo).setColumnName("Titulo").setEditable(false);
-        bindeoTabla.addColumnBinding(bAutores).setColumnName("Autor(es)").setEditable(false).setColumnClass(List.class);
-        bindeoTabla.addColumnBinding(bMateria).setColumnName("Materia").setEditable(false);
-        bindeoTabla.addColumnBinding(bSeccion).setColumnName("Sección").setEditable(false);
-        bindeoTabla.addColumnBinding(bIsbn10).setColumnName("ISBN 10").setEditable(false);
-        bindeoTabla.addColumnBinding(bIsbn13).setColumnName("ISBN 13").setEditable(false);
-        bindeoTabla.addColumnBinding(bEjemplarTotal).setColumnName("Total").setEditable(false);
-        bindeoTabla.addColumnBinding(bEjemplarDisponible).setColumnName("Disponibles").setEditable(false);
-
-        grupo.addBinding(bindeoTabla);
-        grupo.bind();
-
-        tblLibroList.getColumn(1).setCellRenderer(new DefaultTableCellRenderer() {
-            @Override
-            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-                if (value != null) {
-                    List<LibroAutor> listado = (List) value;
-                    StringBuilder sb = new StringBuilder();
-                    listado.stream().forEach(la -> sb.append(String.format("%s %s, ", la.getAutor().getPaterno(), la.getAutor().getNombres())));
-                    value = sb.toString().substring(0, sb.toString().length() - 2);
-                }
-                return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column); //To change body of generated methods, choose Tools | Templates.
-            }
-
-        });
+        this.ejemplarList = ObservableCollections.observableList(new ArrayList<Ejemplar>());
     }
 
     //cambiamos acorde a lo que se requiere
-    private void buscar() {
+    private void generarReporte() {
 //        String busqueda = txtBusqueda.getText();
-        tamanioPagina = Integer.parseInt(cboTamanio.getSelectedItem().toString());
+//        tamanioPagina = Integer.parseInt(cboTamanio.getSelectedItem().toString());
 
         //AQUI LO PASAMOS A UN SWING WORKER
-        libroList.clear();
+        if (chkMasUtilizados.isSelected()) {
 
-        libroList.addAll(this.listar(paginaActual, tamanioPagina));
+        } else {
+            List<Ejemplar> reporteList = ejemplarControlador.consultaMultiple(
+                    chkAutor.isSelected() ? autorSeleccionado : null,
+                    chkEditorial.isSelected() ? editorialSeleccionada : null,
+                    chkSeccion.isSelected() ? seccionSeleccionada : null,
+                    chkTema.isSelected() ? temaSeleccionado : null,
+                    txtTitulo.getText().trim().toUpperCase(),
+                    chkSoloDisponibles.isSelected());
+            Map<String, Object> param = new HashMap();
+            param.put("reporte_logo", IMG_LOGO_REPORTE.getAbsolutePath());
+            param.put("reporte_ruc", REPORTE_RUC);
+            param.put("reporte_institucion", REPORTE_INSTITUCION);
+            Component reporteComponente = reporteUtil.obtenerReporte(reporteList, REPORTE_EJEMPLAR, param);
 
-        tblLibroList.packAll();
+            agregarPestaña("Vista previa " + tabVistaPrevia.getTabCount() + 1, reporteComponente);
+        }
+//        ejemplarList.clear();
+
+//        ejemplarList.addAll(this.listar(paginaActual, tamanioPagina));
+//        tblEjemplarList.packAll();
     }
 
     private void controles(boolean busqueda) {
         FormularioUtil.activarComponente(pnlBusqueda, !busqueda);
-        FormularioUtil.activarComponente(pnlAcciones, !busqueda);
         if (!busqueda) {
             checkboxes();
         }
     }
 
-    private List<Libro> listar(int pagina, int tamanio) {
+    private List<Ejemplar> listar(int pagina, int tamanio) {
         int total = 0;
         String txtPatron = txtTitulo.getText();
-        total = libroControlador.contarMultiple(
+        total = ejemplarControlador.contarMultiple(
                 chkAutor.isSelected() ? autorSeleccionado : null,
                 chkEditorial.isSelected() ? editorialSeleccionada : null,
                 chkSeccion.isSelected() ? seccionSeleccionada : null,
@@ -873,7 +658,7 @@ public class ConsultaView extends javax.swing.JPanel {
 
         int desde = (pagina - 1) * tamanio;
 
-        return libroControlador.consultaMultiple(
+        return ejemplarControlador.consultaMultiple(
                 chkAutor.isSelected() ? autorSeleccionado : null,
                 chkEditorial.isSelected() ? editorialSeleccionada : null,
                 chkSeccion.isSelected() ? seccionSeleccionada : null,
@@ -881,51 +666,6 @@ public class ConsultaView extends javax.swing.JPanel {
                 txtPatron.trim().toUpperCase(),
                 chkSoloDisponibles.isSelected(),
                 desde, tamanio);
-    }
-
-    private void siguiente() {
-        paginaActual++;
-        buscar();
-        this.actualizarControlesNavegacion();
-    }
-
-    private void ultimo() {
-        paginaActual = totalPaginas;
-        buscar();
-        this.actualizarControlesNavegacion();
-    }
-
-    private void primero() {
-        paginaActual = 1;
-        buscar();
-        this.actualizarControlesNavegacion();
-    }
-
-    private void anterior() {
-        paginaActual--;
-        buscar();
-        this.actualizarControlesNavegacion();
-    }
-
-    private void seleccionPagina() {
-        paginaActual = (int) spPagina.getValue();
-        buscar();
-        this.actualizarControlesNavegacion();
-    }
-
-    private void actualizarControlesNavegacion() {
-        spPagina.setValue(paginaActual);
-        txtTotal.setText(totalPaginas + "");
-
-        SpinnerNumberModel modeloSP = (SpinnerNumberModel) spPagina.getModel();
-        Comparable<Integer> maximo = totalPaginas;
-        modeloSP.setMaximum(maximo);
-
-        this.btnSiguiente.setEnabled(paginaActual != totalPaginas);
-        this.btnUltimo.setEnabled(paginaActual != totalPaginas);
-
-        this.btnAnterior.setEnabled(paginaActual != 1);
-        this.btnPrimero2.setEnabled(paginaActual != 1);
     }
 
     private void checkboxes() {
@@ -940,15 +680,27 @@ public class ConsultaView extends javax.swing.JPanel {
         btnTema.setEnabled(chkTema.isSelected());
     }
 
-    private Libro obtenerLibroSeleccionado() {
-        int fila = tblLibroList.getSelectedRow();
-        if (fila != -1) {
-            return libroList.get(fila);
-        }
-        return null;
+    private void checkMasUtilizados() {
+        rad10.setEnabled(chkMasUtilizados.isSelected());
+        rad20.setEnabled(chkMasUtilizados.isSelected());
+        rad30.setEnabled(chkMasUtilizados.isSelected());
+        rad40.setEnabled(chkMasUtilizados.isSelected());
+        rad50.setEnabled(chkMasUtilizados.isSelected());
     }
 
-    private class BusquedaLibro extends SwingWorker<Double, Void> {
+    private void agregarPestaña(String titulo, Component ventana) {
+        int index = tabVistaPrevia.indexOfComponent(ventana);
+        if (index >= 0) {
+            tabVistaPrevia.setSelectedIndex(index);
+        } else {
+            ButtonTabComponent tab = new ButtonTabComponent(tabVistaPrevia);
+            tabVistaPrevia.add(titulo, ventana);
+            tabVistaPrevia.setTabComponentAt(tabVistaPrevia.getTabCount() - 1, tab);
+            tabVistaPrevia.setSelectedIndex(tabVistaPrevia.getTabCount() - 1);
+        }
+    }
+
+    private class Busqueda extends SwingWorker<Double, Void> {
 
         @Override
         protected Double doInBackground() throws Exception {
@@ -957,8 +709,7 @@ public class ConsultaView extends javax.swing.JPanel {
             lblEspere.setVisible(true);
             lblEspere.setBusy(true);
             paginaActual = 1;
-            buscar();
-            actualizarControlesNavegacion();
+            generarReporte();
             return 0.0;
         }
 

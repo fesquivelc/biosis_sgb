@@ -21,7 +21,7 @@ public class Principal extends javax.swing.JFrame {
      */
     public Principal() {
         initComponents();
-        iniciarTab(0);
+//        iniciarTab(0);
 
     }
 
@@ -49,6 +49,9 @@ public class Principal extends javax.swing.JFrame {
         jMenuItem3 = new javax.swing.JMenuItem();
         jMenuItem4 = new javax.swing.JMenuItem();
         jMenuItem5 = new javax.swing.JMenuItem();
+        jMenuItem7 = new javax.swing.JMenuItem();
+        jMenu2 = new javax.swing.JMenu();
+        jMenuItem8 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -158,7 +161,27 @@ public class Principal extends javax.swing.JFrame {
         });
         jMenu3.add(jMenuItem5);
 
+        jMenuItem7.setText("Información de personas");
+        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem7ActionPerformed(evt);
+            }
+        });
+        jMenu3.add(jMenuItem7);
+
         jMenuBar1.add(jMenu3);
+
+        jMenu2.setText("Reportes");
+
+        jMenuItem8.setText("Reporte de ejemplares");
+        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem8ActionPerformed(evt);
+            }
+        });
+        jMenu2.add(jMenuItem8);
+
+        jMenuBar1.add(jMenu2);
 
         setJMenuBar(jMenuBar1);
 
@@ -205,6 +228,16 @@ public class Principal extends javax.swing.JFrame {
         agregarPestaña("Mantenimiento de materias y secc.", new MateriaSeccionView());
     }//GEN-LAST:event_jMenuItem3ActionPerformed
 
+    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
+        // TODO add your handling code here:
+        agregarPestaña("Mantenimiento inf. de personas", new PersonaView());
+    }//GEN-LAST:event_jMenuItem7ActionPerformed
+
+    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+        // TODO add your handling code here:
+        agregarPestaña("Reporte de ejemplares", ReporteEjemplarView.getInstance());
+    }//GEN-LAST:event_jMenuItem8ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -245,6 +278,7 @@ public class Principal extends javax.swing.JFrame {
     private static javax.swing.JButton jButton2;
     private static javax.swing.JButton jButton3;
     private static javax.swing.JMenu jMenu1;
+    private static javax.swing.JMenu jMenu2;
     private static javax.swing.JMenu jMenu3;
     private static javax.swing.JMenuBar jMenuBar1;
     private static javax.swing.JMenuItem jMenuItem1;
@@ -253,6 +287,8 @@ public class Principal extends javax.swing.JFrame {
     private static javax.swing.JMenuItem jMenuItem4;
     private static javax.swing.JMenuItem jMenuItem5;
     private static javax.swing.JMenuItem jMenuItem6;
+    private static javax.swing.JMenuItem jMenuItem7;
+    private static javax.swing.JMenuItem jMenuItem8;
     private static javax.swing.JToolBar jToolBar1;
     private static javax.swing.JPanel pnlPrincipal;
     private static javax.swing.JTabbedPane tabPrincipal;

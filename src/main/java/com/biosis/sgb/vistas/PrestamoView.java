@@ -112,7 +112,6 @@ public class PrestamoView extends javax.swing.JPanel {
         btnVer = new javax.swing.JButton();
         btnNuevo = new javax.swing.JButton();
         btnModificar = new javax.swing.JButton();
-        btnReporte = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         pnlListado = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -362,16 +361,6 @@ public class PrestamoView extends javax.swing.JPanel {
         });
         pnlAcciones.add(btnModificar);
 
-        btnReporte.setFont(ESTILO7       );
-        btnReporte.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Print/Print_24x24.png"))); // NOI18N
-        btnReporte.setText("Generar reporte");
-        btnReporte.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnReporteActionPerformed(evt);
-            }
-        });
-        pnlAcciones.add(btnReporte);
-
         btnEliminar.setFont(ESTILO7       );
         btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Delete/Delete_24x24.png"))); // NOI18N
         btnEliminar.setText("Eliminar");
@@ -573,22 +562,6 @@ public class PrestamoView extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnLibroActionPerformed
 
-    private void btnReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReporteActionPerformed
-        // TODO add your handling code here:
-        List<Prestamo> reporteList = prestamoControlador.consultaMultiple(
-                radPersona.isSelected() ? personaSeleccionada : null,
-                radLibro.isSelected() ? libroSeleccionado : null,
-                chkPendienteDevolucion.isSelected(),
-                chkEntreFechas.isSelected() ? dcFechaInicio.getDate() : null,
-                chkEntreFechas.isSelected() ? dcFechaFin.getDate() : null);
-        Map<String, Object> param = new HashMap();
-        param.put("reporte_logo", IMG_LOGO_REPORTE.getAbsolutePath());
-        param.put("reporte_ruc", REPORTE_RUC);
-        param.put("reporte_institucion", REPORTE_INSTITUCION);
-        Component reporteComponente = reporteUtil.obtenerReporte(reporteList, REPORTE_PRESTAMO, param);
-        Principal.agregarPestaña("Reporte de ejemplares", reporteComponente);
-    }//GEN-LAST:event_btnReporteActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnterior;
@@ -599,7 +572,6 @@ public class PrestamoView extends javax.swing.JPanel {
     private javax.swing.JButton btnNuevo;
     private javax.swing.JButton btnPersona;
     private javax.swing.JButton btnPrimero2;
-    private javax.swing.JButton btnReporte;
     private javax.swing.JButton btnSiguiente;
     private javax.swing.JButton btnUltimo;
     private javax.swing.JButton btnVer;
