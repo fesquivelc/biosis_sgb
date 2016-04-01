@@ -33,7 +33,7 @@ public class Principal extends javax.swing.JFrame {
 
         try {
             borde = new ImagenFondo(ImageIO.read(IMG_FONDO_APP));
-//            pnlBienvenida.setBorder(borde);
+            pnlBienvenida.setBorder(borde);
 //            pnlPrincipal.setBorder(borde);
         } catch (IOException ex) {
             LOG.error("Error al inicializar borde", ex);
@@ -53,6 +53,7 @@ public class Principal extends javax.swing.JFrame {
 
         pnlPrincipal = new javax.swing.JPanel();
         tabPrincipal = new javax.swing.JTabbedPane();
+        pnlBienvenida = new javax.swing.JPanel();
         jToolBar1 = new javax.swing.JToolBar();
         jButton1 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
@@ -80,6 +81,8 @@ public class Principal extends javax.swing.JFrame {
         pnlPrincipal.setLayout(new java.awt.BorderLayout());
 
         tabPrincipal.setFont(ESTILO1);
+        tabPrincipal.addTab("", pnlBienvenida);
+
         pnlPrincipal.add(tabPrincipal, java.awt.BorderLayout.CENTER);
 
         jToolBar1.setFloatable(false);
@@ -348,6 +351,7 @@ public class Principal extends javax.swing.JFrame {
     private static javax.swing.JMenuItem mnuRegistroLibro;
     private static javax.swing.JMenuItem mnuRegistroMateria;
     private static javax.swing.JMenuItem mnuRegistroTema;
+    private static javax.swing.JPanel pnlBienvenida;
     private static javax.swing.JPanel pnlPrincipal;
     private static javax.swing.JTabbedPane tabPrincipal;
     // End of variables declaration//GEN-END:variables
