@@ -149,6 +149,7 @@ public class ConsultaView extends javax.swing.JPanel {
 
         pnlBusqueda.setBackground(new java.awt.Color(255, 255, 255));
         pnlBusqueda.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Parámetros de búsqueda", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, ESTILO1));
+        pnlBusqueda.setOpaque(false);
         java.awt.GridBagLayout pnlBusquedaLayout = new java.awt.GridBagLayout();
         pnlBusquedaLayout.columnWidths = new int[] {0, 3, 0, 3, 0};
         pnlBusquedaLayout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
@@ -163,6 +164,7 @@ public class ConsultaView extends javax.swing.JPanel {
         pnlBusqueda.add(txtTitulo, gridBagConstraints);
 
         jPanel2.setBackground(new java.awt.Color(255, 255, 255));
+        jPanel2.setOpaque(false);
         jPanel2.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 0, 5));
 
         btnBuscar.setFont(ESTILO1);
@@ -387,6 +389,7 @@ public class ConsultaView extends javax.swing.JPanel {
         pnlBusqueda.add(jPanel6, gridBagConstraints);
 
         jLabel2.setFont(ESTILO1);
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
         jLabel2.setText("Título / ISBN:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
@@ -466,7 +469,10 @@ public class ConsultaView extends javax.swing.JPanel {
 
         pnlListado.setBackground(new java.awt.Color(255, 255, 255));
         pnlListado.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Listado", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, ESTILO1        ));
+        pnlListado.setOpaque(false);
         pnlListado.setLayout(new java.awt.BorderLayout());
+
+        jScrollPane1.setOpaque(false);
 
         tblLibroList.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -481,12 +487,14 @@ public class ConsultaView extends javax.swing.JPanel {
         ));
         tblLibroList.setFont(ESTILO2);
         tblLibroList.setHorizontalScrollEnabled(true);
+        tblLibroList.setOpaque(false);
         tblLibroList.setRowHeight(20);
         jScrollPane1.setViewportView(tblLibroList);
 
         pnlListado.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
         pnlNavegacion2.setBackground(new java.awt.Color(255, 255, 255));
+        pnlNavegacion2.setOpaque(false);
         java.awt.GridBagLayout pnlNavegacion2Layout = new java.awt.GridBagLayout();
         pnlNavegacion2Layout.columnWidths = new int[] {0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0};
         pnlNavegacion2Layout.rowHeights = new int[] {0};

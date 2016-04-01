@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.1.1.final using JasperReports Library version 6.1.1  -->
-<!-- 2016-04-01T10:15:42 -->
+<!-- 2016-03-31T18:34:18 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="registro_asistencia" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="bfb4885b-e2e3-4138-82de-014ad849633f">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<import value="net.sf.jasperreports.functions.standard.LogicalFunctions"/>
 	<import value="net.sf.jasperreports.functions.standard.TextFunctions"/>
-	<import value="net.sf.jasperreports.functions.standard.DateTimeFunctions"/>
 	<import value="net.sf.jasperreports.functions.standard.MathFunctions"/>
+	<import value="net.sf.jasperreports.functions.standard.DateTimeFunctions"/>
 	<style name="Table_TH" mode="Opaque" backcolor="#F0F8FF">
 		<box>
 			<pen lineWidth="0.5" lineColor="#000000"/>
@@ -516,7 +516,7 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{libro.isbn13}]]></textFieldExpression>
 			</textField>
-			<textField pattern="" isBlankWhenNull="true">
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
 				<reportElement x="495" y="0" width="60" height="11" forecolor="#1D1D1D" uuid="9018956a-30a2-431d-aba1-08b02ff1d2b5">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>

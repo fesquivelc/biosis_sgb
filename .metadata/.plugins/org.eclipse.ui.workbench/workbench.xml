@@ -20,6 +20,7 @@
 <coolItem id="group.nav" itemType="typeGroupMarker"/>
 <coolItem id="org.eclipse.ui.workbench.navigate" itemType="typeToolBarContribution" x="206" y="34"/>
 <coolItem id="group.editor" itemType="typeGroupMarker"/>
+<coolItem id="com.jaspersoft.studio.editor.JrxmlEditor.jasper" itemType="typeToolBarContribution" x="61" y="34"/>
 <coolItem id="com.jaspersoft.studio.editor.JrxmlEditor" itemType="typeToolBarContribution" x="61" y="34"/>
 <coolItem id="com.jaspersoft.studio.graphic.text" itemType="typeToolBarContribution" x="630" y="34"/>
 <coolItem id="com.jaspersoft.studio.graphic.size" itemType="typeToolBarContribution" x="84" y="34"/>
@@ -34,12 +35,20 @@
 <folder appearance="1" expanded="2">
 <presentation id="org.eclipse.ui.presentations.WorkbenchPresentationFactory">
 <part id="0"/>
+<part id="1"/>
+<part id="2"/>
 </presentation>
 </folder>
 </info>
 </editorArea>
-<editor activePart="true" focus="true" id="com.jaspersoft.studio.editor.JrxmlEditor" name="reporte_prestamo.jrxml" partName="reporte_prestamo.jrxml" path="H:/PROYECTOS/SISTEMA DE BIBLIOTECA/SistemaGestionBiblioteca/MyReports/reporte_prestamo.jrxml" title="reporte_prestamo.jrxml" tooltip="MyReports/reporte_prestamo.jrxml" workbook="DefaultEditorWorkbook">
+<editor id="com.jaspersoft.studio.editor.JrxmlEditor" name="reporte_prestamo.jrxml" partName="reporte_prestamo.jrxml" path="H:/PROYECTOS/SISTEMA DE BIBLIOTECA/SistemaGestionBiblioteca/MyReports/reporte_prestamo.jrxml" title="reporte_prestamo.jrxml" tooltip="MyReports/reporte_prestamo.jrxml" workbook="DefaultEditorWorkbook">
 <input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/MyReports/reporte_prestamo.jrxml"/>
+</editor>
+<editor id="com.jaspersoft.studio.editor.JrxmlEditor.jasper" name="reporte_ejemplar.jasper" partName="reporte_ejemplar.jasper" path="H:/PROYECTOS/SISTEMA DE BIBLIOTECA/SistemaGestionBiblioteca/MyReports/reporte_ejemplar.jasper" title="reporte_ejemplar.jasper" tooltip="MyReports/reporte_ejemplar.jasper" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/MyReports/reporte_ejemplar.jasper"/>
+</editor>
+<editor activePart="true" focus="true" id="com.jaspersoft.studio.editor.JrxmlEditor" name="reporte_libro_uso.jrxml" partName="reporte_libro_uso.jrxml" path="H:/PROYECTOS/SISTEMA DE BIBLIOTECA/SistemaGestionBiblioteca/MyReports/reporte_libro_uso.jrxml" title="reporte_libro_uso.jrxml" tooltip="MyReports/reporte_libro_uso.jrxml" workbook="DefaultEditorWorkbook">
+<input factoryID="org.eclipse.ui.part.FileEditorInputFactory" path="/MyReports/reporte_libro_uso.jrxml"/>
 </editor>
 </editors>
 <views>
@@ -72,7 +81,7 @@
 <viewState/>
 </view>
 </views>
-<perspectives activePart="com.jaspersoft.studio.editor.JrxmlEditor" activePerspective="com.jaspersoft.studio.ReportDesignPerspective">
+<perspectives activePart="com.jaspersoft.studio.editor.preview.reportstate" activePerspective="com.jaspersoft.studio.ReportDesignPerspective">
 <perspective editorAreaTrimState="2" editorAreaVisible="1" fixed="0" version="0.016">
 <descriptor class="com.jaspersoft.studio.ReportDesignPerspective" id="com.jaspersoft.studio.ReportDesignPerspective" label="Report Design"/>
 <alwaysOnActionSet id="org.eclipse.ui.cheatsheets.actionSet"/>
@@ -168,6 +177,9 @@
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="com.jaspersoft.studio.editor.JrxmlEditor" path="/MyReports/reporte_libro.jrxml"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="" path="/MyReports/reporte_ejemplar.jrxml"/>
 <editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="com.jaspersoft.studio.editor.JrxmlEditor" path="/MyReports/reporte_prestamo.jrxml"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="com.jaspersoft.studio.editor.JrxmlEditor.jasper" path="/MyReports/reporte_ejemplar.jasper"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="com.jaspersoft.studio.editor.JrxmlEditor" path="/MyReports/reporte_libro_uso.jrxml"/>
+<editor factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="" path="/MyReports/reporte_libro_uso.jrxml"/>
 </editors>
 <item historyLabel="reporte_material_bibliografico.jrxml" index="0"/>
 <item historyLabel="reporte_material_bibliografico.jrxml" index="0"/>
@@ -195,7 +207,14 @@
 <item historyLabel="reporte_ejemplar.jrxml" index="7">
 <position info="not_deleted" x="0" y="0"/>
 </item>
-<item active="true" historyLabel="reporte_prestamo.jrxml" index="8"/>
+<item historyLabel="reporte_prestamo.jrxml" index="8"/>
+<item historyLabel="reporte_ejemplar.jasper" index="9"/>
+<item historyLabel="reporte_libro_uso.jrxml" index="10">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item active="true" historyLabel="reporte_libro_uso.jrxml" index="11">
+<position info="not_deleted" x="0" y="0"/>
+</item>
 </navigationHistory>
 <input factoryID="org.eclipse.ui.internal.model.ResourceFactory" path="/" type="8"/>
 </page>
@@ -213,6 +232,12 @@
 </trimLayout>
 </window>
 <mruList>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="com.jaspersoft.studio.editor.JrxmlEditor" name="reporte_libro_uso.jrxml" tooltip="MyReports/reporte_libro_uso.jrxml">
+<persistable path="/MyReports/reporte_libro_uso.jrxml"/>
+</file>
+<file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="com.jaspersoft.studio.editor.JrxmlEditor.jasper" name="reporte_ejemplar.jasper" tooltip="MyReports/reporte_ejemplar.jasper">
+<persistable path="/MyReports/reporte_ejemplar.jasper"/>
+</file>
 <file factoryID="org.eclipse.ui.part.FileEditorInputFactory" id="com.jaspersoft.studio.editor.JrxmlEditor" name="reporte_prestamo.jrxml" tooltip="MyReports/reporte_prestamo.jrxml">
 <persistable path="/MyReports/reporte_prestamo.jrxml"/>
 </file>

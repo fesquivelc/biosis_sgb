@@ -7,8 +7,14 @@ package com.biosis.sgb.vistas;
 
 import static com.biosis.sgb.Application.ESTILO1;
 import static com.biosis.sgb.Application.ESTILO4;
+import static com.biosis.sgb.Application.IMG_FONDO_APP;
 import com.biosis.sgb.util.ButtonTabComponent;
+import com.personal.utiles.ImagenFondo;
 import java.awt.Component;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+import javax.swing.JPanel;
+import org.apache.log4j.Logger;
 
 /**
  *
@@ -19,9 +25,19 @@ public class Principal extends javax.swing.JFrame {
     /**
      * Creates new form Principal
      */
+    private static final Logger LOG = Logger.getLogger(Principal.class.getName());
+    public static ImagenFondo borde;
     public Principal() {
         initComponents();
 //        iniciarTab(0);
+
+        try {
+            borde = new ImagenFondo(ImageIO.read(IMG_FONDO_APP));
+//            pnlBienvenida.setBorder(borde);
+//            pnlPrincipal.setBorder(borde);
+        } catch (IOException ex) {
+            LOG.error("Error al inicializar borde", ex);
+        }
 
     }
 
@@ -33,6 +49,7 @@ public class Principal extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
+        java.awt.GridBagConstraints gridBagConstraints;
 
         pnlPrincipal = new javax.swing.JPanel();
         tabPrincipal = new javax.swing.JTabbedPane();
@@ -52,6 +69,13 @@ public class Principal extends javax.swing.JFrame {
         jMenuItem7 = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem8 = new javax.swing.JMenuItem();
+        jMenu4 = new javax.swing.JMenu();
+        jMenuItem9 = new javax.swing.JMenuItem();
+        jMenuItem10 = new javax.swing.JMenuItem();
+        jMenuItem11 = new javax.swing.JMenuItem();
+        jMenu5 = new javax.swing.JMenu();
+        jMenuItem12 = new javax.swing.JMenuItem();
+        jMenu6 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -183,6 +207,39 @@ public class Principal extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu2);
 
+        jMenu4.setText("Biblioteca");
+
+        jMenuItem9.setText("Registro de libros");
+        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem9ActionPerformed(evt);
+            }
+        });
+        jMenu4.add(jMenuItem9);
+
+        jMenuItem10.setText("Registro de ejemplares");
+        jMenu4.add(jMenuItem10);
+
+        jMenuItem11.setText("Consultas");
+        jMenu4.add(jMenuItem11);
+
+        jMenuBar1.add(jMenu4);
+
+        jMenu5.setText("Parámetros");
+
+        jMenuItem12.setText("Registro de autores");
+        jMenuItem12.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem12ActionPerformed(evt);
+            }
+        });
+        jMenu5.add(jMenuItem12);
+
+        jMenu6.setText("Registro de editoriales");
+        jMenu5.add(jMenu6);
+
+        jMenuBar1.add(jMenu5);
+
         setJMenuBar(jMenuBar1);
 
         pack();
@@ -238,6 +295,14 @@ public class Principal extends javax.swing.JFrame {
         agregarPestaña("Reporte de ejemplares", ReporteEjemplarView.getInstance());
     }//GEN-LAST:event_jMenuItem8ActionPerformed
 
+    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem9ActionPerformed
+
+    private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jMenuItem12ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -280,8 +345,14 @@ public class Principal extends javax.swing.JFrame {
     private static javax.swing.JMenu jMenu1;
     private static javax.swing.JMenu jMenu2;
     private static javax.swing.JMenu jMenu3;
+    private static javax.swing.JMenu jMenu4;
+    private static javax.swing.JMenu jMenu5;
+    private static javax.swing.JMenu jMenu6;
     private static javax.swing.JMenuBar jMenuBar1;
     private static javax.swing.JMenuItem jMenuItem1;
+    private static javax.swing.JMenuItem jMenuItem10;
+    private static javax.swing.JMenuItem jMenuItem11;
+    private static javax.swing.JMenuItem jMenuItem12;
     private static javax.swing.JMenuItem jMenuItem2;
     private static javax.swing.JMenuItem jMenuItem3;
     private static javax.swing.JMenuItem jMenuItem4;
@@ -289,6 +360,7 @@ public class Principal extends javax.swing.JFrame {
     private static javax.swing.JMenuItem jMenuItem6;
     private static javax.swing.JMenuItem jMenuItem7;
     private static javax.swing.JMenuItem jMenuItem8;
+    private static javax.swing.JMenuItem jMenuItem9;
     private static javax.swing.JToolBar jToolBar1;
     private static javax.swing.JPanel pnlPrincipal;
     private static javax.swing.JTabbedPane tabPrincipal;
@@ -310,10 +382,12 @@ public class Principal extends javax.swing.JFrame {
         if (index >= 0) {
             tabPrincipal.setSelectedIndex(index);
         } else {
+//            ((JPanel)ventana).setBorder(borde);
             ButtonTabComponent tab = new ButtonTabComponent(tabPrincipal);
             tabPrincipal.add(titulo, ventana);
             tabPrincipal.setTabComponentAt(tabPrincipal.getTabCount() - 1, tab);
             tabPrincipal.setSelectedIndex(tabPrincipal.getTabCount() - 1);
+            
         }
     }
 }

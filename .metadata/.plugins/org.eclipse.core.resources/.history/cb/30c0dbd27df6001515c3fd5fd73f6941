@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- Created with Jaspersoft Studio version 6.1.1.final using JasperReports Library version 6.1.1  -->
-<!-- 2016-04-01T10:15:42 -->
+<!-- 2016-03-26T07:43:14 -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="registro_asistencia" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="bfb4885b-e2e3-4138-82de-014ad849633f">
 	<property name="com.jaspersoft.studio.data.defaultdataadapter" value="One Empty Record"/>
 	<import value="net.sf.jasperreports.functions.standard.LogicalFunctions"/>
 	<import value="net.sf.jasperreports.functions.standard.TextFunctions"/>
-	<import value="net.sf.jasperreports.functions.standard.DateTimeFunctions"/>
 	<import value="net.sf.jasperreports.functions.standard.MathFunctions"/>
+	<import value="net.sf.jasperreports.functions.standard.DateTimeFunctions"/>
 	<style name="Table_TH" mode="Opaque" backcolor="#F0F8FF">
 		<box>
 			<pen lineWidth="0.5" lineColor="#000000"/>
@@ -60,9 +60,10 @@
 	<field name="libro.seccion.materia.nombre" class="java.lang.String"/>
 	<field name="libro.seccion.nombre" class="java.lang.String"/>
 	<field name="libro.seccion.materia.descripcion" class="java.lang.String"/>
+	<field name="codigo" class="java.lang.String"/>
+	<field name="prestamo.fechaDevolucion" class="java.util.Date"/>
+	<field name="fechaEntrada" class="java.util.Date"/>
 	<field name="libro.id" class="java.lang.Long"/>
-	<field name="conteo" class="java.lang.Integer"/>
-	<field name="libro.isbn10" class="java.lang.String"/>
 	<group name="grupoMateria" isStartNewPage="true" isReprintHeaderOnEachPage="true">
 		<groupExpression><![CDATA[$F{libro.seccion.materia.nombre}]]></groupExpression>
 		<groupHeader>
@@ -250,7 +251,23 @@
 					<text><![CDATA[Autor(es)]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="429" y="17" width="66" height="11" forecolor="#1D1D1D" uuid="87c9ceab-9ca1-44e0-ac9e-a2c3d14b3480">
+					<reportElement x="366" y="17" width="47" height="11" forecolor="#1D1D1D" uuid="413a7b01-bbee-462d-a7be-131be4d555bf">
+						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					</reportElement>
+					<box leftPadding="1">
+						<topPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						<leftPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+						<rightPen lineWidth="0.5" lineStyle="Solid" lineColor="#000000"/>
+					</box>
+					<textElement textAlignment="Center" verticalAlignment="Middle">
+						<font size="8" isBold="true"/>
+					</textElement>
+					<text><![CDATA[Código]]></text>
+				</staticText>
+				<staticText>
+					<reportElement x="413" y="17" width="66" height="11" forecolor="#1D1D1D" uuid="87c9ceab-9ca1-44e0-ac9e-a2c3d14b3480">
 						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					</reportElement>
@@ -266,7 +283,7 @@
 					<text><![CDATA[ISBN 13]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="495" y="17" width="60" height="11" forecolor="#1D1D1D" uuid="541eda41-f3cf-40f4-90bf-abc8a15f773d">
+					<reportElement x="517" y="17" width="38" height="11" forecolor="#1D1D1D" uuid="c237e9ba-eb7c-44a7-acd0-d879c323120a">
 						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					</reportElement>
@@ -279,10 +296,10 @@
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="8" isBold="true"/>
 					</textElement>
-					<text><![CDATA[# préstamos]]></text>
+					<text><![CDATA[F. disp.]]></text>
 				</staticText>
 				<staticText>
-					<reportElement x="366" y="17" width="63" height="11" forecolor="#1D1D1D" uuid="c03467aa-b605-448e-91ee-1befadbd3e1c">
+					<reportElement x="479" y="17" width="38" height="11" forecolor="#1D1D1D" uuid="541eda41-f3cf-40f4-90bf-abc8a15f773d">
 						<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 						<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					</reportElement>
@@ -295,7 +312,7 @@
 					<textElement textAlignment="Center" verticalAlignment="Middle">
 						<font size="8" isBold="true"/>
 					</textElement>
-					<text><![CDATA[ISBN 10]]></text>
+					<text><![CDATA[F. de ing.]]></text>
 				</staticText>
 			</band>
 		</groupHeader>
@@ -352,7 +369,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font size="14" isBold="true"/>
 				</textElement>
-				<text><![CDATA[Reporte de libros mas utilizados en relación a número de préstamos]]></text>
+				<text><![CDATA[Reporte listado de ejemplares en biblioteca]]></text>
 			</staticText>
 			<staticText>
 				<reportElement x="0" y="90" width="80" height="22" forecolor="#1D1D1D" uuid="b4b58291-18af-40a8-92ad-372208e90011"/>
@@ -501,7 +518,23 @@
 				<textFieldExpression><![CDATA[$F{libro.autoresNombre}]]></textFieldExpression>
 			</textField>
 			<textField pattern="" isBlankWhenNull="true">
-				<reportElement x="429" y="0" width="66" height="11" forecolor="#1D1D1D" uuid="6480cf51-f788-4ef2-a880-5bc0e472d35b">
+				<reportElement x="366" y="0" width="47" height="11" forecolor="#1D1D1D" uuid="fa9ffc50-c760-4c84-ade2-dfcb8c7f0e70">
+					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
+					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
+				</reportElement>
+				<box topPadding="0" leftPadding="1" bottomPadding="0" rightPadding="0">
+					<topPen lineWidth="0.0" lineStyle="Solid" lineColor="rgba(29, 29, 29, 0.33333334)"/>
+					<leftPen lineWidth="0.0" lineStyle="Solid" lineColor="rgba(29, 29, 29, 0.33333334)"/>
+					<bottomPen lineWidth="0.5" lineStyle="Solid" lineColor="rgba(29, 29, 29, 0.33333334)"/>
+					<rightPen lineWidth="0.0" lineStyle="Solid" lineColor="rgba(29, 29, 29, 0.33333334)"/>
+				</box>
+				<textElement textAlignment="Center" verticalAlignment="Middle">
+					<font fontName="SansSerif" size="7" isBold="false"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{codigo}]]></textFieldExpression>
+			</textField>
+			<textField pattern="" isBlankWhenNull="true">
+				<reportElement x="413" y="0" width="66" height="11" forecolor="#1D1D1D" uuid="6480cf51-f788-4ef2-a880-5bc0e472d35b">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
@@ -516,8 +549,8 @@
 				</textElement>
 				<textFieldExpression><![CDATA[$F{libro.isbn13}]]></textFieldExpression>
 			</textField>
-			<textField pattern="" isBlankWhenNull="true">
-				<reportElement x="495" y="0" width="60" height="11" forecolor="#1D1D1D" uuid="9018956a-30a2-431d-aba1-08b02ff1d2b5">
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="517" y="0" width="38" height="11" forecolor="#1D1D1D" uuid="da4dfe9d-c746-4c0f-9d69-d4e9c5cf8357">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
@@ -530,10 +563,10 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="7" isBold="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{conteo}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{prestamo.fechaDevolucion}]]></textFieldExpression>
 			</textField>
-			<textField pattern="" isBlankWhenNull="true">
-				<reportElement x="366" y="0" width="63" height="11" forecolor="#1D1D1D" uuid="a6e4fd03-9f97-4f88-a4e0-810ac32e7c51">
+			<textField pattern="dd/MM/yyyy" isBlankWhenNull="true">
+				<reportElement x="479" y="0" width="38" height="11" forecolor="#1D1D1D" uuid="9018956a-30a2-431d-aba1-08b02ff1d2b5">
 					<property name="com.jaspersoft.studio.unit.width" value="pixel"/>
 					<property name="com.jaspersoft.studio.unit.height" value="pixel"/>
 				</reportElement>
@@ -546,7 +579,7 @@
 				<textElement textAlignment="Center" verticalAlignment="Middle">
 					<font fontName="SansSerif" size="7" isBold="false"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{libro.isbn10}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{fechaEntrada}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

@@ -8,27 +8,23 @@ package com.biosis.sgb.vistas;
 import static com.biosis.sgb.Application.ESTILO1;
 import static com.biosis.sgb.Application.ESTILO2;
 import static com.biosis.sgb.Application.ESTILO5;
-import static com.biosis.sgb.Application.ESTILO7;
 import static com.biosis.sgb.Application.IMG_LOGO_REPORTE;
 import static com.biosis.sgb.Application.REPORTE_EJEMPLAR;
 import static com.biosis.sgb.Application.REPORTE_INSTITUCION;
+import static com.biosis.sgb.Application.REPORTE_LIBRO_USO;
 import static com.biosis.sgb.Application.REPORTE_RUC;
-import static com.biosis.sgb.controlador.Controlador.MODIFICAR;
-import static com.biosis.sgb.controlador.Controlador.NUEVO;
 import com.biosis.sgb.controlador.EjemplarControlador;
 import com.biosis.sgb.controlador.PrestamoControlador;
 import com.biosis.sgb.controlador.reportes.LibroPrestamoControlador;
 import com.biosis.sgb.entidades.Autor;
 import com.biosis.sgb.entidades.Editorial;
 import com.biosis.sgb.entidades.Ejemplar;
-import com.biosis.sgb.entidades.LibroAutor;
 import com.biosis.sgb.entidades.Seccion;
 import com.biosis.sgb.entidades.Tema;
+import com.biosis.sgb.entidades.reporte.LibroPrestamo;
 import com.biosis.sgb.util.ButtonTabComponent;
 import com.biosis.sgb.vistas.dialogos.AutorSelect;
 import com.biosis.sgb.vistas.dialogos.EditorialSelect;
-import com.biosis.sgb.vistas.dialogos.EjemplarCRUD;
-import com.biosis.sgb.vistas.dialogos.PrestamoCRUD;
 import com.biosis.sgb.vistas.dialogos.SeccionSelect;
 import com.biosis.sgb.vistas.dialogos.TemaSelect;
 import com.personal.utiles.FormularioUtil;
@@ -38,17 +34,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import javax.swing.JOptionPane;
-import javax.swing.JTable;
-import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingWorker;
-import javax.swing.table.DefaultTableCellRenderer;
-import org.jdesktop.beansbinding.AutoBinding;
-import org.jdesktop.beansbinding.BeanProperty;
-import org.jdesktop.beansbinding.BindingGroup;
 import org.jdesktop.observablecollections.ObservableCollections;
-import org.jdesktop.swingbinding.JTableBinding;
-import org.jdesktop.swingbinding.SwingBindings;
 
 /**
  *
@@ -605,7 +592,21 @@ public class ReporteEjemplarView extends javax.swing.JPanel {
 
         //AQUI LO PASAMOS A UN SWING WORKER
         if (chkMasUtilizados.isSelected()) {
+            List<LibroPrestamo> reporteList = libroPrestamoControlador.consultaMultiple(
+                    chkAutor.isSelected() ? autorSeleccionado : null,
+                    chkEditorial.isSelected() ? editorialSeleccionada : null,
+                    chkSeccion.isSelected() ? seccionSeleccionada : null,
+                    chkTema.isSelected() ? temaSeleccionado : null,
+                    txtTitulo.getText().trim().toUpperCase(),
+                    chkSoloDisponibles.isSelected(),obtenerMaximo());
+            
+            Map<String, Object> param = new HashMap();
+            param.put("reporte_logo", IMG_LOGO_REPORTE.getAbsolutePath());
+            param.put("reporte_ruc", REPORTE_RUC);
+            param.put("reporte_institucion", REPORTE_INSTITUCION);
+            Component reporteComponente = reporteUtil.obtenerReporte(reporteList, REPORTE_LIBRO_USO, param);
 
+            agregarPestaña("Vista previa " + tabVistaPrevia.getTabCount() + 1, reporteComponente);
         } else {
             List<Ejemplar> reporteList = ejemplarControlador.consultaMultiple(
                     chkAutor.isSelected() ? autorSeleccionado : null,
@@ -620,12 +621,31 @@ public class ReporteEjemplarView extends javax.swing.JPanel {
             param.put("reporte_institucion", REPORTE_INSTITUCION);
             Component reporteComponente = reporteUtil.obtenerReporte(reporteList, REPORTE_EJEMPLAR, param);
 
-            agregarPestaña("Vista previa " + tabVistaPrevia.getTabCount() + 1, reporteComponente);
+            agregarPestaña("Vista previa " + (tabVistaPrevia.getTabCount() + 1), reporteComponente);
         }
 //        ejemplarList.clear();
 
 //        ejemplarList.addAll(this.listar(paginaActual, tamanioPagina));
 //        tblEjemplarList.packAll();
+    }
+    
+    private int obtenerMaximo(){
+        if(rad10.isSelected()){
+            return 10;
+        }
+        if(rad20.isSelected()){
+            return 20;
+        }
+        if(rad30.isSelected()){
+            return 30;
+        }
+        if(rad40.isSelected()){
+            return 40;
+        }
+        if(rad50.isSelected()){
+            return 50;
+        }
+        return -1;
     }
 
     private void controles(boolean busqueda) {

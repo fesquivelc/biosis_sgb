@@ -2034,3 +2034,8 @@ Caused by: org.postgresql.util.PSQLException: ERROR: no existe la columna librop
 	at org.postgresql.jdbc.PgPreparedStatement.executeQuery(PgPreparedStatement.java:114)
 	at org.hibernate.engine.jdbc.internal.ResultSetReturnImpl.extract(ResultSetReturnImpl.java:82)
 	... 58 more
+31-03-2016 19:16:07.496	ERROR	[main]	CLASE: Principal	 METODO: <init>	LINEA:37	MSJE:Error al inicializar borde
+javax.imageio.IIOException: Can't read input file!
+	at javax.imageio.ImageIO.read(ImageIO.java:1301)
+	at com.biosis.sgb.vistas.Principal.<init>(Principal.java:34)
+	at com.biosis.sgb.Application.main(Application.java:69)

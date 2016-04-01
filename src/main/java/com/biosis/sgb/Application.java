@@ -23,6 +23,7 @@ public class Application {
     public static String REPORTE_RUC;
     
     public static File IMG_LOGO_REPORTE;
+    public static File IMG_FONDO_APP;
     public static File REPORTE_LIBRO;
     public static File REPORTE_EJEMPLAR;
     public static File REPORTE_PRESTAMO;
@@ -44,6 +45,7 @@ public class Application {
         REPORTE_PRESTAMO = new File(props_recursos.getProperty("reporte_prestamo"));
         REPORTE_LIBRO_USO = new File(props_recursos.getProperty("reporte_libro_uso"));
         IMG_LOGO_REPORTE = new File(props_recursos.getProperty("img_logo_reporte"));
+        IMG_FONDO_APP = new File(props_recursos.getProperty("img_fondo_app"));
         
         REPORTE_INSTITUCION = props_interfaz.getProperty("reporte_institucion");
         REPORTE_RUC = props_interfaz.getProperty("reporte_ruc");
