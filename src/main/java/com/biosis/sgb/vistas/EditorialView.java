@@ -17,6 +17,7 @@ import com.biosis.sgb.entidades.Autor;
 import com.biosis.sgb.entidades.Editorial;
 import com.biosis.sgb.vistas.dialogos.EditorialCRUD;
 import com.personal.utiles.FormularioUtil;
+import java.awt.Component;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.SpinnerNumberModel;
@@ -33,6 +34,13 @@ import org.jdesktop.swingbinding.SwingBindings;
  * @author Francis
  */
 public class EditorialView extends javax.swing.JPanel {
+    private static EditorialView instance;
+    static EditorialView getInstance() {
+        if(instance == null){
+            instance = new EditorialView();
+        }
+        return instance;
+    }
 
     private final EditorialControlador editorialControlador;
 //    private Autor autorSeleccionado;
@@ -46,7 +54,7 @@ public class EditorialView extends javax.swing.JPanel {
 
     private List<Editorial> editorialList;
 
-    public EditorialView() {
+    private EditorialView() {
         initComponents();
         initComponents2();
         this.editorialControlador = EditorialControlador.getInstance();

@@ -37,13 +37,22 @@ public class MateriaSeccionView extends javax.swing.JPanel {
 
     private List<Materia> materiaList;
 
-    public MateriaSeccionView() {
+    private static MateriaSeccionView instance;
+
+    static MateriaSeccionView getInstance() {
+        if (instance == null) {
+            instance = new MateriaSeccionView();
+        }
+        return instance;
+    }
+
+    private MateriaSeccionView() {
         this.materiaControlador = MateriaControlador.getInstance();
         this.seccionControlador = SeccionControlador.getInstance();
         this.renderMateriaSeccion = new TrRenderMateriaSeccion();
         initComponents();
         initComponents2();
-        
+
         Busqueda busqueda = new Busqueda();
         busqueda.execute();
     }

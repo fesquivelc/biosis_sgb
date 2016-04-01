@@ -35,7 +35,16 @@ public class TemaView extends javax.swing.JPanel {
 
     private List<Tema> temaList;
 
-    public TemaView() {
+    private static TemaView instance;
+    
+    static TemaView getInstance(){
+        if(instance == null){
+            instance = new TemaView();
+        }
+        return instance;
+    }
+    
+    private TemaView() {
         initComponents();
         initComponents2();
         this.temaControlador = TemaControlador.getInstance();

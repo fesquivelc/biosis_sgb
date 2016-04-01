@@ -69,7 +69,16 @@ public class ConsultaView extends javax.swing.JPanel {
 
     private List<Libro> libroList;
 
-    public ConsultaView() {
+    private static ConsultaView instance;
+
+    static ConsultaView getInstance() {
+        if (instance == null) {
+            instance = new ConsultaView();
+        }
+        return instance;
+    }
+
+    private ConsultaView() {
         reporteUtil = new ReporteUtil();
         initComponents();
         initComponents2();
@@ -646,7 +655,7 @@ public class ConsultaView extends javax.swing.JPanel {
         Libro libro = obtenerLibroSeleccionado();
         if (libro != null) {
             List<LibroPrestamo> ejemplarPrestamoList = LibroPrestamoControlador.getInstance().buscarTodos();
-            ejemplarPrestamoList.stream().forEach((LibroPrestamo ep) -> System.out.println(String.format("%s %s", ep.getLibro().getTitulo(),ep.getConteo())));
+            ejemplarPrestamoList.stream().forEach((LibroPrestamo ep) -> System.out.println(String.format("%s %s", ep.getLibro().getTitulo(), ep.getConteo())));
             EjemplarList ejemplarList = new EjemplarList(this, libro, true);
             ejemplarList.setVisible(true);
         }
@@ -739,7 +748,7 @@ public class ConsultaView extends javax.swing.JPanel {
                 chkTema.isSelected() ? temaSeleccionado : null,
                 txtTitulo.getText().trim().toUpperCase(),
                 chkSoloDisponibles.isSelected());
-        Map<String,Object> param = new HashMap();
+        Map<String, Object> param = new HashMap();
         param.put("reporte_logo", IMG_LOGO_REPORTE.getAbsolutePath());
         param.put("reporte_ruc", REPORTE_RUC);
         param.put("reporte_institucion", REPORTE_INSTITUCION);

@@ -44,8 +44,17 @@ public class AutorView extends javax.swing.JPanel {
     private int tamanioPagina = 0;
 
     private List<Autor> autorList;
+    
+    private static AutorView instance;
+    
+    public static AutorView getInstance(){
+        if(instance == null){
+            instance = new AutorView();
+        }
+        return instance;
+    }
 
-    public AutorView() {
+    private AutorView() {
         initComponents();
         initComponents2();
         this.autorControlador = AutorControlador.getInstance();

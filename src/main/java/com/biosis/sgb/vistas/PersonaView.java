@@ -17,6 +17,7 @@ import com.biosis.sgb.controlador.PersonaControlador;
 import com.biosis.sgb.entidades.Persona;
 import com.biosis.sgb.vistas.dialogos.PersonaCRUD;
 import com.personal.utiles.FormularioUtil;
+import java.awt.Component;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.SpinnerNumberModel;
@@ -33,6 +34,13 @@ import org.jdesktop.swingbinding.SwingBindings;
  * @author Francis
  */
 public class PersonaView extends javax.swing.JPanel {
+    private static PersonaView instance;
+    static PersonaView getInstance() {
+        if(instance == null){
+            instance = new PersonaView();
+        }
+        return instance;
+    }
 
     private final PersonaControlador personaControlador;
 //    private Autor autorSeleccionado;
@@ -46,7 +54,7 @@ public class PersonaView extends javax.swing.JPanel {
 
     private List<Persona> personaList;
 
-    public PersonaView() {
+    private PersonaView() {
         initComponents();
         initComponents2();
         this.personaControlador = PersonaControlador.getInstance();

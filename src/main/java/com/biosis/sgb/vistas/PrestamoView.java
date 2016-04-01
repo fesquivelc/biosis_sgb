@@ -50,6 +50,15 @@ import org.jdesktop.swingbinding.SwingBindings;
  */
 public class PrestamoView extends javax.swing.JPanel {
 
+    private static PrestamoView instance;
+
+    static PrestamoView getInstance() {
+        if (instance == null) {
+            instance = new PrestamoView();
+        }
+        return instance;
+    }
+
     private final PrestamoControlador prestamoControlador;
 //    private Autor autorSeleccionado;
 //    private Editorial editorialSeleccionada;
@@ -67,7 +76,7 @@ public class PrestamoView extends javax.swing.JPanel {
 
     private final ReporteUtil reporteUtil;
 
-    public PrestamoView() {
+    private PrestamoView() {
         this.reporteUtil = new ReporteUtil();
         initComponents();
         initComponents2();

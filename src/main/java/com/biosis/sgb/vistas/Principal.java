@@ -60,22 +60,20 @@ public class Principal extends javax.swing.JFrame {
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
-        jMenu3 = new javax.swing.JMenu();
-        jMenuItem1 = new javax.swing.JMenuItem();
-        jMenuItem2 = new javax.swing.JMenuItem();
-        jMenuItem3 = new javax.swing.JMenuItem();
-        jMenuItem4 = new javax.swing.JMenuItem();
-        jMenuItem5 = new javax.swing.JMenuItem();
-        jMenuItem7 = new javax.swing.JMenuItem();
+        jMenu4 = new javax.swing.JMenu();
+        mnuRegistroLibro = new javax.swing.JMenuItem();
+        mnuRegistroEjemplar = new javax.swing.JMenuItem();
+        mnuConsultas = new javax.swing.JMenuItem();
+        jMenu5 = new javax.swing.JMenu();
+        mnuRegistroAutor = new javax.swing.JMenuItem();
+        mnuRegistroEditorial = new javax.swing.JMenuItem();
+        mnuRegistroMateria = new javax.swing.JMenuItem();
+        mnuRegistroTema = new javax.swing.JMenuItem();
+        jMenu7 = new javax.swing.JMenu();
+        mnuPersona = new javax.swing.JMenuItem();
+        mnuPrestamo = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
         jMenuItem8 = new javax.swing.JMenuItem();
-        jMenu4 = new javax.swing.JMenu();
-        jMenuItem9 = new javax.swing.JMenuItem();
-        jMenuItem10 = new javax.swing.JMenuItem();
-        jMenuItem11 = new javax.swing.JMenuItem();
-        jMenu5 = new javax.swing.JMenu();
-        jMenuItem12 = new javax.swing.JMenuItem();
-        jMenu6 = new javax.swing.JMenu();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -138,64 +136,84 @@ public class Principal extends javax.swing.JFrame {
 
         jMenuItem6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Log Out/Log Out_16x16.png"))); // NOI18N
         jMenuItem6.setText("Salir");
+        jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItem6ActionPerformed(evt);
+            }
+        });
         jMenu1.add(jMenuItem6);
 
         jMenuBar1.add(jMenu1);
 
-        jMenu3.setText("Mantenimientos");
-        jMenu3.setFont(ESTILO4);
+        jMenu4.setText("Biblioteca");
+        jMenu4.setFont(ESTILO4);
 
-        jMenuItem1.setText("Información de autores");
-        jMenuItem1.addActionListener(new java.awt.event.ActionListener() {
+        mnuRegistroLibro.setText("Registro de libros");
+        mnuRegistroLibro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem1ActionPerformed(evt);
+                mnuRegistroLibroActionPerformed(evt);
             }
         });
-        jMenu3.add(jMenuItem1);
+        jMenu4.add(mnuRegistroLibro);
 
-        jMenuItem2.setText("Información de editoriales");
-        jMenuItem2.addActionListener(new java.awt.event.ActionListener() {
+        mnuRegistroEjemplar.setText("Registro de ejemplares");
+        jMenu4.add(mnuRegistroEjemplar);
+
+        mnuConsultas.setText("Consultas");
+        jMenu4.add(mnuConsultas);
+
+        jMenuBar1.add(jMenu4);
+
+        jMenu5.setText("Datos de material bibliográfico");
+        jMenu5.setFont(ESTILO4);
+
+        mnuRegistroAutor.setText("Registro de autores");
+        mnuRegistroAutor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem2ActionPerformed(evt);
+                mnuRegistroAutorActionPerformed(evt);
             }
         });
-        jMenu3.add(jMenuItem2);
+        jMenu5.add(mnuRegistroAutor);
 
-        jMenuItem3.setText("Información de materias y secciones");
-        jMenuItem3.addActionListener(new java.awt.event.ActionListener() {
+        mnuRegistroEditorial.setText("Registro de editoriales");
+        mnuRegistroEditorial.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem3ActionPerformed(evt);
+                mnuRegistroEditorialActionPerformed(evt);
             }
         });
-        jMenu3.add(jMenuItem3);
+        jMenu5.add(mnuRegistroEditorial);
 
-        jMenuItem4.setText("Información de temas");
-        jMenuItem4.addActionListener(new java.awt.event.ActionListener() {
+        mnuRegistroMateria.setText("Registro de materias y secciones");
+        jMenu5.add(mnuRegistroMateria);
+
+        mnuRegistroTema.setText("Registro de temas y subtemas");
+        jMenu5.add(mnuRegistroTema);
+
+        jMenuBar1.add(jMenu5);
+
+        jMenu7.setText("Préstamos");
+        jMenu7.setFont(ESTILO4);
+
+        mnuPersona.setText("Información y registro de personas");
+        mnuPersona.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem4ActionPerformed(evt);
+                mnuPersonaActionPerformed(evt);
             }
         });
-        jMenu3.add(jMenuItem4);
+        jMenu7.add(mnuPersona);
 
-        jMenuItem5.setText("Información de tipo de libros");
-        jMenuItem5.addActionListener(new java.awt.event.ActionListener() {
+        mnuPrestamo.setText("Préstamos y devoluciones");
+        mnuPrestamo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem5ActionPerformed(evt);
+                mnuPrestamoActionPerformed(evt);
             }
         });
-        jMenu3.add(jMenuItem5);
+        jMenu7.add(mnuPrestamo);
 
-        jMenuItem7.setText("Información de personas");
-        jMenuItem7.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem7ActionPerformed(evt);
-            }
-        });
-        jMenu3.add(jMenuItem7);
-
-        jMenuBar1.add(jMenu3);
+        jMenuBar1.add(jMenu7);
 
         jMenu2.setText("Reportes");
+        jMenu2.setFont(ESTILO4);
 
         jMenuItem8.setText("Reporte de ejemplares");
         jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
@@ -207,39 +225,6 @@ public class Principal extends javax.swing.JFrame {
 
         jMenuBar1.add(jMenu2);
 
-        jMenu4.setText("Biblioteca");
-
-        jMenuItem9.setText("Registro de libros");
-        jMenuItem9.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem9ActionPerformed(evt);
-            }
-        });
-        jMenu4.add(jMenuItem9);
-
-        jMenuItem10.setText("Registro de ejemplares");
-        jMenu4.add(jMenuItem10);
-
-        jMenuItem11.setText("Consultas");
-        jMenu4.add(jMenuItem11);
-
-        jMenuBar1.add(jMenu4);
-
-        jMenu5.setText("Parámetros");
-
-        jMenuItem12.setText("Registro de autores");
-        jMenuItem12.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem12ActionPerformed(evt);
-            }
-        });
-        jMenu5.add(jMenuItem12);
-
-        jMenu6.setText("Registro de editoriales");
-        jMenu5.add(jMenu6);
-
-        jMenuBar1.add(jMenu5);
-
         setJMenuBar(jMenuBar1);
 
         pack();
@@ -247,61 +232,53 @@ public class Principal extends javax.swing.JFrame {
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
         // TODO add your handling code here:
-        agregarPestaña("Préstamos y devoluciones", new PrestamoView());
+        agregarPestaña("Préstamos y devoluciones", PrestamoView.getInstance());
     }//GEN-LAST:event_jButton2ActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        agregarPestaña("Consultas", new ConsultaView());
+        agregarPestaña("Consultas", ConsultaView.getInstance());
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
         // TODO add your handling code here:
-        agregarPestaña("Ejemplares", new EjemplarView());
+        agregarPestaña("Ejemplares", EjemplarView.getInstance());
     }//GEN-LAST:event_jButton3ActionPerformed
-
-    private void jMenuItem1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem1ActionPerformed
-        // TODO add your handling code here:
-        agregarPestaña("Mantenimiento de autores", new AutorView());
-    }//GEN-LAST:event_jMenuItem1ActionPerformed
-
-    private void jMenuItem2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem2ActionPerformed
-        // TODO add your handling code here:
-        agregarPestaña("Mantenimiento de editoriales", new EditorialView());
-    }//GEN-LAST:event_jMenuItem2ActionPerformed
-
-    private void jMenuItem4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem4ActionPerformed
-        // TODO add your handling code here:
-        agregarPestaña("Mantenimiento de temas", new TemaView());
-    }//GEN-LAST:event_jMenuItem4ActionPerformed
-
-    private void jMenuItem5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem5ActionPerformed
-        // TODO add your handling code here:
-        agregarPestaña("Mantenimiento de tipo de libro", new TipoLibroView());
-    }//GEN-LAST:event_jMenuItem5ActionPerformed
-
-    private void jMenuItem3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem3ActionPerformed
-        // TODO add your handling code here:
-        agregarPestaña("Mantenimiento de materias y secc.", new MateriaSeccionView());
-    }//GEN-LAST:event_jMenuItem3ActionPerformed
-
-    private void jMenuItem7ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem7ActionPerformed
-        // TODO add your handling code here:
-        agregarPestaña("Mantenimiento inf. de personas", new PersonaView());
-    }//GEN-LAST:event_jMenuItem7ActionPerformed
 
     private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
         // TODO add your handling code here:
         agregarPestaña("Reporte de ejemplares", ReporteEjemplarView.getInstance());
     }//GEN-LAST:event_jMenuItem8ActionPerformed
 
-    private void jMenuItem9ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem9ActionPerformed
+    private void mnuRegistroLibroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuRegistroLibroActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem9ActionPerformed
+        agregarPestaña("Registro de libros", LibroView.getInstance());
+    }//GEN-LAST:event_mnuRegistroLibroActionPerformed
 
-    private void jMenuItem12ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem12ActionPerformed
+    private void mnuRegistroAutorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuRegistroAutorActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_jMenuItem12ActionPerformed
+        agregarPestaña("Registro de autores", AutorView.getInstance());
+    }//GEN-LAST:event_mnuRegistroAutorActionPerformed
+
+    private void mnuPersonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPersonaActionPerformed
+        // TODO add your handling code here:
+        agregarPestaña("Registro de personas", PersonaView.getInstance());
+    }//GEN-LAST:event_mnuPersonaActionPerformed
+
+    private void mnuPrestamoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPrestamoActionPerformed
+        // TODO add your handling code here:
+        agregarPestaña("Préstamos y devoluciones", PrestamoView.getInstance());
+    }//GEN-LAST:event_mnuPrestamoActionPerformed
+
+    private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
+        // TODO add your handling code here:
+        System.exit(0);
+    }//GEN-LAST:event_jMenuItem6ActionPerformed
+
+    private void mnuRegistroEditorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuRegistroEditorialActionPerformed
+        // TODO add your handling code here:
+        agregarPestaña("Registro de editoriales", EditorialView.getInstance());
+    }//GEN-LAST:event_mnuRegistroEditorialActionPerformed
 
     /**
      * @param args the command line arguments
@@ -344,24 +321,22 @@ public class Principal extends javax.swing.JFrame {
     private static javax.swing.JButton jButton3;
     private static javax.swing.JMenu jMenu1;
     private static javax.swing.JMenu jMenu2;
-    private static javax.swing.JMenu jMenu3;
     private static javax.swing.JMenu jMenu4;
     private static javax.swing.JMenu jMenu5;
-    private static javax.swing.JMenu jMenu6;
+    private static javax.swing.JMenu jMenu7;
     private static javax.swing.JMenuBar jMenuBar1;
-    private static javax.swing.JMenuItem jMenuItem1;
-    private static javax.swing.JMenuItem jMenuItem10;
-    private static javax.swing.JMenuItem jMenuItem11;
-    private static javax.swing.JMenuItem jMenuItem12;
-    private static javax.swing.JMenuItem jMenuItem2;
-    private static javax.swing.JMenuItem jMenuItem3;
-    private static javax.swing.JMenuItem jMenuItem4;
-    private static javax.swing.JMenuItem jMenuItem5;
     private static javax.swing.JMenuItem jMenuItem6;
-    private static javax.swing.JMenuItem jMenuItem7;
     private static javax.swing.JMenuItem jMenuItem8;
-    private static javax.swing.JMenuItem jMenuItem9;
     private static javax.swing.JToolBar jToolBar1;
+    private static javax.swing.JMenuItem mnuConsultas;
+    private static javax.swing.JMenuItem mnuPersona;
+    private static javax.swing.JMenuItem mnuPrestamo;
+    private static javax.swing.JMenuItem mnuRegistroAutor;
+    private static javax.swing.JMenuItem mnuRegistroEditorial;
+    private static javax.swing.JMenuItem mnuRegistroEjemplar;
+    private static javax.swing.JMenuItem mnuRegistroLibro;
+    private static javax.swing.JMenuItem mnuRegistroMateria;
+    private static javax.swing.JMenuItem mnuRegistroTema;
     private static javax.swing.JPanel pnlPrincipal;
     private static javax.swing.JTabbedPane tabPrincipal;
     // End of variables declaration//GEN-END:variables

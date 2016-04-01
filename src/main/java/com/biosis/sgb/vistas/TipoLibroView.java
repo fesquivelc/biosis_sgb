@@ -43,7 +43,16 @@ public class TipoLibroView extends javax.swing.JPanel {
 
     private List<TipoLibro> tipoLibroList;
 
-    public TipoLibroView() {
+    private static TipoLibroView instance;
+
+    static TipoLibroView getInstance() {
+        if (instance == null) {
+            instance = new TipoLibroView();
+        }
+        return instance;
+    }
+
+    private TipoLibroView() {
         initComponents();
         initComponents2();
         this.tipoLibroControlador = TipoLibroControlador.getInstance();
@@ -332,7 +341,7 @@ public class TipoLibroView extends javax.swing.JPanel {
         tipoLibroControlador.prepararCrear();
         TipoLibroCRUD tipoLibroCRUD = new TipoLibroCRUD(this, true, NUEVO, tipoLibroControlador.getSeleccionado());
         tipoLibroCRUD.setVisible(true);
-        if(tipoLibroCRUD.isAccionRealizada()){
+        if (tipoLibroCRUD.isAccionRealizada()) {
             this.tipoLibroList.add(tipoLibroCRUD.getTipoLibro());
         }
     }//GEN-LAST:event_btnNuevoActionPerformed
@@ -389,8 +398,8 @@ public class TipoLibroView extends javax.swing.JPanel {
         grupo.addBinding(bindeoTabla);
         grupo.bind();
     }
-    
-    private void controles(boolean busqueda){
+
+    private void controles(boolean busqueda) {
         FormularioUtil.activarComponente(pnlBusqueda, !busqueda);
         FormularioUtil.activarComponente(pnlAcciones, !busqueda);
     }

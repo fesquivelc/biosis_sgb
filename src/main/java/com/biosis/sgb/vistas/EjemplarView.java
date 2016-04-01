@@ -69,10 +69,19 @@ public class EjemplarView extends javax.swing.JPanel {
     private int tamanioPagina = 0;
 
     private List<Ejemplar> ejemplarList;
-    
+
     private final ReporteUtil reporteUtil;
 
-    public EjemplarView() {
+    private static EjemplarView instance;
+
+    static EjemplarView getInstance() {
+        if (instance == null) {
+            instance = new EjemplarView();
+        }
+        return instance;
+    }
+
+    private EjemplarView() {
         this.reporteUtil = new ReporteUtil();
         prestamoControlador = PrestamoControlador.getInstance();
         initComponents();
@@ -746,7 +755,7 @@ public class EjemplarView extends javax.swing.JPanel {
                 chkTema.isSelected() ? temaSeleccionado : null,
                 txtTitulo.getText().trim().toUpperCase(),
                 chkSoloDisponibles.isSelected());
-        Map<String,Object> param = new HashMap();
+        Map<String, Object> param = new HashMap();
         param.put("reporte_logo", IMG_LOGO_REPORTE.getAbsolutePath());
         param.put("reporte_ruc", REPORTE_RUC);
         param.put("reporte_institucion", REPORTE_INSTITUCION);

@@ -51,7 +51,16 @@ public class LibroView extends javax.swing.JPanel {
 
     private List<Libro> libroList;
 
-    public LibroView() {
+    public static LibroView instance;
+    
+    public static LibroView getInstance(){
+        if(instance == null){
+            instance = new LibroView();
+        }
+        return instance;
+    }
+    
+    private LibroView() {
         initComponents();
         initComponents2();
         this.libroControlador = LibroControlador.getInstance();
