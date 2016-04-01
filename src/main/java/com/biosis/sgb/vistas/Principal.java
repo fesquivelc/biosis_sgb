@@ -134,6 +134,7 @@ public class Principal extends javax.swing.JFrame {
         jMenu1.setText("Inicio");
         jMenu1.setFont(ESTILO4);
 
+        jMenuItem6.setFont(ESTILO4);
         jMenuItem6.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Log Out/Log Out_16x16.png"))); // NOI18N
         jMenuItem6.setText("Salir");
         jMenuItem6.addActionListener(new java.awt.event.ActionListener() {
@@ -148,6 +149,7 @@ public class Principal extends javax.swing.JFrame {
         jMenu4.setText("Biblioteca");
         jMenu4.setFont(ESTILO4);
 
+        mnuRegistroLibro.setFont(ESTILO4);
         mnuRegistroLibro.setText("Registro de libros");
         mnuRegistroLibro.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -156,9 +158,11 @@ public class Principal extends javax.swing.JFrame {
         });
         jMenu4.add(mnuRegistroLibro);
 
+        mnuRegistroEjemplar.setFont(ESTILO4);
         mnuRegistroEjemplar.setText("Registro de ejemplares");
         jMenu4.add(mnuRegistroEjemplar);
 
+        mnuConsultas.setFont(ESTILO4);
         mnuConsultas.setText("Consultas");
         jMenu4.add(mnuConsultas);
 
@@ -167,6 +171,7 @@ public class Principal extends javax.swing.JFrame {
         jMenu5.setText("Datos de material bibliográfico");
         jMenu5.setFont(ESTILO4);
 
+        mnuRegistroAutor.setFont(ESTILO4);
         mnuRegistroAutor.setText("Registro de autores");
         mnuRegistroAutor.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -175,6 +180,7 @@ public class Principal extends javax.swing.JFrame {
         });
         jMenu5.add(mnuRegistroAutor);
 
+        mnuRegistroEditorial.setFont(ESTILO4);
         mnuRegistroEditorial.setText("Registro de editoriales");
         mnuRegistroEditorial.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -183,9 +189,11 @@ public class Principal extends javax.swing.JFrame {
         });
         jMenu5.add(mnuRegistroEditorial);
 
+        mnuRegistroMateria.setFont(ESTILO4);
         mnuRegistroMateria.setText("Registro de materias y secciones");
         jMenu5.add(mnuRegistroMateria);
 
+        mnuRegistroTema.setFont(ESTILO4);
         mnuRegistroTema.setText("Registro de temas y subtemas");
         jMenu5.add(mnuRegistroTema);
 
@@ -194,6 +202,7 @@ public class Principal extends javax.swing.JFrame {
         jMenu7.setText("Préstamos");
         jMenu7.setFont(ESTILO4);
 
+        mnuPersona.setFont(ESTILO4);
         mnuPersona.setText("Información y registro de personas");
         mnuPersona.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -202,6 +211,7 @@ public class Principal extends javax.swing.JFrame {
         });
         jMenu7.add(mnuPersona);
 
+        mnuPrestamo.setFont(ESTILO4);
         mnuPrestamo.setText("Préstamos y devoluciones");
         mnuPrestamo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -215,6 +225,7 @@ public class Principal extends javax.swing.JFrame {
         jMenu2.setText("Reportes");
         jMenu2.setFont(ESTILO4);
 
+        jMenuItem8.setFont(ESTILO4);
         jMenuItem8.setText("Reporte de ejemplares");
         jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {

@@ -14,6 +14,9 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem6">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="ESTILO4" type="code"/>
+                </Property>
                 <Property name="icon" type="javax.swing.Icon" editor="org.netbeans.modules.form.editors2.IconEditor">
                   <Image iconType="3" name="/icon/Log Out/Log Out_16x16.png"/>
                 </Property>
@@ -35,6 +38,9 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="mnuRegistroLibro">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="ESTILO4" type="code"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Registro de libros"/>
               </Properties>
               <Events>
@@ -43,11 +49,17 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mnuRegistroEjemplar">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="ESTILO4" type="code"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Registro de ejemplares"/>
               </Properties>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mnuConsultas">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="ESTILO4" type="code"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Consultas"/>
               </Properties>
             </MenuItem>
@@ -63,6 +75,9 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="mnuRegistroAutor">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="ESTILO4" type="code"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Registro de autores"/>
               </Properties>
               <Events>
@@ -71,6 +86,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mnuRegistroEditorial">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="ESTILO4" type="code"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Registro de editoriales"/>
               </Properties>
               <Events>
@@ -79,11 +97,17 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mnuRegistroMateria">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="ESTILO4" type="code"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Registro de materias y secciones"/>
               </Properties>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mnuRegistroTema">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="ESTILO4" type="code"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Registro de temas y subtemas"/>
               </Properties>
             </MenuItem>
@@ -99,6 +123,9 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="mnuPersona">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="ESTILO4" type="code"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Informaci&#xf3;n y registro de personas"/>
               </Properties>
               <Events>
@@ -107,6 +134,9 @@
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="mnuPrestamo">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="ESTILO4" type="code"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Pr&#xe9;stamos y devoluciones"/>
               </Properties>
               <Events>
@@ -125,6 +155,9 @@
           <SubComponents>
             <MenuItem class="javax.swing.JMenuItem" name="jMenuItem8">
               <Properties>
+                <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.RADConnectionPropertyEditor">
+                  <Connection code="ESTILO4" type="code"/>
+                </Property>
                 <Property name="text" type="java.lang.String" value="Reporte de ejemplares"/>
               </Properties>
               <Events>
