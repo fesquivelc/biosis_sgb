@@ -81,7 +81,7 @@
 <viewState/>
 </view>
 </views>
-<perspectives activePart="com.jaspersoft.studio.editor.preview.reportstate" activePerspective="com.jaspersoft.studio.ReportDesignPerspective">
+<perspectives activePart="com.jaspersoft.studio.editor.JrxmlEditor" activePerspective="com.jaspersoft.studio.ReportDesignPerspective">
 <perspective editorAreaTrimState="2" editorAreaVisible="1" fixed="0" version="0.016">
 <descriptor class="com.jaspersoft.studio.ReportDesignPerspective" id="com.jaspersoft.studio.ReportDesignPerspective" label="Report Design"/>
 <alwaysOnActionSet id="org.eclipse.ui.cheatsheets.actionSet"/>
@@ -94,8 +94,8 @@
 <alwaysOnActionSet id="org.eclipse.ui.actionSet.openFiles"/>
 <hide_menu_item_id id="org.eclipse.ui.run"/>
 <hide_menu_item_id id="org.eclipse.search.menu"/>
-<hide_toolbar_item_id id="org.eclipse.ui.workbench.navigate"/>
 <hide_toolbar_item_id id="org.eclipse.debug.ui.commands.RunToLine"/>
+<hide_toolbar_item_id id="org.eclipse.ui.workbench.navigate"/>
 <hide_toolbar_item_id id="org.eclipse.jdt.ui.actions.OpenProjectWizard"/>
 <hide_toolbar_item_id id="org.eclipse.ui.edit.text.toggleShowSelectedElementOnly"/>
 <view id="com.jaspersoft.studio.Repository"/>
@@ -210,6 +210,9 @@
 <item historyLabel="reporte_prestamo.jrxml" index="8"/>
 <item historyLabel="reporte_ejemplar.jasper" index="9"/>
 <item historyLabel="reporte_libro_uso.jrxml" index="10">
+<position info="not_deleted" x="0" y="0"/>
+</item>
+<item historyLabel="reporte_libro_uso.jrxml" index="11">
 <position info="not_deleted" x="0" y="0"/>
 </item>
 <item active="true" historyLabel="reporte_libro_uso.jrxml" index="11">

@@ -35,6 +35,17 @@ public class Usuario {
     @ManyToOne(targetEntity = Persona.class, optional = true)
     @JoinColumn(name = "persona_id", referencedColumnName = "persona_id", nullable = true)
     private Persona persona;
+    @ManyToOne(targetEntity = Rol.class, optional = true)
+    @JoinColumn(name = "rol_id", referencedColumnName = "rol_id", nullable = true)
+    private Rol rol;
+
+    public Rol getRol() {
+        return rol;
+    }
+
+    public void setRol(Rol rol) {
+        this.rol = rol;
+    }
 
     public long getId() {
         return id;

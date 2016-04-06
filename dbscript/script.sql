@@ -1,32 +1,15 @@
-
-CREATE TABLE tema (
-  tema_id serial NOT NULL,
-  nombre VARCHAR(255) NOT NULL ,
-  descripcion VARCHAR(255) NULL ,
-  cantidad_subtema INT not null default '0',
-  tema_superior_id INT null ,
+-- -----------------------------------------------------
+-- Table acceso
+-- -----------------------------------------------------
+create table acceso(
+  acceso_id serial not null,
+  nombre varchar(140) not null,
+  objeto varchar(250) not null,
+  descripcion varchar(250) not null,
   fecha_hora_creacion timestamp without time zone NOT NULL default current_timestamp,
   fecha_hora_modificacion timestamp without time zone NULL,
-  activo boolean not null default '1');
-
-alter table tema add constraint pk_tema primary key(tema_id);
-alter table tema add constraint fk_tema_tema foreign key(tema_superior_id) references tema(tema_id);
-
--- -----------------------------------------------------
--- Table materia
--- -----------------------------------------------------
-CREATE TABLE  materia (
-  materia_id serial NOT NULL,
-  nombre VARCHAR(255) NOT NULL ,
-  descripcion VARCHAR(255) NULL ,
-  fecha_hora_creacion timestamp without time zone NOT NULL default current_timestamp,
-  fecha_hora_modificacion timestamp without time zone NULL,
-  activo boolean not null default '1');
-
-alter table materia add constraint pk_materia primary key(materia_id);
-
-
-
+  activo boolean not null default '1'
+);
 -- -----------------------------------------------------
 -- Table autor
 -- -----------------------------------------------------
@@ -39,36 +22,6 @@ CREATE TABLE  autor (
   fecha_hora_creacion timestamp without time zone NOT NULL default current_timestamp,
   fecha_hora_modificacion timestamp without time zone NULL,
   activo boolean not null default '1');
-
-alter table autor add constraint pk_autor primary key(autor_id);
-
--- -----------------------------------------------------
--- Table seccion
--- -----------------------------------------------------
-CREATE TABLE  seccion (
-  seccion_id serial NOT NULL ,
-  nombre VARCHAR(255) NOT NULL ,
-  descripcion VARCHAR(255) NULL ,
-  materia_id INT NOT NULL ,
-  fecha_hora_creacion timestamp without time zone NOT NULL default current_timestamp,
-  fecha_hora_modificacion timestamp without time zone NULL,
-  activo boolean not null default '1');
-
-alter table seccion add constraint pk_seccion primary key(seccion_id);
-alter table seccion add constraint fk_seccion_materia foreign key(materia_id) references materia(materia_id);
-
--- -----------------------------------------------------
--- Table procedencia
--- -----------------------------------------------------
-CREATE TABLE  procedencia (
-  procedencia_id serial NOT NULL ,
-  nombre VARCHAR(255) NOT NULL ,
-  descripcion VARCHAR(255) NULL ,
-  fecha_hora_creacion timestamp without time zone NOT NULL default current_timestamp,
-  fecha_hora_modificacion timestamp without time zone NULL);
-
-alter table procedencia add constraint pk_procedencia primary key(procedencia_id);
-
 -- -----------------------------------------------------
 -- Table editorial
 -- -----------------------------------------------------
@@ -78,21 +31,50 @@ CREATE TABLE  editorial (
   fecha_hora_creacion timestamp without time zone NOT NULL default current_timestamp,
   fecha_hora_modificacion timestamp without time zone NULL,
   activo boolean not null default '1');
-
-alter table editorial add constraint pk_editorial primary key(editorial_id);
 -- -----------------------------------------------------
--- Table tipo_libro
+-- Table ejemplar
 -- -----------------------------------------------------
-CREATE TABLE  tipo_libro (
-  tipo_libro_id serial NOT NULL ,
-  nombre varchar(140) not null,
-  descripcion VARCHAR(255) NULL ,
+CREATE TABLE  ejemplar (
+  ejemplar_id bigserial NOT NULL ,
+  codigo varchar(50) not null,
+  fecha_entrada DATE NULL ,
+  estado INT NOT NULL , -- 0 = no disponible / 1 = disponible
+  libro_id bigint NOT NULL ,
+  procedencia_id INT NOT NULL ,
+  prestamo_activo_id bigint null,
   fecha_hora_creacion timestamp without time zone NOT NULL default current_timestamp,
   fecha_hora_modificacion timestamp without time zone NULL,
   activo boolean not null default '1');
-
-alter table tipo_libro add constraint pk_tipo_libro primary key(tipo_libro_id);
-
+-- -----------------------------------------------------
+-- Table evento
+-- -----------------------------------------------------
+CREATE TABLE evento(
+  evento_id bigserial not null,
+  tipo char(1) not null, -- C = CREATE, U = UPDATE, D = DELETE, L = LOGIN
+  fecha_hora timestamp without time zone not null,
+  usuario_id bigserial not null,
+  tabla varchar(140) null,
+  direccion_ip varchar(16) not null,
+  direccion_mac varchar(23) not null);
+-- -----------------------------------------------------
+-- Table evento_detalle
+-- -----------------------------------------------------
+CREATE TABLE evento_detalle(
+  evento_detalle_id bigserial not null,
+  columna varchar(140) not null,
+  valor_antiguo varchar(255) null,
+  valor_nuevo varchar(255) null,
+  evento_id bigserial not null);
+-- -----------------------------------------------------
+-- Table indice
+-- -----------------------------------------------------
+CREATE TABLE  indice (
+  indice_id bigserial NOT NULL ,
+  orden int not null,
+  descripcion VARCHAR(255) NOT NULL ,
+  libro_id bigint not null,
+  fecha_hora_creacion timestamp without time zone NOT NULL default current_timestamp,
+  fecha_hora_modificacion timestamp without time zone NULL);
 -- -----------------------------------------------------
 -- Table libro
 -- -----------------------------------------------------
@@ -109,44 +91,42 @@ CREATE TABLE  libro (
   isbn13 CHAR(13) NULL ,
   direccion_fichero VARCHAR(255) NULL ,
   formato INT NOT NULL ,
-  -- estado INT NOT NULL , -- revisar
   seccion_id INT NOT NULL ,
   ejemplar_total int not null default '0',
   ejemplar_disponible int not null default '0',
-  -- procedencia_id INT NOT NULL , -- la procedencia define el motivo de la compra
   tipo_libro_id INT NOT NULL ,
   editorial_id INT NOT NULL,
   fecha_hora_creacion timestamp without time zone NOT NULL default current_timestamp,
   fecha_hora_modificacion timestamp without time zone NULL,
   activo boolean not null default '1');
-
-alter table libro add constraint pk_libro primary key(libro_id);
-alter table libro add constraint fk_libro_seccion foreign key(seccion_id) references seccion(seccion_id);
--- alter table libro add constraint fk_libro_procedencia foreign key(procedencia_id) references procedencia(procedencia_id);
-alter table libro add constraint fk_libro_tipo_libro foreign key(tipo_libro_id) references tipo_libro(tipo_libro_id);
-alter table libro add constraint fk_libro_editorial foreign key(editorial_id) references editorial(editorial_id);
-
-
-
 -- -----------------------------------------------------
--- Table ejemplar
+-- Table libro_autor
 -- -----------------------------------------------------
-CREATE TABLE  ejemplar (
-  ejemplar_id bigserial NOT NULL ,
-  codigo varchar(50) not null,
-  fecha_entrada DATE NULL ,
-  estado INT NOT NULL , -- 0 = no disponible / 1 = disponible
-  libro_id bigint NOT NULL ,
-  procedencia_id INT NOT NULL ,
-  prestamo_activo_id bigint null,
+CREATE TABLE  libro_autor (
+  libro_autor_id bigserial NOT NULL,
+  libro_id bigint NOT NULL,
+  autor_id bigint NOT NULL,
+  fecha_hora_creacion timestamp without time zone NOT NULL default current_timestamp,
+  fecha_hora_modificacion timestamp without time zone NULL);
+-- -----------------------------------------------------
+-- Table libro_tema
+-- -----------------------------------------------------
+CREATE TABLE  libro_tema (
+  libro_tema_id bigserial NOT NULL ,
+  tema_id int NOT NULL ,
+  libro_id bigint NOT NULL,
+  fecha_hora_creacion timestamp without time zone NOT NULL default current_timestamp,
+  fecha_hora_modificacion timestamp without time zone NULL);
+-- -----------------------------------------------------
+-- Table materia
+-- -----------------------------------------------------
+CREATE TABLE  materia (
+  materia_id serial NOT NULL,
+  nombre VARCHAR(255) NOT NULL ,
+  descripcion VARCHAR(255) NULL ,
   fecha_hora_creacion timestamp without time zone NOT NULL default current_timestamp,
   fecha_hora_modificacion timestamp without time zone NULL,
   activo boolean not null default '1');
-
-alter table ejemplar add constraint pk_ejemplar primary key(ejemplar_id);
-alter table ejemplar add constraint fk_ejemplar_libro foreign key(libro_id) references libro(libro_id);
-alter table ejemplar add constraint fk_ejemplar_procedencia foreign key(procedencia_id) references procedencia(procedencia_id);
-
 -- -----------------------------------------------------
 -- Table persona
 -- -----------------------------------------------------
@@ -162,9 +142,6 @@ CREATE TABLE  persona (
   fecha_hora_creacion timestamp without time zone NOT NULL default current_timestamp,
   fecha_hora_modificacion timestamp without time zone NULL,
   activo boolean not null default '1');
-
-alter table persona add constraint pk_persona primary key(persona_id);
-
 -- -----------------------------------------------------
 -- Table prestamo
 -- -----------------------------------------------------
@@ -175,46 +152,72 @@ CREATE TABLE  prestamo (
   fecha_entrega DATE NULL ,
   atraso INT NULL ,
   multa_pagada numeric(10,2) NULL ,
-  -- estado char(1) not null default '', -- ESTADOS: P = EN PRESTAMO, A = ATRASADO, D = DEVUELTO
   ejemplar_id bigint NOT NULL ,
   persona_id bigint NOT NULL,
   observaciones varchar(255) null,
   fecha_hora_creacion timestamp without time zone NOT NULL default current_timestamp,
   fecha_hora_modificacion timestamp without time zone NULL);
-
-alter table prestamo add constraint pk_prestamo primary key(prestamo_id);
-alter table prestamo add constraint fk_prestamo_ejemplar foreign key(ejemplar_id) references ejemplar(ejemplar_id);
-alter table prestamo add constraint fk_prestamo_persona foreign key(persona_id) references persona(persona_id);
-alter table ejemplar add constraint fk_ejemplar_prestamo foreign key(prestamo_activo_id) references prestamo(prestamo_id);
 -- -----------------------------------------------------
--- Table libro_tema
+-- Table procedencia
 -- -----------------------------------------------------
-CREATE TABLE  libro_tema (
-  libro_tema_id bigserial NOT NULL ,
-  tema_id int NOT NULL ,
-  libro_id bigint NOT NULL,
+CREATE TABLE  procedencia (
+  procedencia_id serial NOT NULL ,
+  nombre VARCHAR(255) NOT NULL ,
+  descripcion VARCHAR(255) NULL ,
   fecha_hora_creacion timestamp without time zone NOT NULL default current_timestamp,
   fecha_hora_modificacion timestamp without time zone NULL);
-
-alter table libro_tema add constraint pk_libro_tema primary key(libro_tema_id);
-alter table libro_tema add constraint fk_libro_tema_tema foreign key(tema_id) references tema(tema_id);
-alter table libro_tema add constraint fk_libro_tema_libro foreign key(libro_id) references libro(libro_id);
-alter table libro_tema add constraint uq_libro_tema unique(tema_id,libro_id);
-
 -- -----------------------------------------------------
--- Table libro_autor
+-- Table rol
 -- -----------------------------------------------------
-CREATE TABLE  libro_autor (
-  libro_autor_id bigserial NOT NULL,
-  libro_id bigint NOT NULL,
-  autor_id bigint NOT NULL,
+CREATE TABLE rol (
+  rol_id serial NOT NULL ,
+  nombre VARCHAR(255) NOT NULL ,
+  activo boolean NOT NULL,
   fecha_hora_creacion timestamp without time zone NOT NULL default current_timestamp,
   fecha_hora_modificacion timestamp without time zone NULL);
-
-alter table libro_autor add constraint pk_libro_autor primary key(libro_autor_id);
-alter table libro_autor add constraint fk_libro_autor_libro foreign key(libro_id) references libro(libro_id);
-alter table libro_autor add constraint fk_libro_autor_autor foreign key(autor_id) references autor(autor_id);
-alter table libro_autor add constraint uq_libro_autor unique(libro_id,autor_id);
+-- -----------------------------------------------------
+-- Table rol_acceso
+-- -----------------------------------------------------
+create table rol_acceso(
+  rol_acceso_id bigserial not null,
+  acceso_id int not null,
+  rol_id int not null,
+  crud char(4) not null default '0000',
+  fecha_hora_creacion timestamp without time zone NOT NULL default current_timestamp,
+  fecha_hora_modificacion timestamp without time zone NULL);
+-- -----------------------------------------------------
+-- Table seccion
+-- -----------------------------------------------------
+CREATE TABLE  seccion (
+  seccion_id serial NOT NULL ,
+  nombre VARCHAR(255) NOT NULL ,
+  descripcion VARCHAR(255) NULL ,
+  materia_id INT NOT NULL ,
+  fecha_hora_creacion timestamp without time zone NOT NULL default current_timestamp,
+  fecha_hora_modificacion timestamp without time zone NULL,
+  activo boolean not null default '1');
+-- -----------------------------------------------------
+-- Table tema
+-- -----------------------------------------------------
+CREATE TABLE tema (
+  tema_id serial NOT NULL,
+  nombre VARCHAR(255) NOT NULL ,
+  descripcion VARCHAR(255) NULL ,
+  cantidad_subtema INT not null default '0',
+  tema_superior_id INT null ,
+  fecha_hora_creacion timestamp without time zone NOT NULL default current_timestamp,
+  fecha_hora_modificacion timestamp without time zone NULL,
+  activo boolean not null default '1');
+-- -----------------------------------------------------
+-- Table tipo_libro
+-- -----------------------------------------------------
+CREATE TABLE tipo_libro (
+  tipo_libro_id serial NOT NULL ,
+  nombre varchar(140) not null,
+  descripcion VARCHAR(255) NULL ,
+  fecha_hora_creacion timestamp without time zone NOT NULL default current_timestamp,
+  fecha_hora_modificacion timestamp without time zone NULL,
+  activo boolean not null default '1');
 -- -----------------------------------------------------
 -- Table usuario
 -- -----------------------------------------------------
@@ -225,54 +228,87 @@ CREATE TABLE  usuario (
   activo boolean NOT NULL ,
   cambiar_password boolean NOT NULL ,
   persona_id bigint NULL,
+  rol_id bigint not null,
   fecha_hora_creacion timestamp without time zone NOT NULL default current_timestamp,
   fecha_hora_modificacion timestamp without time zone NULL);
-
-alter table usuario add constraint pk_usuario primary key (usuario_id);
-alter table usuario add constraint fk_usuario_persona foreign key(persona_id) references persona(persona_id);
--- -----------------------------------------------------
--- Table rol
--- -----------------------------------------------------
-CREATE TABLE  rol (
-  rol_id serial NOT NULL ,
-  nombre VARCHAR(255) NOT NULL ,
-  activo boolean NOT NULL,
-  fecha_hora_creacion timestamp without time zone NOT NULL default current_timestamp,
-  fecha_hora_modificacion timestamp without time zone NULL);
-
-alter table rol add constraint pk_rol primary key(rol_id);
-
 -- -----------------------------------------------------
 -- Table usuario_rol
 -- -----------------------------------------------------
-CREATE TABLE  usuario_rol (
-  usuario_rol_id bigserial NOT NULL ,
-  usuario_id bigint NOT NULL ,
-  rol_id int NOT NULL,
-  fecha_hora_creacion timestamp without time zone NOT NULL default current_timestamp,
-  fecha_hora_modificacion timestamp without time zone NULL);
+-- CREATE TABLE  usuario_rol (
+--   usuario_rol_id bigserial NOT NULL ,
+--   usuario_id bigint NOT NULL ,
+--   rol_id int NOT NULL,
+--   fecha_hora_creacion timestamp without time zone NOT NULL default current_timestamp,
+--   fecha_hora_modificacion timestamp without time zone NULL);
 
-alter table usuario_rol add constraint pk_usuario_rol primary key(usuario_rol_id);
-alter table usuario_rol add constraint fk_usuario_rol_usuario foreign key(usuario_id) references usuario(usuario_id);
-alter table usuario_rol add constraint fk_usuario_rol_rol foreign key(rol_id) references rol(rol_id);
+-- CONSTRAINTS
+alter table acceso add constraint pk_acceso primary key(acceso_id);
 
--- -----------------------------------------------------
--- Table indice
--- -----------------------------------------------------
-CREATE TABLE  indice (
-  indice_id bigserial NOT NULL ,
-  orden int not null,
-  descripcion VARCHAR(255) NOT NULL ,
-  -- cantidad_subindice INT NULL ,
-  -- indice_superior_id INT NULL,
-  libro_id bigint not null,
-  fecha_hora_creacion timestamp without time zone NOT NULL default current_timestamp,
-  fecha_hora_modificacion timestamp without time zone NULL);
+alter table autor add constraint pk_autor primary key(autor_id);
+
+alter table editorial add constraint pk_editorial primary key(editorial_id);
+
+alter table ejemplar add constraint pk_ejemplar primary key(ejemplar_id);
+alter table ejemplar add constraint fk_ejemplar_libro foreign key(libro_id) references libro(libro_id);
+alter table ejemplar add constraint fk_ejemplar_procedencia foreign key(procedencia_id) references procedencia(procedencia_id);
+alter table ejemplar add constraint fk_ejemplar_prestamo foreign key(prestamo_activo_id) references prestamo(prestamo_id);
+
+alter table evento add constraint pk_evento primary key(evento_id);
+alter table evento add constraint fk_evento_usuario foreign key(usuario_id);
+
+alter table evento_detalle add constraint pk_evento_detalle primary key(evento_detalle_id);
+alter table evento_detalle add constraint fk_evento_detalle_evento foreign key(evento_id) references evento(evento_id);
 
 alter table indice add constraint pk_indice primary key(indice_id);
--- alter table indice add constraint fk_indice_indice_superior foreign key(indice_superior_id) references indice(indice_id);
 alter table indice add constraint fk_indice_libro foreign key(libro_id) references libro(libro_id);
 
+alter table libro add constraint pk_libro primary key(libro_id);
+alter table libro add constraint fk_libro_seccion foreign key(seccion_id) references seccion(seccion_id);
+alter table libro add constraint fk_libro_tipo_libro foreign key(tipo_libro_id) references tipo_libro(tipo_libro_id);
+alter table libro add constraint fk_libro_editorial foreign key(editorial_id) references editorial(editorial_id);
+
+alter table libro_autor add constraint pk_libro_autor primary key(libro_autor_id);
+alter table libro_autor add constraint fk_libro_autor_libro foreign key(libro_id) references libro(libro_id);
+alter table libro_autor add constraint fk_libro_autor_autor foreign key(autor_id) references autor(autor_id);
+alter table libro_autor add constraint uq_libro_autor unique(libro_id,autor_id);
+
+alter table libro_tema add constraint pk_libro_tema primary key(libro_tema_id);
+alter table libro_tema add constraint fk_libro_tema_tema foreign key(tema_id) references tema(tema_id);
+alter table libro_tema add constraint fk_libro_tema_libro foreign key(libro_id) references libro(libro_id);
+alter table libro_tema add constraint uq_libro_tema unique(tema_id,libro_id);
+
+alter table materia add constraint pk_materia primary key(materia_id);
+
+alter table persona add constraint pk_persona primary key(persona_id);
+
+alter table prestamo add constraint pk_prestamo primary key(prestamo_id);
+alter table prestamo add constraint fk_prestamo_ejemplar foreign key(ejemplar_id) references ejemplar(ejemplar_id);
+alter table prestamo add constraint fk_prestamo_persona foreign key(persona_id) references persona(persona_id);
+
+alter table procedencia add constraint pk_procedencia primary key(procedencia_id);
+
+alter table rol add constraint pk_rol primary key(rol_id);
+
+alter table rol_acceso add constraint pk_rol_acceso primary key(rol_acceso_id);
+alter table rol_acceso add constraint fk_rol_acceso_rol foreign key rol_id references rol(rol_id);
+alter table rol_acceso add constraint fk_rol_acceso_acceso foreign key acceso_id references acceso(acceso_id);
+alter table rol_acceso add constraint uq_rol_acceso unique(rol_id,acceso_id);
+
+alter table seccion add constraint pk_seccion primary key(seccion_id);
+alter table seccion add constraint fk_seccion_materia foreign key(materia_id) references materia(materia_id);
+
+alter table tema add constraint pk_tema primary key(tema_id);
+alter table tema add constraint fk_tema_tema foreign key(tema_superior_id) references tema(tema_id);
+
+alter table tipo_libro add constraint pk_tipo_libro primary key(tipo_libro_id);
+
+alter table usuario add constraint pk_usuario primary key (usuario_id);
+alter table usuario add constraint fk_usuario_persona foreign key(persona_id) references persona(persona_id);
+alter table usuario add constraint fk_usuario_rol foreign key(rol_id) references rol(rol_id);
+
+-- alter table usuario_rol add constraint pk_usuario_rol primary key(usuario_rol_id);
+-- alter table usuario_rol add constraint fk_usuario_rol_usuario foreign key(usuario_id) references usuario(usuario_id);
+-- alter table usuario_rol add constraint fk_usuario_rol_rol foreign key(rol_id) references rol(rol_id);
 
 -- CREACIÓN DE VISTAS
 

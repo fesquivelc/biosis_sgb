@@ -5,15 +5,12 @@
  */
 package com.biosis.sgb.vistas;
 
+import static com.biosis.sgb.Application.BORDE_FONDO;
 import static com.biosis.sgb.Application.ESTILO1;
 import static com.biosis.sgb.Application.ESTILO4;
-import static com.biosis.sgb.Application.IMG_FONDO_APP;
 import com.biosis.sgb.util.ButtonTabComponent;
-import com.personal.utiles.ImagenFondo;
+import java.awt.Color;
 import java.awt.Component;
-import java.io.IOException;
-import javax.imageio.ImageIO;
-import javax.swing.JPanel;
 import org.apache.log4j.Logger;
 
 /**
@@ -26,18 +23,12 @@ public class Principal extends javax.swing.JFrame {
      * Creates new form Principal
      */
     private static final Logger LOG = Logger.getLogger(Principal.class.getName());
-    public static ImagenFondo borde;
+    
     public Principal() {
         initComponents();
 //        iniciarTab(0);
 
-        try {
-            borde = new ImagenFondo(ImageIO.read(IMG_FONDO_APP));
-            pnlBienvenida.setBorder(borde);
-//            pnlPrincipal.setBorder(borde);
-        } catch (IOException ex) {
-            LOG.error("Error al inicializar borde", ex);
-        }
+        pnlBienvenida.setBorder(BORDE_FONDO);
 
     }
 
@@ -49,11 +40,15 @@ public class Principal extends javax.swing.JFrame {
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
-        java.awt.GridBagConstraints gridBagConstraints;
 
         pnlPrincipal = new javax.swing.JPanel();
         tabPrincipal = new javax.swing.JTabbedPane();
         pnlBienvenida = new javax.swing.JPanel();
+        jPanel1 = new javax.swing.JPanel();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        jPanel2 = new javax.swing.JPanel();
+        jButton4 = new javax.swing.JButton();
         jToolBar1 = new javax.swing.JToolBar();
         jButton1 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
@@ -81,6 +76,35 @@ public class Principal extends javax.swing.JFrame {
         pnlPrincipal.setLayout(new java.awt.BorderLayout());
 
         tabPrincipal.setFont(ESTILO1);
+
+        pnlBienvenida.setLayout(new java.awt.GridBagLayout());
+
+        jPanel1.setBackground(new Color(0,0,0,65));
+        jPanel1.setLayout(new java.awt.FlowLayout(java.awt.FlowLayout.CENTER, 35, 20));
+
+        jPanel3.setOpaque(false);
+        jPanel3.setLayout(new java.awt.BorderLayout());
+
+        jLabel1.setFont(new java.awt.Font("SansSerif", 1, 60)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Bienvenido al sistema de biblioteca");
+        jPanel3.add(jLabel1, java.awt.BorderLayout.NORTH);
+
+        jPanel2.setOpaque(false);
+
+        jButton4.setBackground(new java.awt.Color(102, 102, 102));
+        jButton4.setText("CONSULTAS");
+        jButton4.setMaximumSize(new java.awt.Dimension(250, 250));
+        jButton4.setMinimumSize(new java.awt.Dimension(250, 250));
+        jButton4.setPreferredSize(new java.awt.Dimension(250, 250));
+        jPanel2.add(jButton4);
+
+        jPanel3.add(jPanel2, java.awt.BorderLayout.CENTER);
+
+        jPanel1.add(jPanel3);
+
+        pnlBienvenida.add(jPanel1, new java.awt.GridBagConstraints());
+
         tabPrincipal.addTab("", pnlBienvenida);
 
         pnlPrincipal.add(tabPrincipal, java.awt.BorderLayout.CENTER);
@@ -167,6 +191,11 @@ public class Principal extends javax.swing.JFrame {
 
         mnuConsultas.setFont(ESTILO4);
         mnuConsultas.setText("Consultas");
+        mnuConsultas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuConsultasActionPerformed(evt);
+            }
+        });
         jMenu4.add(mnuConsultas);
 
         jMenuBar1.add(jMenu4);
@@ -194,10 +223,20 @@ public class Principal extends javax.swing.JFrame {
 
         mnuRegistroMateria.setFont(ESTILO4);
         mnuRegistroMateria.setText("Registro de materias y secciones");
+        mnuRegistroMateria.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuRegistroMateriaActionPerformed(evt);
+            }
+        });
         jMenu5.add(mnuRegistroMateria);
 
         mnuRegistroTema.setFont(ESTILO4);
         mnuRegistroTema.setText("Registro de temas y subtemas");
+        mnuRegistroTema.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuRegistroTemaActionPerformed(evt);
+            }
+        });
         jMenu5.add(mnuRegistroTema);
 
         jMenuBar1.add(jMenu5);
@@ -294,6 +333,21 @@ public class Principal extends javax.swing.JFrame {
         agregarPestaña("Registro de editoriales", EditorialView.getInstance());
     }//GEN-LAST:event_mnuRegistroEditorialActionPerformed
 
+    private void mnuConsultasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuConsultasActionPerformed
+        // TODO add your handling code here:
+        agregarPestaña("Consultas", ConsultaView.getInstance());
+    }//GEN-LAST:event_mnuConsultasActionPerformed
+
+    private void mnuRegistroMateriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuRegistroMateriaActionPerformed
+        // TODO add your handling code here:
+        agregarPestaña("Materias y secciones", MateriaSeccionView.getInstance());
+    }//GEN-LAST:event_mnuRegistroMateriaActionPerformed
+
+    private void mnuRegistroTemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuRegistroTemaActionPerformed
+        // TODO add your handling code here:
+        agregarPestaña("Temas y subtemas", TemaView.getInstance());
+    }//GEN-LAST:event_mnuRegistroTemaActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -333,6 +387,8 @@ public class Principal extends javax.swing.JFrame {
     private static javax.swing.JButton jButton1;
     private static javax.swing.JButton jButton2;
     private static javax.swing.JButton jButton3;
+    private static javax.swing.JButton jButton4;
+    private static javax.swing.JLabel jLabel1;
     private static javax.swing.JMenu jMenu1;
     private static javax.swing.JMenu jMenu2;
     private static javax.swing.JMenu jMenu4;
@@ -341,6 +397,9 @@ public class Principal extends javax.swing.JFrame {
     private static javax.swing.JMenuBar jMenuBar1;
     private static javax.swing.JMenuItem jMenuItem6;
     private static javax.swing.JMenuItem jMenuItem8;
+    private static javax.swing.JPanel jPanel1;
+    private static javax.swing.JPanel jPanel2;
+    private static javax.swing.JPanel jPanel3;
     private static javax.swing.JToolBar jToolBar1;
     private static javax.swing.JMenuItem mnuConsultas;
     private static javax.swing.JMenuItem mnuPersona;
