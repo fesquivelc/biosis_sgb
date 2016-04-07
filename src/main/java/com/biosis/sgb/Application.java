@@ -7,9 +7,10 @@ import com.personal.utiles.PropertiesUtil;
 import java.awt.Font;
 import java.io.File;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.Properties;
 import javax.imageio.ImageIO;
-import javax.swing.JFrame;
 import org.apache.log4j.Logger;
 
 public class Application {
@@ -35,6 +36,11 @@ public class Application {
     public static File REPORTE_PRESTAMO;
     public static File REPORTE_LIBRO_USO;
     public static ImagenFondo BORDE_FONDO;
+    public static DateFormat FORMATO_HMS;
+    public static DateFormat FORMATO_HM;
+    public static DateFormat FORMATO_DM;
+    public static DateFormat FORMATO_DMY;
+    public static DateFormat FORMATO_TIMESTAMP;
     private static final Logger LOG = Logger.getLogger(Application.class.getName());
 
     public static void main(String[] args) {
@@ -58,6 +64,12 @@ public class Application {
 
         REPORTE_INSTITUCION = props_interfaz.getProperty("reporte_institucion");
         REPORTE_RUC = props_interfaz.getProperty("reporte_ruc");
+
+        FORMATO_DM = new SimpleDateFormat(props_interfaz.getProperty("formato_dm"));
+        FORMATO_DMY = new SimpleDateFormat(props_interfaz.getProperty("formato_dmy"));
+        FORMATO_HM = new SimpleDateFormat(props_interfaz.getProperty("formato_hm"));
+        FORMATO_HMS = new SimpleDateFormat(props_interfaz.getProperty("formato_hms"));
+        FORMATO_TIMESTAMP = new SimpleDateFormat(String.format("%s %s", props_interfaz.getProperty("formato_dmy"), props_interfaz.getProperty("formato_hms")));
 
         try {
             BORDE_FONDO = new ImagenFondo(ImageIO.read(IMG_FONDO_APP));

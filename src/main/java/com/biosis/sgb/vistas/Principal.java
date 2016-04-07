@@ -8,6 +8,10 @@ package com.biosis.sgb.vistas;
 import static com.biosis.sgb.Application.BORDE_FONDO;
 import static com.biosis.sgb.Application.ESTILO1;
 import static com.biosis.sgb.Application.ESTILO4;
+import static com.biosis.sgb.Application.ESTILO6;
+import static com.biosis.sgb.Application.FORMATO_TIMESTAMP;
+import com.biosis.sgb.entidades.Usuario;
+import com.biosis.sgb.info.UsuarioActivo;
 import com.biosis.sgb.util.ButtonTabComponent;
 import java.awt.Color;
 import java.awt.Component;
@@ -27,7 +31,7 @@ public class Principal extends javax.swing.JFrame {
     public Principal() {
         initComponents();
 //        iniciarTab(0);
-
+        mostrarInformacion(UsuarioActivo.getUsuario());
         pnlBienvenida.setBorder(BORDE_FONDO);
 
     }
@@ -48,6 +52,10 @@ public class Principal extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
+        lblUsuario = new javax.swing.JLabel();
+        lblNombre = new javax.swing.JLabel();
+        lblRol = new javax.swing.JLabel();
+        lblConexion = new javax.swing.JLabel();
         jToolBar1 = new javax.swing.JToolBar();
         jButton1 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
@@ -84,12 +92,34 @@ public class Principal extends javax.swing.JFrame {
         jPanel3.setOpaque(false);
         jPanel3.setLayout(new java.awt.BorderLayout());
 
-        jLabel1.setFont(new java.awt.Font("SansSerif", 1, 60)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("SansSerif", 1, 50)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
-        jLabel1.setText("Bienvenido al sistema de biblioteca");
+        jLabel1.setText("Bienvenido al sistema de gestión de biblioteca");
         jPanel3.add(jLabel1, java.awt.BorderLayout.NORTH);
 
         jPanel2.setOpaque(false);
+        jPanel2.setLayout(new java.awt.GridLayout(0, 1, 5, 0));
+
+        lblUsuario.setFont(ESTILO6);
+        lblUsuario.setForeground(new java.awt.Color(240, 240, 240));
+        lblUsuario.setText("Usuario:");
+        jPanel2.add(lblUsuario);
+
+        lblNombre.setFont(ESTILO6);
+        lblNombre.setForeground(new java.awt.Color(240, 240, 240));
+        lblNombre.setText("Usuario:");
+        jPanel2.add(lblNombre);
+
+        lblRol.setFont(ESTILO6);
+        lblRol.setForeground(new java.awt.Color(240, 240, 240));
+        lblRol.setText("Usuario:");
+        jPanel2.add(lblRol);
+
+        lblConexion.setFont(ESTILO6);
+        lblConexion.setForeground(new java.awt.Color(240, 240, 240));
+        lblConexion.setText("Usuario:");
+        jPanel2.add(lblConexion);
+
         jPanel3.add(jPanel2, java.awt.BorderLayout.CENTER);
 
         jPanel1.add(jPanel3);
@@ -391,6 +421,10 @@ public class Principal extends javax.swing.JFrame {
     private static javax.swing.JPanel jPanel2;
     private static javax.swing.JPanel jPanel3;
     private static javax.swing.JToolBar jToolBar1;
+    private static javax.swing.JLabel lblConexion;
+    private static javax.swing.JLabel lblNombre;
+    private static javax.swing.JLabel lblRol;
+    private static javax.swing.JLabel lblUsuario;
     private static javax.swing.JMenuItem mnuConsultas;
     private static javax.swing.JMenuItem mnuPersona;
     private static javax.swing.JMenuItem mnuPrestamo;
@@ -428,5 +462,23 @@ public class Principal extends javax.swing.JFrame {
             tabPrincipal.setSelectedIndex(tabPrincipal.getTabCount() - 1);
             
         }
+    }
+
+    private void mostrarInformacion(Usuario usuario) {
+        lblUsuario.setVisible(false);
+//        lblUsuario.setText(String.format("Usuario: %s", usuario.getLogin()));
+        lblRol.setText(String.format("Rol: %s", usuario.getRol().getNombre()));
+        if(usuario.getPersona() != null){
+            lblNombre.setText(String.format("Nombre: %s", usuario.getPersona().getNombreCompleto()));
+        }else{
+            lblNombre.setVisible(false);
+        }
+        if(usuario.getEvento() == null){
+            lblConexion.setText(String.format("Última conexión: %s", "PRIMERA CONEXIÓN"));
+        }else{
+            lblConexion.setText(String.format("Última conexión: %s", FORMATO_TIMESTAMP.format(usuario.getEvento().getFechaHora())));
+        }
+        
+        
     }
 }
