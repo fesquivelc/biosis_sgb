@@ -4,6 +4,7 @@ apply plugin: 'application'
 mainClassName = 'com.biosis.sgb.Application'
 //mainClassName = 'com.biosis.sgb.vistas.Principal'
 //mainClassName = 'com.biosis.sgb.pruebas.Main'
+//mainClassName = 'com.biosis.sgb.pruebas.MainUsuario'
 //mainClassName = 'com.biosis.sgb.pruebas.TransparentPanel'
 
 sourceCompatibility = '1.8'

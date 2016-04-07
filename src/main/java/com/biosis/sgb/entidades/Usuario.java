@@ -38,6 +38,17 @@ public class Usuario {
     @ManyToOne(targetEntity = Rol.class, optional = true)
     @JoinColumn(name = "rol_id", referencedColumnName = "rol_id", nullable = true)
     private Rol rol;
+    @ManyToOne(targetEntity = Evento.class, optional = true)
+    @JoinColumn(name = "evento_id", referencedColumnName = "evento_id", nullable = true)
+    private Evento evento;
+
+    public Evento getEvento() {
+        return evento;
+    }
+
+    public void setEvento(Evento evento) {
+        this.evento = evento;
+    }
 
     public Rol getRol() {
         return rol;

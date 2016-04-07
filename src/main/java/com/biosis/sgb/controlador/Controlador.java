@@ -120,6 +120,22 @@ public abstract class Controlador<T>{
         }
     }
     
+    protected List<T> buscarNativo(String sql){
+        return buscarNativo(sql, null, -1, -1);
+    }
+    protected List<T> buscarNativo(String sql, Map<String, Object> parametros){
+        return buscarNativo(sql, parametros, -1, -1);
+    }
+    
+    protected List<T> buscarNativo(String sql, Map<String, Object> parametros, int inicio, int tamanio){
+        try {
+            return this.dao.buscarNativo(sql, seleccionadoClass, parametros, inicio, tamanio);
+        } catch (Exception ex) {
+            LOG.error("Error al buscar nativo: ", ex);
+            return null;
+        }
+    }
+    
     protected int contar(String jpql, Map<String, Object> parametros){
         try {
             return this.dao.contar(jpql, parametros);

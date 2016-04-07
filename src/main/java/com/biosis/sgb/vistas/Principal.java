@@ -48,7 +48,6 @@ public class Principal extends javax.swing.JFrame {
         jPanel3 = new javax.swing.JPanel();
         jLabel1 = new javax.swing.JLabel();
         jPanel2 = new javax.swing.JPanel();
-        jButton4 = new javax.swing.JButton();
         jToolBar1 = new javax.swing.JToolBar();
         jButton1 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
@@ -91,14 +90,6 @@ public class Principal extends javax.swing.JFrame {
         jPanel3.add(jLabel1, java.awt.BorderLayout.NORTH);
 
         jPanel2.setOpaque(false);
-
-        jButton4.setBackground(new java.awt.Color(102, 102, 102));
-        jButton4.setText("CONSULTAS");
-        jButton4.setMaximumSize(new java.awt.Dimension(250, 250));
-        jButton4.setMinimumSize(new java.awt.Dimension(250, 250));
-        jButton4.setPreferredSize(new java.awt.Dimension(250, 250));
-        jPanel2.add(jButton4);
-
         jPanel3.add(jPanel2, java.awt.BorderLayout.CENTER);
 
         jPanel1.add(jPanel3);
@@ -387,7 +378,6 @@ public class Principal extends javax.swing.JFrame {
     private static javax.swing.JButton jButton1;
     private static javax.swing.JButton jButton2;
     private static javax.swing.JButton jButton3;
-    private static javax.swing.JButton jButton4;
     private static javax.swing.JLabel jLabel1;
     private static javax.swing.JMenu jMenu1;
     private static javax.swing.JMenu jMenu2;

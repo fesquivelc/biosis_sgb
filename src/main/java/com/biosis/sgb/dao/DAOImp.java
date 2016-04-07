@@ -5,6 +5,7 @@
  */
 package com.biosis.sgb.dao;
 
+import com.biosis.sgb.entidades.Usuario;
 import com.personal.utiles.ParametrosUtil;
 import com.personal.utiles.PropertiesUtil;
 import java.util.HashMap;
@@ -54,7 +55,7 @@ public class DAOImp extends DAOJPA {
 
             try {
                 EntityManagerFactory emf = Persistence.createEntityManagerFactory(this.unidadPersistencia, properties);
-                entityManager = emf.createEntityManager();
+                entityManager = emf.createEntityManager();                
             } catch (Exception e) {
                 LOG.error("Error al obtener el entity manager", e);
             }

@@ -229,6 +229,7 @@ CREATE TABLE  usuario (
   cambiar_password boolean NOT NULL ,
   persona_id bigint NULL,
   rol_id bigint not null,
+  evento_id bigint not null,
   fecha_hora_creacion timestamp without time zone NOT NULL default current_timestamp,
   fecha_hora_modificacion timestamp without time zone NULL);
 -- -----------------------------------------------------
@@ -249,62 +250,76 @@ alter table autor add constraint pk_autor primary key(autor_id);
 alter table editorial add constraint pk_editorial primary key(editorial_id);
 
 alter table ejemplar add constraint pk_ejemplar primary key(ejemplar_id);
-alter table ejemplar add constraint fk_ejemplar_libro foreign key(libro_id) references libro(libro_id);
-alter table ejemplar add constraint fk_ejemplar_procedencia foreign key(procedencia_id) references procedencia(procedencia_id);
-alter table ejemplar add constraint fk_ejemplar_prestamo foreign key(prestamo_activo_id) references prestamo(prestamo_id);
 
 alter table evento add constraint pk_evento primary key(evento_id);
-alter table evento add constraint fk_evento_usuario foreign key(usuario_id);
 
 alter table evento_detalle add constraint pk_evento_detalle primary key(evento_detalle_id);
-alter table evento_detalle add constraint fk_evento_detalle_evento foreign key(evento_id) references evento(evento_id);
 
 alter table indice add constraint pk_indice primary key(indice_id);
-alter table indice add constraint fk_indice_libro foreign key(libro_id) references libro(libro_id);
 
 alter table libro add constraint pk_libro primary key(libro_id);
-alter table libro add constraint fk_libro_seccion foreign key(seccion_id) references seccion(seccion_id);
-alter table libro add constraint fk_libro_tipo_libro foreign key(tipo_libro_id) references tipo_libro(tipo_libro_id);
-alter table libro add constraint fk_libro_editorial foreign key(editorial_id) references editorial(editorial_id);
 
 alter table libro_autor add constraint pk_libro_autor primary key(libro_autor_id);
-alter table libro_autor add constraint fk_libro_autor_libro foreign key(libro_id) references libro(libro_id);
-alter table libro_autor add constraint fk_libro_autor_autor foreign key(autor_id) references autor(autor_id);
-alter table libro_autor add constraint uq_libro_autor unique(libro_id,autor_id);
 
 alter table libro_tema add constraint pk_libro_tema primary key(libro_tema_id);
-alter table libro_tema add constraint fk_libro_tema_tema foreign key(tema_id) references tema(tema_id);
-alter table libro_tema add constraint fk_libro_tema_libro foreign key(libro_id) references libro(libro_id);
-alter table libro_tema add constraint uq_libro_tema unique(tema_id,libro_id);
 
 alter table materia add constraint pk_materia primary key(materia_id);
 
 alter table persona add constraint pk_persona primary key(persona_id);
 
 alter table prestamo add constraint pk_prestamo primary key(prestamo_id);
-alter table prestamo add constraint fk_prestamo_ejemplar foreign key(ejemplar_id) references ejemplar(ejemplar_id);
-alter table prestamo add constraint fk_prestamo_persona foreign key(persona_id) references persona(persona_id);
 
 alter table procedencia add constraint pk_procedencia primary key(procedencia_id);
 
 alter table rol add constraint pk_rol primary key(rol_id);
 
 alter table rol_acceso add constraint pk_rol_acceso primary key(rol_acceso_id);
-alter table rol_acceso add constraint fk_rol_acceso_rol foreign key rol_id references rol(rol_id);
-alter table rol_acceso add constraint fk_rol_acceso_acceso foreign key acceso_id references acceso(acceso_id);
-alter table rol_acceso add constraint uq_rol_acceso unique(rol_id,acceso_id);
 
 alter table seccion add constraint pk_seccion primary key(seccion_id);
-alter table seccion add constraint fk_seccion_materia foreign key(materia_id) references materia(materia_id);
 
 alter table tema add constraint pk_tema primary key(tema_id);
-alter table tema add constraint fk_tema_tema foreign key(tema_superior_id) references tema(tema_id);
 
 alter table tipo_libro add constraint pk_tipo_libro primary key(tipo_libro_id);
 
 alter table usuario add constraint pk_usuario primary key (usuario_id);
+
+alter table ejemplar add constraint fk_ejemplar_libro foreign key(libro_id) references libro(libro_id);
+alter table ejemplar add constraint fk_ejemplar_procedencia foreign key(procedencia_id) references procedencia(procedencia_id);
+alter table ejemplar add constraint fk_ejemplar_prestamo foreign key(prestamo_activo_id) references prestamo(prestamo_id);
+
+alter table evento add constraint fk_evento_usuario foreign key(usuario_id) references usuario(usuario_id);
+
+alter table evento_detalle add constraint fk_evento_detalle_evento foreign key(evento_id) references evento(evento_id);
+
+alter table indice add constraint fk_indice_libro foreign key(libro_id) references libro(libro_id);
+
+alter table libro add constraint fk_libro_seccion foreign key(seccion_id) references seccion(seccion_id);
+alter table libro add constraint fk_libro_tipo_libro foreign key(tipo_libro_id) references tipo_libro(tipo_libro_id);
+alter table libro add constraint fk_libro_editorial foreign key(editorial_id) references editorial(editorial_id);
+
+alter table libro_autor add constraint fk_libro_autor_libro foreign key(libro_id) references libro(libro_id);
+alter table libro_autor add constraint fk_libro_autor_autor foreign key(autor_id) references autor(autor_id);
+alter table libro_autor add constraint uq_libro_autor unique(libro_id,autor_id);
+
+alter table libro_tema add constraint fk_libro_tema_tema foreign key(tema_id) references tema(tema_id);
+alter table libro_tema add constraint fk_libro_tema_libro foreign key(libro_id) references libro(libro_id);
+alter table libro_tema add constraint uq_libro_tema unique(tema_id,libro_id);
+
+alter table prestamo add constraint fk_prestamo_ejemplar foreign key(ejemplar_id) references ejemplar(ejemplar_id);
+alter table prestamo add constraint fk_prestamo_persona foreign key(persona_id) references persona(persona_id);
+
+alter table rol_acceso add constraint fk_rol_acceso_rol foreign key (rol_id) references rol(rol_id);
+alter table rol_acceso add constraint fk_rol_acceso_acceso foreign key (acceso_id) references acceso(acceso_id);
+alter table rol_acceso add constraint uq_rol_acceso unique(rol_id,acceso_id);
+
+alter table tema add constraint fk_tema_tema foreign key(tema_superior_id) references tema(tema_id);
+
+alter table seccion add constraint fk_seccion_materia foreign key(materia_id) references materia(materia_id);
+
 alter table usuario add constraint fk_usuario_persona foreign key(persona_id) references persona(persona_id);
 alter table usuario add constraint fk_usuario_rol foreign key(rol_id) references rol(rol_id);
+alter table usuario add constraint fk_usuario_evento foreign key(evento_id) references evento(evento_id);
+
 
 -- alter table usuario_rol add constraint pk_usuario_rol primary key(usuario_rol_id);
 -- alter table usuario_rol add constraint fk_usuario_rol_usuario foreign key(usuario_id) references usuario(usuario_id);
@@ -373,6 +388,18 @@ IF TG_OP = 'UPDATE' OR TG_OP = 'DELETE' THEN
   END IF;
 END IF;
 RETURN NEW;
+END;
+$BODY$
+language plpgsql;
+
+CREATE OR REPLACE FUNCTION sp_actualizar_ultimo_login()
+RETURNS trigger AS
+$BODY$
+BEGIN
+  IF NEW.tipo = 'L' THEN
+    UPDATE usuario SET evento_id = NEW.evento_id WHERE usuario_id = NEW.usuario_id;
+  END IF;
+  RETURN NEW;
 END;
 $BODY$
 language plpgsql;
@@ -518,11 +545,11 @@ ON rol
 FOR EACH ROW
 EXECUTE PROCEDURE sp_timestamp_modificar();
 
-CREATE TRIGGER tr_timestamp_modificar
-BEFORE UPDATE
-ON usuario_rol
-FOR EACH ROW
-EXECUTE PROCEDURE sp_timestamp_modificar();
+-- CREATE TRIGGER tr_timestamp_modificar
+-- BEFORE UPDATE
+-- ON usuario_rol
+-- FOR EACH ROW
+-- EXECUTE PROCEDURE sp_timestamp_modificar();
 
 CREATE TRIGGER tr_timestamp_modificar
 BEFORE UPDATE
@@ -542,7 +569,23 @@ ON tema
 FOR EACH ROW
 EXECUTE PROCEDURE sp_timestamp_modificar();
 
+CREATE TRIGGER tr_timestamp_modificar
+BEFORE UPDATE
+ON acceso
+FOR EACH ROW
+EXECUTE PROCEDURE sp_timestamp_modificar();
 
+CREATE TRIGGER tr_timestamp_modificar
+BEFORE UPDATE
+ON rol_acceso
+FOR EACH ROW
+EXECUTE PROCEDURE sp_timestamp_modificar();
+
+CREATE TRIGGER tr_actualizar_ultimo_login
+AFTER INSERT
+ON evento
+FOR EACH ROW
+EXECUTE PROCEDURE sp_actualizar_ultimo_login();
 -- PROCEDEREMOS CON LOS INSERTS
 WITH mat_med AS(
 INSERT INTO materia(
@@ -565,6 +608,7 @@ WITH tema_estsuperiores AS (
     INSERT INTO tema(nombre,descripcion) VALUES('ESTUDIOS SUPERIORES','LIBROS PARA ESTUDIOS UNIVERSITARIOS') returning tema_id
 )
 INSERT INTO tema(nombre,descripcion,tema_superior_id) SELECT 'TRATADOS DE MEDICINA','LIBROS SOBRE MEDICINA',tema_estsuperiores.tema_id FROM tema_estsuperiores;
+
 INSERT INTO tipo_libro(nombre) VALUES('LIBRO');
 INSERT INTO tipo_libro(nombre) VALUEs('REVISTA');
 
@@ -572,3 +616,21 @@ INSERT INTO persona(nombres, paterno, materno, dni, email) VALUES ('FRANCIS PAUL
 INSERT INTO persona(nombres, paterno, materno, dni, email) VALUES ('WALTER','ESQUIVEL','CUENCA','47170982','drago_648@hotmail.com');
 INSERT INTO persona(nombres, paterno, materno, dni, email) VALUES ('ALDO MISAEL','JAMANCA','CHAVEZ','12345678','aldo_mjc@hotmail.com');
 INSERT INTO persona(nombres, paterno, materno, dni, email) VALUES ('JUAN CARLOS (PACO)','QUISPE','DÁVILA','34567891','jcgls.nba@gmail.com');
+
+INSERT INTO acceso(nombre, objeto, descripcion) VALUES ('AUTORES','com.biosis.sgb.vistas.AutorView','GESTIÓN DE LA INFORMACIÓN DE AUTORES');
+INSERT INTO acceso(nombre, objeto, descripcion) VALUES ('CONSULTAS','com.biosis.sgb.vistas.ConsultaView','REALIZACIÓN DE CONSULTAS DE MATERIAL BIBLIOGRÁFICO');
+INSERT INTO acceso(nombre, objeto, descripcion) VALUES ('EDITORIALES','com.biosis.sgb.vistas.EditorialView','GESTIÓN DE LA INFORMACIÓN DE EDITORIALES');
+INSERT INTO acceso(nombre, objeto, descripcion) VALUES ('EJEMPLARES','com.biosis.sgb.vistas.EjemplarView','GESTIÓN DE LA INFORMACIÓN DE EJEMPLARES');
+INSERT INTO acceso(nombre, objeto, descripcion) VALUES ('LIBRO','com.biosis.sgb.vistas.LibroView','GESTIÓN DE LA INFORMACIÓN DE LIBROS');
+INSERT INTO acceso(nombre, objeto, descripcion) VALUES ('MATERIAS Y SECCIONES','com.biosis.sgb.vistas.MateriaSeccionView','GESTIÓN DE LA INFORMACIÓN DE MATERIAS Y SECCIONES');
+INSERT INTO acceso(nombre, objeto, descripcion) VALUES ('PERSONAS','com.biosis.sgb.vistas.PersonaView','GESTIÓN DE LA INFORMACIÓN DE PERSONAS');
+INSERT INTO acceso(nombre, objeto, descripcion) VALUES ('PRESTAMOS','com.biosis.sgb.vistas.PrestamoView','GESTIÓN DE PRÉSTAMOS DE MATERIAL BIBLIOGRÁFICO');
+INSERT INTO acceso(nombre, objeto, descripcion) VALUES ('REPORTE DE EJEMPLARES','com.biosis.sgb.vistas.ReporteEjemplarView','CAPACIDAD DE GENERAR REPORTES DE LOS EJEMPLARES');
+INSERT INTO acceso(nombre, objeto, descripcion) VALUES ('TEMAS','com.biosis.sgb.vistas.TemaView','GESTIÓN DE LA INFORMACIÓN DE TEMAS Y SUBTEMAS');
+INSERT INTO acceso(nombre, objeto, descripcion) VALUES ('TIPO DE LIBRO','com.biosis.sgb.vistas.TipoLibroView','GESTIÓN DE LA INFORMACIÓN DE TIPOS DE LIBRO');
+
+WITH rol_admin AS (
+  INSERT INTO rol(nombre,activo) VALUES('ADMINISTRADOR','1') returning rol_id
+) 
+INSERT INTO usuario(login, password, cambiar_password, rol_id, activo)
+SELECT 'admin',md5('sgbmoquegua'),'0',rol_id,'1' FROM rol_admin;

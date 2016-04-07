@@ -22,6 +22,7 @@ public interface DAO {
     public List buscar(String queryJPQL);
     public List buscar(String queryJPQL, Map<String, Object> parametros);
     public List buscar(String queryJPQL, Map<String, Object> parametros, int inicio, int tamanio);
+    public List buscarNativo(String sql, Class clazz, Map<String, Object> parametros, int inicio, int tamanio);
     public int contar(String queryJPQL, Map<String, Object> parametros);
     public int contar(Class clase);
     public Object buscarPorId(Object id, Class clase);

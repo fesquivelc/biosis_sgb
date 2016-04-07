@@ -159,6 +159,36 @@ public abstract class DAOJPA implements DAO {
     }
 
     @Override
+    public List buscarNativo(String sql, Class clazz, Map<String, Object> parametros, int inicio, int tamanio) {
+        try {
+            Query query = getEntityManager().createNativeQuery(sql, clazz);
+
+            if (parametros != null) {
+                parametros.entrySet().stream().forEach((Map.Entry<String, Object> entry) -> {
+                    query.setParameter(entry.getKey(), entry.getValue());
+                });
+            }
+
+            if (inicio != -1) {
+                query.setFirstResult(inicio);
+            }
+
+            if (tamanio != -1) {
+                query.setMaxResults(tamanio);
+            }
+
+            List lista = query.getResultList();
+
+            return lista;
+        } catch (Exception e) {
+            LOG.error("Error al buscar", e);
+            return null;
+        }
+    }
+    
+    
+
+    @Override
     public Object buscarPorId(Object id, Class clase) {
         try {
             return getEntityManager().find(clase, id);
