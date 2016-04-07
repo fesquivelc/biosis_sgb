@@ -25,14 +25,14 @@ public class UsuarioControlador extends Controlador<Usuario> {
     }
 
     public int contarXNombre(String patron) {
-        String jpql = "SELECT COUNT(u.id) FROM Usuario u WHERE u.login LIKE CONCAT('%',:patron,'%')";
+        String jpql = "SELECT COUNT(u.login) FROM Usuario u WHERE u.login LIKE CONCAT('%',:patron,'%')";
         Map<String, Object> param = new HashMap();
         param.put("patron", patron);
         return this.contar(jpql, param);
     }
 
     public List<Usuario> buscarXNombre(String patron, int desde, int tamanio) {
-        String jpql = "SELECT COUNT(u.id) FROM Usuario u WHERE u.login LIKE CONCAT('%',:patron,'%') ORDER BY u.login";
+        String jpql = "SELECT u FROM Usuario u WHERE u.login LIKE CONCAT('%',:patron,'%') ORDER BY u.login";
         Map<String, Object> param = new HashMap();
         param.put("patron", patron);
         return this.buscar(jpql, param, desde, tamanio);

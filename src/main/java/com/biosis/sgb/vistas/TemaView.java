@@ -10,6 +10,7 @@ import static com.biosis.sgb.controlador.Controlador.*;
 import com.biosis.sgb.controlador.TemaControlador;
 import com.biosis.sgb.entidades.Tema;
 import com.biosis.sgb.util.ButtonImage;
+import com.biosis.sgb.util.ControlAcceso;
 import com.biosis.sgb.util.render.TrRenderTema;
 import com.biosis.sgb.vistas.dialogos.TemaCRUD;
 import com.personal.utiles.FormularioUtil;
@@ -26,7 +27,7 @@ import org.jdesktop.observablecollections.ObservableCollections;
  *
  * @author Francis
  */
-public class TemaView extends javax.swing.JPanel {
+public class TemaView extends javax.swing.JPanel implements ControlAcceso {
 
     private final TemaControlador temaControlador;
 
@@ -36,14 +37,14 @@ public class TemaView extends javax.swing.JPanel {
     private List<Tema> temaList;
 
     private static TemaView instance;
-    
-    static TemaView getInstance(){
-        if(instance == null){
+
+    static TemaView getInstance() {
+        if (instance == null) {
             instance = new TemaView();
         }
         return instance;
     }
-    
+
     private TemaView() {
         initComponents();
         initComponents2();
@@ -270,6 +271,9 @@ public class TemaView extends javax.swing.JPanel {
 //        FormularioUtil.activarComponente(pnlBusqueda, !busqueda);
         FormularioUtil.activarComponente(pnlAcciones, !busqueda);
         btnActualizar.setEnabled(!busqueda);
+        btnNuevo.setVisible(create);
+        btnModificar.setVisible(update);
+        btnEliminar.setVisible(delete);
     }
 
     //cambiamos acorde a lo que se requiere
@@ -313,6 +317,16 @@ public class TemaView extends javax.swing.JPanel {
             }
         }
         return null;
+    }
+    private boolean create;
+    private boolean update;
+    private boolean delete;
+
+    @Override
+    public void crud(boolean create, boolean read, boolean update, boolean delete) {
+        this.create = create;
+        this.update = update;
+        this.delete = delete;
     }
 
     private class Busqueda extends SwingWorker<Double, Void> {

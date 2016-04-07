@@ -9,16 +9,13 @@ import static com.biosis.sgb.Application.ESTILO1;
 import static com.biosis.sgb.Application.ESTILO2;
 import static com.biosis.sgb.Application.ESTILO5;
 import static com.biosis.sgb.Application.ESTILO7;
-import static com.biosis.sgb.Application.IMG_LOGO_REPORTE;
-import static com.biosis.sgb.Application.REPORTE_INSTITUCION;
-import static com.biosis.sgb.Application.REPORTE_PRESTAMO;
-import static com.biosis.sgb.Application.REPORTE_RUC;
 import static com.biosis.sgb.controlador.Controlador.MODIFICAR;
 import static com.biosis.sgb.controlador.Controlador.NUEVO;
 import com.biosis.sgb.controlador.PrestamoControlador;
 import com.biosis.sgb.entidades.Libro;
 import com.biosis.sgb.entidades.Persona;
 import com.biosis.sgb.entidades.Prestamo;
+import com.biosis.sgb.util.ControlAcceso;
 import com.biosis.sgb.vistas.dialogos.DevolucionDialog;
 import com.biosis.sgb.vistas.dialogos.LibroSelect;
 import com.biosis.sgb.vistas.dialogos.PersonaSelect;
@@ -30,9 +27,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import javax.swing.JTable;
 import javax.swing.SpinnerNumberModel;
 import javax.swing.SwingWorker;
@@ -48,7 +43,7 @@ import org.jdesktop.swingbinding.SwingBindings;
  *
  * @author Francis
  */
-public class PrestamoView extends javax.swing.JPanel {
+public class PrestamoView extends javax.swing.JPanel implements ControlAcceso {
 
     private static PrestamoView instance;
 
@@ -671,6 +666,9 @@ public class PrestamoView extends javax.swing.JPanel {
         if (!busqueda) {
             opcionesBusqueda();
         }
+        btnNuevo.setVisible(create);
+        btnModificar.setVisible(update);
+        btnEliminar.setVisible(delete);
     }
 
     //cambiamos acorde a lo que se requiere
@@ -796,6 +794,16 @@ public class PrestamoView extends javax.swing.JPanel {
 
     private void mostrarLibro(Libro libro) {
         txtLibro.setText(libro.getTitulo());
+    }
+    private boolean create;
+    private boolean update;
+    private boolean delete;
+
+    @Override
+    public void crud(boolean create, boolean read, boolean update, boolean delete) {
+        this.create = create;
+        this.update = update;
+        this.delete = delete;
     }
 
     private class Busqueda extends SwingWorker<Double, Void> {

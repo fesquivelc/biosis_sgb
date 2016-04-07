@@ -479,6 +479,7 @@ public class EjemplarCRUD extends javax.swing.JDialog {
         seleccionado.setCodigo(txtCodigo.getText());
         seleccionado.setProcedencia((Procedencia) cboProcedencia.getSelectedItem());
         if (this.accion == NUEVO) {
+            seleccionado.setEstado(1);
             seleccionado.setFechaHoraCreacion(new Date());
 
         }

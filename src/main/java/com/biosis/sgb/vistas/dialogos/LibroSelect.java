@@ -728,10 +728,13 @@ public class LibroSelect extends javax.swing.JDialog {
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
                 if (value != null) {
-                    List<LibroAutor> listado = (List) value;
-                    StringBuilder sb = new StringBuilder();
-                    listado.stream().forEach(la -> sb.append(String.format("%s %s, ", la.getAutor().getPaterno(), la.getAutor().getNombres())));
-                    value = sb.toString().substring(0, sb.toString().length() - 2);
+                    if (value instanceof List) {
+                        List<LibroAutor> listado = (List) value;
+                        StringBuilder sb = new StringBuilder();
+                        listado.stream().forEach(la -> sb.append(String.format("%s %s, ", la.getAutor().getPaterno(), la.getAutor().getNombres())));
+                        value = sb.toString().substring(0, sb.toString().length() - 2);
+                    }
+
                 }
                 return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column); //To change body of generated methods, choose Tools | Templates.
             }

@@ -16,6 +16,7 @@ import com.biosis.sgb.controlador.LibroControlador;
 import com.biosis.sgb.entidades.Autor;
 import com.biosis.sgb.entidades.Editorial;
 import com.biosis.sgb.entidades.Libro;
+import com.biosis.sgb.entidades.LibroAutor;
 import com.biosis.sgb.util.ControlAcceso;
 import com.biosis.sgb.vistas.dialogos.AutorSelect;
 import com.biosis.sgb.vistas.dialogos.EditorialSelect;
@@ -638,12 +639,15 @@ public class LibroView extends javax.swing.JPanel implements ControlAcceso {
         tblLibroList.getColumn(3).setCellRenderer(new DefaultTableCellRenderer() {
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-//                if (value != null) {
-//                    List<LibroAutor> listado = (List) value;
-//                    StringBuilder sb = new StringBuilder();
-//                    listado.stream().forEach(la -> sb.append(String.format("%s %s, ", la.getAutor().getPaterno(), la.getAutor().getMaterno())));
-//                    value = sb.toString().substring(0, sb.toString().length() - 2);
-//                }
+                if (value != null) {
+                    if (value instanceof List) {
+                        List<LibroAutor> listado = (List) value;
+                        StringBuilder sb = new StringBuilder();
+                        listado.stream().forEach(la -> sb.append(String.format("%s %s, ", la.getAutor().getPaterno(), la.getAutor().getNombres())));
+                        value = sb.toString().substring(0, sb.toString().length() - 2);
+                    }
+
+                }
                 return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column); //To change body of generated methods, choose Tools | Templates.
             }
 

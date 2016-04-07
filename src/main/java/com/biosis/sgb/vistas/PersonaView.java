@@ -14,6 +14,7 @@ import static com.biosis.sgb.controlador.Controlador.MODIFICAR;
 import static com.biosis.sgb.controlador.Controlador.NUEVO;
 import com.biosis.sgb.controlador.PersonaControlador;
 import com.biosis.sgb.entidades.Persona;
+import com.biosis.sgb.util.ControlAcceso;
 import com.biosis.sgb.vistas.dialogos.PersonaCRUD;
 import com.personal.utiles.FormularioUtil;
 import java.util.ArrayList;
@@ -31,10 +32,12 @@ import org.jdesktop.swingbinding.SwingBindings;
  *
  * @author Francis
  */
-public class PersonaView extends javax.swing.JPanel {
+public class PersonaView extends javax.swing.JPanel implements ControlAcceso {
+
     private static PersonaView instance;
+
     static PersonaView getInstance() {
-        if(instance == null){
+        if (instance == null) {
             instance = new PersonaView();
         }
         return instance;
@@ -373,8 +376,8 @@ public class PersonaView extends javax.swing.JPanel {
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         // TODO add your handling code here:
         Persona persona = obtenerPersonaSeleccionada();
-        if(persona != null){
-            
+        if (persona != null) {
+
         }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
@@ -430,6 +433,9 @@ public class PersonaView extends javax.swing.JPanel {
     private void controles(boolean busqueda) {
         FormularioUtil.activarComponente(pnlBusqueda, !busqueda);
         FormularioUtil.activarComponente(pnlAcciones, !busqueda);
+        this.btnNuevo.setVisible(create);
+        this.btnModificar.setVisible(update);
+        this.btnEliminar.setVisible(delete);
     }
 
     //cambiamos acorde a lo que se requiere
@@ -516,6 +522,16 @@ public class PersonaView extends javax.swing.JPanel {
             return personaList.get(fila);
         }
         return null;
+    }
+    private boolean create;
+    private boolean update;
+    private boolean delete;
+
+    @Override
+    public void crud(boolean create, boolean read, boolean update, boolean delete) {
+        this.create = create;
+        this.update = update;
+        this.delete = delete;
     }
 
     private class Busqueda extends SwingWorker<Double, Void> {

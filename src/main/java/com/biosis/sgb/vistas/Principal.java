@@ -34,13 +34,13 @@ public class Principal extends javax.swing.JFrame {
      * Creates new form Principal
      */
     private static final Logger LOG = Logger.getLogger(Principal.class.getName());
-    
+
     public Principal() {
         initComponents();
         initComponents2();
 //        iniciarTab(0);
         mostrarInformacion(UsuarioActivo.getUsuario());
-        guardarInformacionConexion(UsuarioActivo.getUsuario());        
+        guardarInformacionConexion(UsuarioActivo.getUsuario());
         pnlBienvenida.setBorder(BORDE_FONDO);
 
     }
@@ -104,7 +104,7 @@ public class Principal extends javax.swing.JFrame {
         jPanel3.setOpaque(false);
         jPanel3.setLayout(new java.awt.BorderLayout());
 
-        jLabel1.setFont(new java.awt.Font("SansSerif", 1, 50)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("SansSerif", 1, 48)); // NOI18N
         jLabel1.setForeground(new java.awt.Color(255, 255, 255));
         jLabel1.setText("Bienvenido al sistema de gestión de biblioteca");
         jPanel3.add(jLabel1, java.awt.BorderLayout.NORTH);
@@ -138,7 +138,7 @@ public class Principal extends javax.swing.JFrame {
 
         pnlBienvenida.add(jPanel1, new java.awt.GridBagConstraints());
 
-        tabPrincipal.addTab("", pnlBienvenida);
+        tabPrincipal.addTab("Bienvenida", pnlBienvenida);
 
         pnlPrincipal.add(tabPrincipal, java.awt.BorderLayout.CENTER);
 
@@ -220,6 +220,11 @@ public class Principal extends javax.swing.JFrame {
 
         mnuRegistroEjemplar.setFont(ESTILO4);
         mnuRegistroEjemplar.setText("Registro de ejemplares");
+        mnuRegistroEjemplar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuRegistroEjemplarActionPerformed(evt);
+            }
+        });
         jMenu4.add(mnuRegistroEjemplar);
 
         mnuConsultas.setFont(ESTILO4);
@@ -312,7 +317,9 @@ public class Principal extends javax.swing.JFrame {
         jMenuBar1.add(jMenu2);
 
         jMenu3.setText("Configuración");
+        jMenu3.setFont(ESTILO4);
 
+        mnuUsuario.setFont(ESTILO4);
         mnuUsuario.setText("Control de usuarios");
         mnuUsuario.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -321,6 +328,7 @@ public class Principal extends javax.swing.JFrame {
         });
         jMenu3.add(mnuUsuario);
 
+        jMenuItem1.setFont(ESTILO4);
         jMenuItem1.setText("Cambiar password");
         jMenu3.add(jMenuItem1);
 
@@ -333,42 +341,42 @@ public class Principal extends javax.swing.JFrame {
 
     private void btnPrestamoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrestamoActionPerformed
         // TODO add your handling code here:
-        agregarPestaña("Préstamos y devoluciones", PrestamoView.getInstance());
+        agregarPestaña("Préstamos y devoluciones", PrestamoView.getInstance(), GestorAcceso.permisos("Prestamo"));
     }//GEN-LAST:event_btnPrestamoActionPerformed
 
     private void btnConsultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultaActionPerformed
         // TODO add your handling code here:
-        agregarPestaña("Consultas", ConsultaView.getInstance());
+        agregarPestaña("Consultas", ConsultaView.getInstance(), GestorAcceso.permisos("Consulta"));
     }//GEN-LAST:event_btnConsultaActionPerformed
 
     private void btnEjemplarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEjemplarActionPerformed
         // TODO add your handling code here:
-        agregarPestaña("Ejemplares", EjemplarView.getInstance());
+        agregarPestaña("Ejemplares", EjemplarView.getInstance(), GestorAcceso.permisos("Ejemplar"));
     }//GEN-LAST:event_btnEjemplarActionPerformed
 
     private void mnuReporteEjemplarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuReporteEjemplarActionPerformed
         // TODO add your handling code here:
-        agregarPestaña("Reporte de ejemplares", ReporteEjemplarView.getInstance());
+        agregarPestaña("Reporte de ejemplares", ReporteEjemplarView.getInstance(), GestorAcceso.permisos("LibroPrestamo"));
     }//GEN-LAST:event_mnuReporteEjemplarActionPerformed
 
     private void mnuRegistroLibroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuRegistroLibroActionPerformed
         // TODO add your handling code here:
-        agregarPestaña("Registro de libros", LibroView.getInstance());
+        agregarPestaña("Registro de libros", LibroView.getInstance(), GestorAcceso.permisos("Libro"));
     }//GEN-LAST:event_mnuRegistroLibroActionPerformed
 
     private void mnuRegistroAutorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuRegistroAutorActionPerformed
         // TODO add your handling code here:
-        agregarPestaña("Registro de autores", AutorView.getInstance());
+        agregarPestaña("Registro de autores", AutorView.getInstance(), GestorAcceso.permisos("Autor"));
     }//GEN-LAST:event_mnuRegistroAutorActionPerformed
 
     private void mnuPersonaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPersonaActionPerformed
         // TODO add your handling code here:
-        agregarPestaña("Registro de personas", PersonaView.getInstance());
+        agregarPestaña("Registro de personas", PersonaView.getInstance(), GestorAcceso.permisos("Persona"));
     }//GEN-LAST:event_mnuPersonaActionPerformed
 
     private void mnuPrestamoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuPrestamoActionPerformed
         // TODO add your handling code here:
-        agregarPestaña("Préstamos y devoluciones", PrestamoView.getInstance());
+        agregarPestaña("Préstamos y devoluciones", PrestamoView.getInstance(), GestorAcceso.permisos("Prestamo"));
     }//GEN-LAST:event_mnuPrestamoActionPerformed
 
     private void jMenuItem6ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem6ActionPerformed
@@ -378,28 +386,33 @@ public class Principal extends javax.swing.JFrame {
 
     private void mnuRegistroEditorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuRegistroEditorialActionPerformed
         // TODO add your handling code here:
-        agregarPestaña("Registro de editoriales", EditorialView.getInstance());
+        agregarPestaña("Registro de editoriales", EditorialView.getInstance(), GestorAcceso.permisos("Editorial"));
     }//GEN-LAST:event_mnuRegistroEditorialActionPerformed
 
     private void mnuConsultasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuConsultasActionPerformed
         // TODO add your handling code here:
-        agregarPestaña("Consultas", ConsultaView.getInstance());
+        agregarPestaña("Consultas", ConsultaView.getInstance(), GestorAcceso.permisos("Consulta"));
     }//GEN-LAST:event_mnuConsultasActionPerformed
 
     private void mnuRegistroMateriaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuRegistroMateriaActionPerformed
         // TODO add your handling code here:
-        agregarPestaña("Materias y secciones", MateriaSeccionView.getInstance());
+        agregarPestaña("Materias y secciones", MateriaSeccionView.getInstance(), GestorAcceso.permisos("MateriaSeccion"));
     }//GEN-LAST:event_mnuRegistroMateriaActionPerformed
 
     private void mnuRegistroTemaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuRegistroTemaActionPerformed
         // TODO add your handling code here:
-        agregarPestaña("Temas y subtemas", TemaView.getInstance());
+        agregarPestaña("Temas y subtemas", TemaView.getInstance(), GestorAcceso.permisos("Tema"));
     }//GEN-LAST:event_mnuRegistroTemaActionPerformed
 
     private void mnuUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuUsuarioActionPerformed
         // TODO add your handling code here:
-        agregarPestaña("Control de usuarios",UsuarioView.getInstance(),GestorAcceso.permisos("Usuario"));
+        agregarPestaña("Control de usuarios", UsuarioView.getInstance(), GestorAcceso.permisos("Usuario"));
     }//GEN-LAST:event_mnuUsuarioActionPerformed
+
+    private void mnuRegistroEjemplarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuRegistroEjemplarActionPerformed
+        // TODO add your handling code here:
+        agregarPestaña("Mantenimiento de ejemplares", EjemplarView.getInstance(), GestorAcceso.permisos("Ejemplar"));
+    }//GEN-LAST:event_mnuRegistroEjemplarActionPerformed
 
     /**
      * @param args the command line arguments
@@ -494,21 +507,21 @@ public class Principal extends javax.swing.JFrame {
             tabPrincipal.add(titulo, ventana);
             tabPrincipal.setTabComponentAt(tabPrincipal.getTabCount() - 1, tab);
             tabPrincipal.setSelectedIndex(tabPrincipal.getTabCount() - 1);
-            
+
         }
     }
 
-    public static void agregarPestaña(String titulo, Component ventana , boolean[] crud) {
+    public static void agregarPestaña(String titulo, Component ventana, boolean[] crud) {
         int index = tabPrincipal.indexOfComponent(ventana);
         if (index >= 0) {
             tabPrincipal.setSelectedIndex(index);
         } else {
             ButtonTabComponent tab = new ButtonTabComponent(tabPrincipal);
-            ((ControlAcceso)ventana).crud(crud[0], crud[1], crud[2], crud[3]);
+            ((ControlAcceso) ventana).crud(crud[0], crud[1], crud[2], crud[3]);
             tabPrincipal.add(titulo, ventana);
             tabPrincipal.setTabComponentAt(tabPrincipal.getTabCount() - 1, tab);
             tabPrincipal.setSelectedIndex(tabPrincipal.getTabCount() - 1);
-            
+
         }
     }
 
@@ -516,18 +529,17 @@ public class Principal extends javax.swing.JFrame {
         lblUsuario.setVisible(false);
 //        lblUsuario.setText(String.format("Usuario: %s", usuario.getLogin()));
         lblRol.setText(String.format("Rol: %s", usuario.getRol().getNombre()));
-        if(usuario.getPersona() != null){
+        if (usuario.getPersona() != null) {
             lblNombre.setText(String.format("Nombre: %s", usuario.getPersona().getNombreCompleto()));
-        }else{
+        } else {
             lblNombre.setVisible(false);
         }
-        if(usuario.getEvento() == null){
+        if (usuario.getEvento() == null) {
             lblConexion.setText(String.format("Última conexión: %s", "PRIMERA CONEXIÓN"));
-        }else{
+        } else {
             lblConexion.setText(String.format("Última conexión: %s", FORMATO_TIMESTAMP.format(usuario.getEvento().getFechaHora())));
         }
-        
-        
+
     }
 
     private void guardarInformacionConexion(Usuario usuario) {
@@ -555,7 +567,7 @@ public class Principal extends javax.swing.JFrame {
         mnuPersona.setEnabled(USUARIO_ACCESO.get("Persona") != 0);
         mnuReporteEjemplar.setEnabled(USUARIO_ACCESO.get("LibroPrestamo") != 0);
         mnuUsuario.setEnabled(USUARIO_ACCESO.get("Usuario") != 0);
-        
+
         btnConsulta.setEnabled(USUARIO_ACCESO.get("Consulta") != 0);
         btnEjemplar.setEnabled(USUARIO_ACCESO.get("Ejemplar") != 0);
         btnPrestamo.setEnabled(USUARIO_ACCESO.get("Prestamo") != 0);

@@ -23,6 +23,7 @@ import com.biosis.sgb.entidades.Seccion;
 import com.biosis.sgb.entidades.Tema;
 import com.biosis.sgb.entidades.reporte.LibroPrestamo;
 import com.biosis.sgb.util.ButtonTabComponent;
+import com.biosis.sgb.util.ControlAcceso;
 import com.biosis.sgb.vistas.dialogos.AutorSelect;
 import com.biosis.sgb.vistas.dialogos.EditorialSelect;
 import com.biosis.sgb.vistas.dialogos.SeccionSelect;
@@ -41,7 +42,7 @@ import org.jdesktop.observablecollections.ObservableCollections;
  *
  * @author Francis
  */
-public class ReporteEjemplarView extends javax.swing.JPanel {
+public class ReporteEjemplarView extends javax.swing.JPanel implements ControlAcceso{
 
     private final EjemplarControlador ejemplarControlador;
     private final LibroPrestamoControlador libroPrestamoControlador;
@@ -718,6 +719,13 @@ public class ReporteEjemplarView extends javax.swing.JPanel {
             tabVistaPrevia.setTabComponentAt(tabVistaPrevia.getTabCount() - 1, tab);
             tabVistaPrevia.setSelectedIndex(tabVistaPrevia.getTabCount() - 1);
         }
+    }
+    private boolean create;
+    private boolean update;
+    private boolean delete;
+    @Override
+    public void crud(boolean create, boolean read, boolean update, boolean delete) {
+        
     }
 
     private class Busqueda extends SwingWorker<Double, Void> {

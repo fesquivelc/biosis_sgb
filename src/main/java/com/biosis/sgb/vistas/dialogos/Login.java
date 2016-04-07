@@ -213,11 +213,13 @@ public class Login extends javax.swing.JDialog {
 
         @Override
         protected Void doInBackground() throws Exception {
+            System.out.println("Iniciando login...");
             btnIngresar.setText("Espere un momento...");
+            btnIngresar.requestFocus();
             btnIngresar.setEnabled(false);
             txtLogin.setEditable(false);
             txtPassword.setEditable(false);
-            
+
             String login = txtLogin.getText();
             String password = new String(txtPassword.getPassword());
             usuario = usuarioControlador.realizarLogin(login, password);
@@ -236,9 +238,7 @@ public class Login extends javax.swing.JDialog {
                     principal.setAlwaysOnTop(true);
                     principal.setVisible(true);
                     principal.setExtendedState(principal.getExtendedState() | JFrame.MAXIMIZED_BOTH);
-                    
-                    
-                    
+
                     dispose();
 
                 } else {
@@ -252,6 +252,7 @@ public class Login extends javax.swing.JDialog {
             btnIngresar.setText("Ingresar");
             btnIngresar.setEnabled(true);
             txtLogin.setEditable(true);
+            txtLogin.requestFocus();
             txtPassword.setEditable(true);
         }
 

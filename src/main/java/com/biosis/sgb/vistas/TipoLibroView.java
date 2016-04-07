@@ -12,6 +12,7 @@ import static com.biosis.sgb.Application.ESTILO7;
 import static com.biosis.sgb.controlador.Controlador.NUEVO;
 import com.biosis.sgb.controlador.TipoLibroControlador;
 import com.biosis.sgb.entidades.TipoLibro;
+import com.biosis.sgb.util.ControlAcceso;
 import com.biosis.sgb.vistas.dialogos.TipoLibroCRUD;
 import com.personal.utiles.FormularioUtil;
 import java.util.ArrayList;
@@ -29,7 +30,7 @@ import org.jdesktop.swingbinding.SwingBindings;
  *
  * @author Francis
  */
-public class TipoLibroView extends javax.swing.JPanel {
+public class TipoLibroView extends javax.swing.JPanel implements ControlAcceso{
 
     private final TipoLibroControlador tipoLibroControlador;
 //    private Autor autorSeleccionado;
@@ -480,6 +481,15 @@ public class TipoLibroView extends javax.swing.JPanel {
 
         this.btnAnterior.setEnabled(paginaActual != 1);
         this.btnPrimero2.setEnabled(paginaActual != 1);
+    }
+    private boolean create;
+    private boolean update;
+    private boolean delete;
+    @Override
+    public void crud(boolean create, boolean read, boolean update, boolean delete) {
+        this.create = create;
+        this.update = update;
+        this.delete = delete;
     }
 
     private class Busqueda extends SwingWorker<Double, Void> {

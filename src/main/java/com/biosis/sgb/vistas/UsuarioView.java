@@ -435,9 +435,10 @@ public class UsuarioView extends javax.swing.JPanel implements ControlAcceso {
         BeanProperty persona = BeanProperty.create("persona.nombreCompleto");
         JTableBinding bindeoTabla = SwingBindings.createJTableBinding(AutoBinding.UpdateStrategy.READ, usuarioList, tblAutorList);
         bindeoTabla.addColumnBinding(login).setColumnName("Nombre de usuario").setEditable(false);
-        bindeoTabla.addColumnBinding(activo).setColumnName("Activo").setEditable(false);
+
         bindeoTabla.addColumnBinding(rol).setColumnName("Rol").setEditable(false);
         bindeoTabla.addColumnBinding(persona).setColumnName("Persona").setEditable(false);
+        bindeoTabla.addColumnBinding(activo).setColumnName("Activo").setColumnClass(Boolean.class).setEditable(false);
         grupo.addBinding(bindeoTabla);
         grupo.bind();
     }
