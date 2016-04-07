@@ -9,15 +9,13 @@ import static com.biosis.sgb.Application.ESTILO1;
 import static com.biosis.sgb.Application.ESTILO2;
 import static com.biosis.sgb.Application.ESTILO5;
 import static com.biosis.sgb.Application.ESTILO7;
-import com.biosis.sgb.controlador.AutorControlador;
 import static com.biosis.sgb.controlador.Controlador.LEER;
 import static com.biosis.sgb.controlador.Controlador.NUEVO;
 import com.biosis.sgb.controlador.EditorialControlador;
-import com.biosis.sgb.entidades.Autor;
 import com.biosis.sgb.entidades.Editorial;
+import com.biosis.sgb.util.ControlAcceso;
 import com.biosis.sgb.vistas.dialogos.EditorialCRUD;
 import com.personal.utiles.FormularioUtil;
-import java.awt.Component;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.SpinnerNumberModel;
@@ -33,7 +31,10 @@ import org.jdesktop.swingbinding.SwingBindings;
  *
  * @author Francis
  */
-public class EditorialView extends javax.swing.JPanel {
+public class EditorialView extends javax.swing.JPanel implements ControlAcceso{
+    private boolean create;
+    private boolean update;
+    private boolean delete;
     private static EditorialView instance;
     static EditorialView getInstance() {
         if(instance == null){
@@ -83,7 +84,6 @@ public class EditorialView extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         pnlAcciones = new javax.swing.JPanel();
         btnVer = new javax.swing.JButton();
-        btnVerLibros = new javax.swing.JButton();
         btnNuevo = new javax.swing.JButton();
         btnModificar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
@@ -173,16 +173,6 @@ public class EditorialView extends javax.swing.JPanel {
             }
         });
         pnlAcciones.add(btnVer);
-
-        btnVerLibros.setFont(ESTILO7       );
-        btnVerLibros.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Find/Find_24x24.png"))); // NOI18N
-        btnVerLibros.setText("Ver libros");
-        btnVerLibros.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnVerLibrosActionPerformed(evt);
-            }
-        });
-        pnlAcciones.add(btnVerLibros);
 
         btnNuevo.setFont(ESTILO7       );
         btnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Add/Add_24x24.png"))); // NOI18N
@@ -338,10 +328,6 @@ public class EditorialView extends javax.swing.JPanel {
         busqueda.execute();
     }//GEN-LAST:event_btnBuscarActionPerformed
 
-    private void btnVerLibrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerLibrosActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnVerLibrosActionPerformed
-
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
         // TODO add your handling code here:
 //        EditorialCRUD autorCRUD = new EditorialCRUD(this, true);
@@ -395,7 +381,6 @@ public class EditorialView extends javax.swing.JPanel {
     private javax.swing.JButton btnSiguiente;
     private javax.swing.JButton btnUltimo;
     private javax.swing.JButton btnVer;
-    private javax.swing.JButton btnVerLibros;
     private javax.swing.JComboBox cboTamanio;
     private javax.swing.ButtonGroup grupoOpcionesBusqueda;
     private javax.swing.JLabel jLabel1;
@@ -431,6 +416,9 @@ public class EditorialView extends javax.swing.JPanel {
     private void controles(boolean busqueda) {
         FormularioUtil.activarComponente(pnlBusqueda, !busqueda);
         FormularioUtil.activarComponente(pnlAcciones, !busqueda);
+        btnNuevo.setVisible(create);
+        btnModificar.setVisible(update);
+        btnEliminar.setVisible(delete);
     }
 
     //cambiamos acorde a lo que se requiere
@@ -509,6 +497,13 @@ public class EditorialView extends javax.swing.JPanel {
 
         this.btnAnterior.setEnabled(paginaActual != 1);
         this.btnPrimero2.setEnabled(paginaActual != 1);
+    }
+
+    @Override
+    public void crud(boolean create, boolean read, boolean update, boolean delete) {
+        this.create = create;
+        this.update = update;
+        this.delete = delete;
     }
 
     private class Busqueda extends SwingWorker<Double, Void> {

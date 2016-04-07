@@ -14,6 +14,7 @@ import static com.biosis.sgb.controlador.Controlador.LEER;
 import static com.biosis.sgb.controlador.Controlador.MODIFICAR;
 import static com.biosis.sgb.controlador.Controlador.NUEVO;
 import com.biosis.sgb.entidades.Autor;
+import com.biosis.sgb.util.ControlAcceso;
 import com.biosis.sgb.vistas.dialogos.AutorCRUD;
 import com.personal.utiles.FormularioUtil;
 import java.util.ArrayList;
@@ -31,7 +32,7 @@ import org.jdesktop.swingbinding.SwingBindings;
  *
  * @author Francis
  */
-public class AutorView extends javax.swing.JPanel {
+public class AutorView extends javax.swing.JPanel implements ControlAcceso{
 
     private final AutorControlador autorControlador;
 //    private Autor autorSeleccionado;
@@ -46,6 +47,10 @@ public class AutorView extends javax.swing.JPanel {
     private List<Autor> autorList;
     
     private static AutorView instance;
+    
+    private boolean create;
+    private boolean update;
+    private boolean delete;
     
     public static AutorView getInstance(){
         if(instance == null){
@@ -83,7 +88,6 @@ public class AutorView extends javax.swing.JPanel {
         jLabel2 = new javax.swing.JLabel();
         pnlAcciones = new javax.swing.JPanel();
         btnVer = new javax.swing.JButton();
-        btnVerLibros = new javax.swing.JButton();
         btnNuevo = new javax.swing.JButton();
         btnModificar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
@@ -173,16 +177,6 @@ public class AutorView extends javax.swing.JPanel {
             }
         });
         pnlAcciones.add(btnVer);
-
-        btnVerLibros.setFont(ESTILO7       );
-        btnVerLibros.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Find/Find_24x24.png"))); // NOI18N
-        btnVerLibros.setText("Ver libros");
-        btnVerLibros.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnVerLibrosActionPerformed(evt);
-            }
-        });
-        pnlAcciones.add(btnVerLibros);
 
         btnNuevo.setFont(ESTILO7       );
         btnNuevo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Add/Add_24x24.png"))); // NOI18N
@@ -338,10 +332,6 @@ public class AutorView extends javax.swing.JPanel {
         busqueda.execute();
     }//GEN-LAST:event_btnBuscarActionPerformed
 
-    private void btnVerLibrosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerLibrosActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnVerLibrosActionPerformed
-
     private void btnNuevoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNuevoActionPerformed
         // TODO add your handling code here:
 //        AutorCRUD autorCRUD = new AutorCRUD(this, true);
@@ -393,7 +383,6 @@ public class AutorView extends javax.swing.JPanel {
     private javax.swing.JButton btnSiguiente;
     private javax.swing.JButton btnUltimo;
     private javax.swing.JButton btnVer;
-    private javax.swing.JButton btnVerLibros;
     private javax.swing.JComboBox cboTamanio;
     private javax.swing.ButtonGroup grupoOpcionesBusqueda;
     private javax.swing.JLabel jLabel1;
@@ -433,6 +422,9 @@ public class AutorView extends javax.swing.JPanel {
     private void controles(boolean busqueda){
         FormularioUtil.activarComponente(pnlBusqueda, !busqueda);
         FormularioUtil.activarComponente(pnlAcciones, !busqueda);
+        btnNuevo.setVisible(create);
+        btnModificar.setVisible(update);
+        btnEliminar.setVisible(delete);
     }
 
     //cambiamos acorde a lo que se requiere
@@ -519,6 +511,13 @@ public class AutorView extends javax.swing.JPanel {
             return autorList.get(fila);
         }
         return null;
+    }
+
+    @Override
+    public void crud(boolean create, boolean read, boolean update, boolean delete) {
+        this.create = create;
+        this.update = update;
+        this.delete = delete;
     }
 
     private class Busqueda extends SwingWorker<Double, Void> {

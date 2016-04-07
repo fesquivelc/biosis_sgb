@@ -449,6 +449,18 @@ END;
 $BODY$
 language plpgsql;
 
+CREATE OR REPLACE FUNCTION sp_proteger_password()
+RETURNS trigger AS
+$BODY$
+BEGIN
+  IF (TG_OP = 'UPDATE' AND md5(NEW.password) <> OLD.password) OR TG_OP = 'INSERT' THEN
+    NEW.password := md5(NEW.password);
+  END IF;
+RETURN NEW;
+END;
+$BODY$
+language plpgsql;
+
 CREATE TRIGGER tr_actualizar_prestamo
 AFTER INSERT OR UPDATE OR DELETE
 ON prestamo
@@ -586,6 +598,12 @@ AFTER INSERT
 ON evento
 FOR EACH ROW
 EXECUTE PROCEDURE sp_actualizar_ultimo_login();
+
+CREATE TRIGGER tr_proteger_password
+BEFORE INSERT OR UPDATE
+ON usuario
+FOR EACH ROW
+EXECUTE PROCEDURE sp_proteger_password();
 -- PROCEDEREMOS CON LOS INSERTS
 WITH mat_med AS(
 INSERT INTO materia(

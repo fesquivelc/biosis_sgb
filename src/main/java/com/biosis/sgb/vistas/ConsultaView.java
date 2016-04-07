@@ -13,6 +13,7 @@ import static com.biosis.sgb.Application.IMG_LOGO_REPORTE;
 import static com.biosis.sgb.Application.REPORTE_INSTITUCION;
 import static com.biosis.sgb.Application.REPORTE_LIBRO;
 import static com.biosis.sgb.Application.REPORTE_RUC;
+import static com.biosis.sgb.controlador.Controlador.LEER;
 import static com.biosis.sgb.controlador.Controlador.MODIFICAR;
 import static com.biosis.sgb.controlador.Controlador.NUEVO;
 import com.biosis.sgb.controlador.LibroControlador;
@@ -24,6 +25,7 @@ import com.biosis.sgb.entidades.LibroAutor;
 import com.biosis.sgb.entidades.Seccion;
 import com.biosis.sgb.entidades.Tema;
 import com.biosis.sgb.entidades.reporte.LibroPrestamo;
+import com.biosis.sgb.util.ControlAcceso;
 import com.biosis.sgb.vistas.dialogos.AutorSelect;
 import com.biosis.sgb.vistas.dialogos.EditorialSelect;
 import com.biosis.sgb.vistas.dialogos.EjemplarList;
@@ -52,7 +54,7 @@ import org.jdesktop.swingbinding.SwingBindings;
  *
  * @author Francis
  */
-public class ConsultaView extends javax.swing.JPanel {
+public class ConsultaView extends javax.swing.JPanel implements ControlAcceso{
 
     private final LibroControlador libroControlador;
     private final ReporteUtil reporteUtil;
@@ -129,7 +131,6 @@ public class ConsultaView extends javax.swing.JPanel {
         btnNuevo = new javax.swing.JButton();
         btnModificar = new javax.swing.JButton();
         btnImprimir = new javax.swing.JButton();
-        btnEliminar = new javax.swing.JButton();
         pnlListado = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tblLibroList = new org.jdesktop.swingx.JXTable();
@@ -422,6 +423,11 @@ public class ConsultaView extends javax.swing.JPanel {
         btnVer.setFont(ESTILO7       );
         btnVer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Information/Information_24x24.png"))); // NOI18N
         btnVer.setText("Ver información");
+        btnVer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVerActionPerformed(evt);
+            }
+        });
         pnlAcciones.add(btnVer);
 
         btnEjemplares.setFont(ESTILO7       );
@@ -463,16 +469,6 @@ public class ConsultaView extends javax.swing.JPanel {
             }
         });
         pnlAcciones.add(btnImprimir);
-
-        btnEliminar.setFont(ESTILO7       );
-        btnEliminar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Delete/Delete_24x24.png"))); // NOI18N
-        btnEliminar.setText("Eliminar libro");
-        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnEliminarActionPerformed(evt);
-            }
-        });
-        pnlAcciones.add(btnEliminar);
 
         jPanel1.add(pnlAcciones, java.awt.BorderLayout.PAGE_END);
 
@@ -674,10 +670,6 @@ public class ConsultaView extends javax.swing.JPanel {
         }
     }//GEN-LAST:event_btnModificarActionPerformed
 
-    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btnEliminarActionPerformed
-
     private void btnSeccionActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeccionActionPerformed
         // TODO add your handling code here:
         SeccionSelect seccionSelect = new SeccionSelect(this, true);
@@ -756,6 +748,19 @@ public class ConsultaView extends javax.swing.JPanel {
         Principal.agregarPestaña("Reporte de libros", reporteComponente);
     }//GEN-LAST:event_btnImprimirActionPerformed
 
+    private void btnVerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerActionPerformed
+        // TODO add your handling code here:
+        Libro libro = obtenerLibroSeleccionado();
+        if (libro != null) {
+            LibroCRUD libroCRUD = new LibroCRUD(this, true, LEER, libro);
+            libroCRUD.setVisible(true);
+            if (libroCRUD.isAccionRealizada()) {
+                BusquedaLibro busqueda = new BusquedaLibro();
+                busqueda.execute();
+            }
+        }
+    }//GEN-LAST:event_btnVerActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnterior;
@@ -763,7 +768,6 @@ public class ConsultaView extends javax.swing.JPanel {
     private javax.swing.JButton btnBuscar;
     private javax.swing.JButton btnEditorial;
     private javax.swing.JButton btnEjemplares;
-    private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnImprimir;
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnNuevo;
@@ -865,6 +869,8 @@ public class ConsultaView extends javax.swing.JPanel {
         if (!busqueda) {
             checkboxes();
         }
+        btnNuevo.setVisible(create);
+        btnModificar.setVisible(update);
     }
 
     private List<Libro> listar(int pagina, int tamanio) {
@@ -963,6 +969,16 @@ public class ConsultaView extends javax.swing.JPanel {
             return libroList.get(fila);
         }
         return null;
+    }
+
+    private boolean create;
+    private boolean update;
+    private boolean delete;
+    @Override
+    public void crud(boolean create, boolean read, boolean update, boolean delete) {
+        this.create = create;
+        this.delete = delete;
+        this.update = update;
     }
 
     private class BusquedaLibro extends SwingWorker<Double, Void> {

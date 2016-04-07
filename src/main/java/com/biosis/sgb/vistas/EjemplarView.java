@@ -23,6 +23,8 @@ import com.biosis.sgb.entidades.Ejemplar;
 import com.biosis.sgb.entidades.LibroAutor;
 import com.biosis.sgb.entidades.Seccion;
 import com.biosis.sgb.entidades.Tema;
+import com.biosis.sgb.info.GestorAcceso;
+import com.biosis.sgb.util.ControlAcceso;
 import com.biosis.sgb.vistas.dialogos.AutorSelect;
 import com.biosis.sgb.vistas.dialogos.EditorialSelect;
 import com.biosis.sgb.vistas.dialogos.EjemplarCRUD;
@@ -52,7 +54,7 @@ import org.jdesktop.swingbinding.SwingBindings;
  *
  * @author Francis
  */
-public class EjemplarView extends javax.swing.JPanel {
+public class EjemplarView extends javax.swing.JPanel implements ControlAcceso{
 
     private final EjemplarControlador ejemplarControlador;
     private final PrestamoControlador prestamoControlador;
@@ -131,7 +133,7 @@ public class EjemplarView extends javax.swing.JPanel {
         btnVer = new javax.swing.JButton();
         btnNuevo = new javax.swing.JButton();
         btnModificar = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        btnPrestamo = new javax.swing.JButton();
         btnModificar1 = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         pnlListado = new javax.swing.JPanel();
@@ -423,6 +425,11 @@ public class EjemplarView extends javax.swing.JPanel {
         btnVer.setFont(ESTILO7       );
         btnVer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Information/Information_24x24.png"))); // NOI18N
         btnVer.setText("Ver información");
+        btnVer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVerActionPerformed(evt);
+            }
+        });
         pnlAcciones.add(btnVer);
 
         btnNuevo.setFont(ESTILO7       );
@@ -445,15 +452,15 @@ public class EjemplarView extends javax.swing.JPanel {
         });
         pnlAcciones.add(btnModificar);
 
-        jButton1.setFont(ESTILO7);
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Properties/Properties_24x24.png"))); // NOI18N
-        jButton1.setText("Préstamo");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnPrestamo.setFont(ESTILO7);
+        btnPrestamo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Properties/Properties_24x24.png"))); // NOI18N
+        btnPrestamo.setText("Préstamo");
+        btnPrestamo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnPrestamoActionPerformed(evt);
             }
         });
-        pnlAcciones.add(jButton1);
+        pnlAcciones.add(btnPrestamo);
 
         btnModificar1.setFont(ESTILO7       );
         btnModificar1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Print/Print_24x24.png"))); // NOI18N
@@ -726,7 +733,7 @@ public class EjemplarView extends javax.swing.JPanel {
         checkboxes();
     }//GEN-LAST:event_chkTemaStateChanged
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnPrestamoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrestamoActionPerformed
         // TODO add your handling code here:
         Ejemplar ejemplar = obtenerEjemplarSeleccionado();
         if (ejemplar != null) {
@@ -744,7 +751,7 @@ public class EjemplarView extends javax.swing.JPanel {
             }
         }
 
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnPrestamoActionPerformed
 
     private void btnModificar1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificar1ActionPerformed
         // TODO add your handling code here:
@@ -763,6 +770,10 @@ public class EjemplarView extends javax.swing.JPanel {
         Principal.agregarPestaña("Reporte de ejemplares", reporteComponente);
     }//GEN-LAST:event_btnModificar1ActionPerformed
 
+    private void btnVerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnVerActionPerformed
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAnterior;
@@ -773,6 +784,7 @@ public class EjemplarView extends javax.swing.JPanel {
     private javax.swing.JButton btnModificar;
     private javax.swing.JButton btnModificar1;
     private javax.swing.JButton btnNuevo;
+    private javax.swing.JButton btnPrestamo;
     private javax.swing.JButton btnPrimero2;
     private javax.swing.JButton btnSeccion;
     private javax.swing.JButton btnSiguiente;
@@ -786,7 +798,6 @@ public class EjemplarView extends javax.swing.JPanel {
     private javax.swing.JCheckBox chkSoloDisponibles;
     private javax.swing.JCheckBox chkTema;
     private javax.swing.ButtonGroup grupoOpcionesBusqueda;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
@@ -876,6 +887,11 @@ public class EjemplarView extends javax.swing.JPanel {
         if (!busqueda) {
             checkboxes();
         }
+        btnNuevo.setVisible(create);
+        btnModificar.setVisible(update);
+        btnEliminar.setVisible(delete);
+        
+        btnPrestamo.setVisible(GestorAcceso.permiteCreate("Prestamo"));
     }
 
     private List<Ejemplar> listar(int pagina, int tamanio) {
@@ -974,6 +990,16 @@ public class EjemplarView extends javax.swing.JPanel {
             return ejemplarList.get(fila);
         }
         return null;
+    }
+
+    private boolean create;
+    private boolean update;
+    private boolean delete;
+    @Override
+    public void crud(boolean create, boolean read, boolean update, boolean delete) {
+        this.create = create;
+        this.update = update;
+        this.delete = delete;
     }
 
     private class Busqueda extends SwingWorker<Double, Void> {

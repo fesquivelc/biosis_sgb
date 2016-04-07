@@ -10,11 +10,18 @@ import static com.biosis.sgb.Application.ESTILO1;
 import static com.biosis.sgb.Application.ESTILO4;
 import static com.biosis.sgb.Application.ESTILO6;
 import static com.biosis.sgb.Application.FORMATO_TIMESTAMP;
+import static com.biosis.sgb.controlador.Controlador.NUEVO;
+import com.biosis.sgb.controlador.EventoControlador;
 import com.biosis.sgb.entidades.Usuario;
+import com.biosis.sgb.info.GestorAcceso;
+import static com.biosis.sgb.info.GestorAcceso.USUARIO_ACCESO;
+import com.biosis.sgb.info.Monitor;
 import com.biosis.sgb.info.UsuarioActivo;
 import com.biosis.sgb.util.ButtonTabComponent;
+import com.biosis.sgb.util.ControlAcceso;
 import java.awt.Color;
 import java.awt.Component;
+import java.util.Date;
 import org.apache.log4j.Logger;
 
 /**
@@ -30,8 +37,10 @@ public class Principal extends javax.swing.JFrame {
     
     public Principal() {
         initComponents();
+        initComponents2();
 //        iniciarTab(0);
         mostrarInformacion(UsuarioActivo.getUsuario());
+        guardarInformacionConexion(UsuarioActivo.getUsuario());        
         pnlBienvenida.setBorder(BORDE_FONDO);
 
     }
@@ -57,9 +66,9 @@ public class Principal extends javax.swing.JFrame {
         lblRol = new javax.swing.JLabel();
         lblConexion = new javax.swing.JLabel();
         jToolBar1 = new javax.swing.JToolBar();
-        jButton1 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        btnConsulta = new javax.swing.JButton();
+        btnEjemplar = new javax.swing.JButton();
+        btnPrestamo = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem6 = new javax.swing.JMenuItem();
@@ -76,7 +85,10 @@ public class Principal extends javax.swing.JFrame {
         mnuPersona = new javax.swing.JMenuItem();
         mnuPrestamo = new javax.swing.JMenuItem();
         jMenu2 = new javax.swing.JMenu();
-        jMenuItem8 = new javax.swing.JMenuItem();
+        mnuReporteEjemplar = new javax.swing.JMenuItem();
+        jMenu3 = new javax.swing.JMenu();
+        mnuUsuario = new javax.swing.JMenuItem();
+        jMenuItem1 = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -133,47 +145,47 @@ public class Principal extends javax.swing.JFrame {
         jToolBar1.setFloatable(false);
         jToolBar1.setRollover(true);
 
-        jButton1.setFont(ESTILO4);
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Find/Find_24x24.png"))); // NOI18N
-        jButton1.setText("   Consultas   ");
-        jButton1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jButton1.setFocusable(false);
-        jButton1.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton1.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        btnConsulta.setFont(ESTILO4);
+        btnConsulta.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Find/Find_24x24.png"))); // NOI18N
+        btnConsulta.setText("   Consultas   ");
+        btnConsulta.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        btnConsulta.setFocusable(false);
+        btnConsulta.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnConsulta.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnConsulta.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                btnConsultaActionPerformed(evt);
             }
         });
-        jToolBar1.add(jButton1);
+        jToolBar1.add(btnConsulta);
 
-        jButton3.setFont(ESTILO4);
-        jButton3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/library.png"))); // NOI18N
-        jButton3.setText("  Ejemplares en biblioteca  ");
-        jButton3.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jButton3.setFocusable(false);
-        jButton3.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton3.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton3.addActionListener(new java.awt.event.ActionListener() {
+        btnEjemplar.setFont(ESTILO4);
+        btnEjemplar.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/library.png"))); // NOI18N
+        btnEjemplar.setText("  Ejemplares en biblioteca  ");
+        btnEjemplar.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        btnEjemplar.setFocusable(false);
+        btnEjemplar.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnEjemplar.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnEjemplar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton3ActionPerformed(evt);
+                btnEjemplarActionPerformed(evt);
             }
         });
-        jToolBar1.add(jButton3);
+        jToolBar1.add(btnEjemplar);
 
-        jButton2.setFont(ESTILO4);
-        jButton2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Properties/Properties_24x24.png"))); // NOI18N
-        jButton2.setText("   Préstamos y devoluciones   ");
-        jButton2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jButton2.setFocusable(false);
-        jButton2.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
-        jButton2.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        btnPrestamo.setFont(ESTILO4);
+        btnPrestamo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Properties/Properties_24x24.png"))); // NOI18N
+        btnPrestamo.setText("   Préstamos y devoluciones   ");
+        btnPrestamo.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        btnPrestamo.setFocusable(false);
+        btnPrestamo.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
+        btnPrestamo.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+        btnPrestamo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                btnPrestamoActionPerformed(evt);
             }
         });
-        jToolBar1.add(jButton2);
+        jToolBar1.add(btnPrestamo);
 
         pnlPrincipal.add(jToolBar1, java.awt.BorderLayout.NORTH);
 
@@ -288,41 +300,56 @@ public class Principal extends javax.swing.JFrame {
         jMenu2.setText("Reportes");
         jMenu2.setFont(ESTILO4);
 
-        jMenuItem8.setFont(ESTILO4);
-        jMenuItem8.setText("Reporte de ejemplares");
-        jMenuItem8.addActionListener(new java.awt.event.ActionListener() {
+        mnuReporteEjemplar.setFont(ESTILO4);
+        mnuReporteEjemplar.setText("Reporte de ejemplares");
+        mnuReporteEjemplar.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jMenuItem8ActionPerformed(evt);
+                mnuReporteEjemplarActionPerformed(evt);
             }
         });
-        jMenu2.add(jMenuItem8);
+        jMenu2.add(mnuReporteEjemplar);
 
         jMenuBar1.add(jMenu2);
+
+        jMenu3.setText("Configuración");
+
+        mnuUsuario.setText("Control de usuarios");
+        mnuUsuario.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                mnuUsuarioActionPerformed(evt);
+            }
+        });
+        jMenu3.add(mnuUsuario);
+
+        jMenuItem1.setText("Cambiar password");
+        jMenu3.add(jMenuItem1);
+
+        jMenuBar1.add(jMenu3);
 
         setJMenuBar(jMenuBar1);
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void btnPrestamoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPrestamoActionPerformed
         // TODO add your handling code here:
         agregarPestaña("Préstamos y devoluciones", PrestamoView.getInstance());
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_btnPrestamoActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void btnConsultaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnConsultaActionPerformed
         // TODO add your handling code here:
         agregarPestaña("Consultas", ConsultaView.getInstance());
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_btnConsultaActionPerformed
 
-    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+    private void btnEjemplarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEjemplarActionPerformed
         // TODO add your handling code here:
         agregarPestaña("Ejemplares", EjemplarView.getInstance());
-    }//GEN-LAST:event_jButton3ActionPerformed
+    }//GEN-LAST:event_btnEjemplarActionPerformed
 
-    private void jMenuItem8ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItem8ActionPerformed
+    private void mnuReporteEjemplarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuReporteEjemplarActionPerformed
         // TODO add your handling code here:
         agregarPestaña("Reporte de ejemplares", ReporteEjemplarView.getInstance());
-    }//GEN-LAST:event_jMenuItem8ActionPerformed
+    }//GEN-LAST:event_mnuReporteEjemplarActionPerformed
 
     private void mnuRegistroLibroActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuRegistroLibroActionPerformed
         // TODO add your handling code here:
@@ -369,6 +396,11 @@ public class Principal extends javax.swing.JFrame {
         agregarPestaña("Temas y subtemas", TemaView.getInstance());
     }//GEN-LAST:event_mnuRegistroTemaActionPerformed
 
+    private void mnuUsuarioActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuUsuarioActionPerformed
+        // TODO add your handling code here:
+        agregarPestaña("Control de usuarios",UsuarioView.getInstance(),GestorAcceso.permisos("Usuario"));
+    }//GEN-LAST:event_mnuUsuarioActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -405,18 +437,19 @@ public class Principal extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private static javax.swing.JButton jButton1;
-    private static javax.swing.JButton jButton2;
-    private static javax.swing.JButton jButton3;
+    private static javax.swing.JButton btnConsulta;
+    private static javax.swing.JButton btnEjemplar;
+    private static javax.swing.JButton btnPrestamo;
     private static javax.swing.JLabel jLabel1;
     private static javax.swing.JMenu jMenu1;
     private static javax.swing.JMenu jMenu2;
+    private static javax.swing.JMenu jMenu3;
     private static javax.swing.JMenu jMenu4;
     private static javax.swing.JMenu jMenu5;
     private static javax.swing.JMenu jMenu7;
     private static javax.swing.JMenuBar jMenuBar1;
+    private static javax.swing.JMenuItem jMenuItem1;
     private static javax.swing.JMenuItem jMenuItem6;
-    private static javax.swing.JMenuItem jMenuItem8;
     private static javax.swing.JPanel jPanel1;
     private static javax.swing.JPanel jPanel2;
     private static javax.swing.JPanel jPanel3;
@@ -434,6 +467,8 @@ public class Principal extends javax.swing.JFrame {
     private static javax.swing.JMenuItem mnuRegistroLibro;
     private static javax.swing.JMenuItem mnuRegistroMateria;
     private static javax.swing.JMenuItem mnuRegistroTema;
+    private static javax.swing.JMenuItem mnuReporteEjemplar;
+    private static javax.swing.JMenuItem mnuUsuario;
     private static javax.swing.JPanel pnlBienvenida;
     private static javax.swing.JPanel pnlPrincipal;
     private static javax.swing.JTabbedPane tabPrincipal;
@@ -455,8 +490,21 @@ public class Principal extends javax.swing.JFrame {
         if (index >= 0) {
             tabPrincipal.setSelectedIndex(index);
         } else {
-//            ((JPanel)ventana).setBorder(borde);
             ButtonTabComponent tab = new ButtonTabComponent(tabPrincipal);
+            tabPrincipal.add(titulo, ventana);
+            tabPrincipal.setTabComponentAt(tabPrincipal.getTabCount() - 1, tab);
+            tabPrincipal.setSelectedIndex(tabPrincipal.getTabCount() - 1);
+            
+        }
+    }
+
+    public static void agregarPestaña(String titulo, Component ventana , boolean[] crud) {
+        int index = tabPrincipal.indexOfComponent(ventana);
+        if (index >= 0) {
+            tabPrincipal.setSelectedIndex(index);
+        } else {
+            ButtonTabComponent tab = new ButtonTabComponent(tabPrincipal);
+            ((ControlAcceso)ventana).crud(crud[0], crud[1], crud[2], crud[3]);
             tabPrincipal.add(titulo, ventana);
             tabPrincipal.setTabComponentAt(tabPrincipal.getTabCount() - 1, tab);
             tabPrincipal.setSelectedIndex(tabPrincipal.getTabCount() - 1);
@@ -480,5 +528,36 @@ public class Principal extends javax.swing.JFrame {
         }
         
         
+    }
+
+    private void guardarInformacionConexion(Usuario usuario) {
+        EventoControlador eventoControlador = EventoControlador.getInstance();
+        eventoControlador.prepararCrear();
+        eventoControlador.getSeleccionado().setDireccionIP("192.168.0.6");
+        eventoControlador.getSeleccionado().setDireccionMAC("54:42:49:73:F8:D2");
+        eventoControlador.getSeleccionado().setFechaHora(new Date());
+        eventoControlador.getSeleccionado().setTipo(Monitor.LOGIN);
+        eventoControlador.getSeleccionado().setUsuario(usuario);
+        eventoControlador.accion(NUEVO);
+    }
+
+    private void initComponents2() {
+        //Para autor
+//        System.out.println(USUARIO_ACCESO.get("Autor"));
+        mnuRegistroAutor.setEnabled(USUARIO_ACCESO.get("Autor") != 0);
+        mnuRegistroEditorial.setEnabled(USUARIO_ACCESO.get("Editorial") != 0);
+        mnuRegistroEjemplar.setEnabled(USUARIO_ACCESO.get("Ejemplar") != 0);
+        mnuRegistroLibro.setEnabled(USUARIO_ACCESO.get("Libro") != 0);
+        mnuRegistroMateria.setEnabled(USUARIO_ACCESO.get("MateriaSeccion") != 0);
+        mnuRegistroTema.setEnabled(USUARIO_ACCESO.get("Tema") != 0);
+        mnuConsultas.setEnabled(USUARIO_ACCESO.get("Consulta") != 0);
+        mnuPrestamo.setEnabled(USUARIO_ACCESO.get("Prestamo") != 0);
+        mnuPersona.setEnabled(USUARIO_ACCESO.get("Persona") != 0);
+        mnuReporteEjemplar.setEnabled(USUARIO_ACCESO.get("LibroPrestamo") != 0);
+        mnuUsuario.setEnabled(USUARIO_ACCESO.get("Usuario") != 0);
+        
+        btnConsulta.setEnabled(USUARIO_ACCESO.get("Consulta") != 0);
+        btnEjemplar.setEnabled(USUARIO_ACCESO.get("Ejemplar") != 0);
+        btnPrestamo.setEnabled(USUARIO_ACCESO.get("Prestamo") != 0);
     }
 }

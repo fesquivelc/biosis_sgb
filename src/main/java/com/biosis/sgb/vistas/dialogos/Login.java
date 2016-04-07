@@ -9,6 +9,7 @@ import static com.biosis.sgb.Application.BORDE_FONDO;
 import static com.biosis.sgb.Application.ESTILO2;
 import com.biosis.sgb.controlador.UsuarioControlador;
 import com.biosis.sgb.entidades.Usuario;
+import com.biosis.sgb.info.GestorAcceso;
 import com.biosis.sgb.info.UsuarioActivo;
 import com.biosis.sgb.vistas.Principal;
 import java.awt.Component;
@@ -230,10 +231,14 @@ public class Login extends javax.swing.JDialog {
             if (usuario != null) {
                 if (usuario.isActivo()) {
                     UsuarioActivo.setUsuario(usuario);
+                    GestorAcceso.obtenerAccesos(usuario);
                     Principal principal = new Principal();
                     principal.setAlwaysOnTop(true);
                     principal.setVisible(true);
                     principal.setExtendedState(principal.getExtendedState() | JFrame.MAXIMIZED_BOTH);
+                    
+                    
+                    
                     dispose();
 
                 } else {

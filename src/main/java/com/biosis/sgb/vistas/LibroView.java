@@ -9,14 +9,17 @@ import static com.biosis.sgb.Application.ESTILO1;
 import static com.biosis.sgb.Application.ESTILO2;
 import static com.biosis.sgb.Application.ESTILO5;
 import static com.biosis.sgb.Application.ESTILO7;
+import static com.biosis.sgb.controlador.Controlador.LEER;
 import static com.biosis.sgb.controlador.Controlador.MODIFICAR;
 import static com.biosis.sgb.controlador.Controlador.NUEVO;
 import com.biosis.sgb.controlador.LibroControlador;
 import com.biosis.sgb.entidades.Autor;
 import com.biosis.sgb.entidades.Editorial;
 import com.biosis.sgb.entidades.Libro;
+import com.biosis.sgb.util.ControlAcceso;
 import com.biosis.sgb.vistas.dialogos.AutorSelect;
 import com.biosis.sgb.vistas.dialogos.EditorialSelect;
+import com.biosis.sgb.vistas.dialogos.EjemplarList;
 import com.biosis.sgb.vistas.dialogos.LibroCRUD;
 import com.personal.utiles.FormularioUtil;
 import java.awt.Component;
@@ -37,7 +40,7 @@ import org.jdesktop.swingbinding.SwingBindings;
  *
  * @author Francis
  */
-public class LibroView extends javax.swing.JPanel {
+public class LibroView extends javax.swing.JPanel implements ControlAcceso {
 
     private final LibroControlador libroControlador;
     private Autor autorSeleccionado;
@@ -52,14 +55,14 @@ public class LibroView extends javax.swing.JPanel {
     private List<Libro> libroList;
 
     public static LibroView instance;
-    
-    public static LibroView getInstance(){
-        if(instance == null){
+
+    public static LibroView getInstance() {
+        if (instance == null) {
             instance = new LibroView();
         }
         return instance;
     }
-    
+
     private LibroView() {
         initComponents();
         initComponents2();
@@ -270,6 +273,11 @@ public class LibroView extends javax.swing.JPanel {
         btnVer.setFont(ESTILO7       );
         btnVer.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Information/Information_24x24.png"))); // NOI18N
         btnVer.setText("Ver información");
+        btnVer.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnVerActionPerformed(evt);
+            }
+        });
         pnlAcciones.add(btnVer);
 
         btnEjemplares.setFont(ESTILO7       );
@@ -488,9 +496,9 @@ public class LibroView extends javax.swing.JPanel {
 
     private void btnAutorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAutorActionPerformed
         // TODO add your handling code here:
-        AutorSelect autorSelect= new AutorSelect(this, true);
+        AutorSelect autorSelect = new AutorSelect(this, true);
         autorSelect.setVisible(true);
-        if(autorSelect.getAutor() != null){
+        if (autorSelect.getAutor() != null) {
             Autor autor = autorSelect.getAutor();
             txtAutor.setText(String.format("%s %s, %s", autor.getPaterno(), autor.getMaterno(), autor.getNombres()));
             this.autorSeleccionado = autor;
@@ -505,9 +513,9 @@ public class LibroView extends javax.swing.JPanel {
 
     private void btnEditorialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEditorialActionPerformed
         // TODO add your handling code here:
-        EditorialSelect editorialSelect= new EditorialSelect(this, true);
+        EditorialSelect editorialSelect = new EditorialSelect(this, true);
         editorialSelect.setVisible(true);
-        if(editorialSelect.getEditorial() != null){
+        if (editorialSelect.getEditorial() != null) {
             Editorial editorial = editorialSelect.getEditorial();
             txtEditorial.setText(editorial.getNombre());
             this.editorialSeleccionada = editorial;
@@ -519,22 +527,29 @@ public class LibroView extends javax.swing.JPanel {
         libroControlador.prepararCrear();
         LibroCRUD libroCRUD = new LibroCRUD(this, true, NUEVO, libroControlador.getSeleccionado());
         libroCRUD.setVisible(true);
-        if(libroCRUD.isAccionRealizada()){
+        if (libroCRUD.isAccionRealizada()) {
             this.libroList.add(libroCRUD.getLibro());
         }
     }//GEN-LAST:event_btnNuevoActionPerformed
 
     private void btnEjemplaresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEjemplaresActionPerformed
         // TODO add your handling code here:
+        Libro libro = obtenerLibroSeleccionado();
+        if (libro != null) {
+//            List<LibroPrestamo> ejemplarPrestamoList = LibroPrestamoControlador.getInstance().buscarTodos();
+//            ejemplarPrestamoList.stream().forEach((LibroPrestamo ep) -> System.out.println(String.format("%s %s", ep.getLibro().getTitulo(), ep.getConteo())));
+            EjemplarList ejemplarList = new EjemplarList(this, libro, true);
+            ejemplarList.setVisible(true);
+        }
     }//GEN-LAST:event_btnEjemplaresActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
         // TODO add your handling code here:
         Libro libro = obtenerLibroSeleccionado();
-        if(libro != null){
+        if (libro != null) {
             LibroCRUD libroCRUD = new LibroCRUD(this, true, MODIFICAR, libro);
             libroCRUD.setVisible(true);
-            if(libroCRUD.isAccionRealizada()){
+            if (libroCRUD.isAccionRealizada()) {
                 BusquedaLibro busqueda = new BusquedaLibro();
                 busqueda.execute();
             }
@@ -544,6 +559,19 @@ public class LibroView extends javax.swing.JPanel {
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void btnVerActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnVerActionPerformed
+        // TODO add your handling code here:
+        Libro libro = obtenerLibroSeleccionado();
+        if (libro != null) {
+            LibroCRUD libroCRUD = new LibroCRUD(this, true, LEER, libro);
+            libroCRUD.setVisible(true);
+            if (libroCRUD.isAccionRealizada()) {
+                BusquedaLibro busqueda = new BusquedaLibro();
+                busqueda.execute();
+            }
+        }
+    }//GEN-LAST:event_btnVerActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -634,13 +662,16 @@ public class LibroView extends javax.swing.JPanel {
 
         tblLibroList.packAll();
     }
-    
-    private void controles(boolean busqueda){
+
+    private void controles(boolean busqueda) {
         FormularioUtil.activarComponente(pnlBusqueda, !busqueda);
         FormularioUtil.activarComponente(pnlAcciones, !busqueda);
-        if(!busqueda){
+        if (!busqueda) {
             checkboxes();
         }
+        btnNuevo.setVisible(create);
+        btnModificar.setVisible(update);
+        btnEliminar.setVisible(delete);
     }
 
     private List<Libro> listar(int pagina, int tamanio) {
@@ -734,10 +765,21 @@ public class LibroView extends javax.swing.JPanel {
 
     private Libro obtenerLibroSeleccionado() {
         int fila = tblLibroList.getSelectedRow();
-        if(fila != -1){
+        if (fila != -1) {
             return libroList.get(fila);
         }
         return null;
+    }
+
+    private boolean create;
+    private boolean update;
+    private boolean delete;
+
+    @Override
+    public void crud(boolean create, boolean read, boolean update, boolean delete) {
+        this.create = create;
+        this.update = update;
+        this.delete = delete;
     }
 
     private class BusquedaLibro extends SwingWorker<Double, Void> {
@@ -756,7 +798,7 @@ public class LibroView extends javax.swing.JPanel {
 
         @Override
         protected void done() {
-            
+
             lblEspere.setBusy(false);
             lblEspere.setVisible(false);
             controles(false);

@@ -11,6 +11,7 @@ import com.biosis.sgb.controlador.MateriaControlador;
 import com.biosis.sgb.controlador.SeccionControlador;
 import com.biosis.sgb.entidades.Materia;
 import com.biosis.sgb.entidades.Seccion;
+import com.biosis.sgb.util.ControlAcceso;
 import com.biosis.sgb.util.render.TrRenderMateriaSeccion;
 import com.biosis.sgb.util.render.TrRenderTema;
 import com.biosis.sgb.vistas.dialogos.MateriaCRUD;
@@ -27,7 +28,7 @@ import javax.swing.tree.TreeNode;
  *
  * @author Francis
  */
-public class MateriaSeccionView extends javax.swing.JPanel {
+public class MateriaSeccionView extends javax.swing.JPanel implements ControlAcceso{
 
     private final MateriaControlador materiaControlador;
     private final SeccionControlador seccionControlador;
@@ -303,6 +304,11 @@ public class MateriaSeccionView extends javax.swing.JPanel {
 //        FormularioUtil.activarComponente(pnlBusqueda, !busqueda);
         FormularioUtil.activarComponente(pnlAcciones, !busqueda);
         btnActualizar.setEnabled(!busqueda);
+        
+        btnMateriaNuevo.setVisible(create);
+        btnSeccionNuevo.setVisible(create);
+        btnModificar.setVisible(update);
+        btnEliminar.setVisible(delete);
     }
 
     //cambiamos acorde a lo que se requiere
@@ -340,6 +346,15 @@ public class MateriaSeccionView extends javax.swing.JPanel {
             return elemento;
         }
         return null;
+    }
+    private boolean create;
+    private boolean update;
+    private boolean delete;
+    @Override
+    public void crud(boolean create, boolean read, boolean update, boolean delete) {
+        this.create = create;
+        this.update = update;
+        this.delete = delete;
     }
 
     private class Busqueda extends SwingWorker<Double, Void> {

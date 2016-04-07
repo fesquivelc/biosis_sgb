@@ -2071,3 +2071,5 @@ java.lang.NullPointerException
 	at com.biosis.sgb.controlador.Controlador.buscarNativo(Controlador.java:127)
 	at com.biosis.sgb.controlador.UsuarioControlador.realizarLogin(UsuarioControlador.java:38)
 	at com.biosis.sgb.pruebas.MainUsuario.main(MainUsuario.java:18)
+07-04-2016 09:52:58.234	ERROR	[AWT-EventQueue-0]	CLASE: SqlExceptionHelper	 METODO: logExceptions	LINEA:146	MSJE:ERROR: no existe la columna rolaccesol0_.id
+  Position: 46

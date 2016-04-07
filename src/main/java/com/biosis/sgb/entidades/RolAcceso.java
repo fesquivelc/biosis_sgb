@@ -25,6 +25,7 @@ public class RolAcceso {
     
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "rol_acceso_id")
     private long id;
     @Column(length = 4)
     private String crud;

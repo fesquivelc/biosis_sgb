@@ -1058,6 +1058,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="Ver informaci&#xf3;n"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnVerActionPerformed"/>
+              </Events>
             </Component>
             <Component class="javax.swing.JButton" name="btnEjemplares">
               <Properties>

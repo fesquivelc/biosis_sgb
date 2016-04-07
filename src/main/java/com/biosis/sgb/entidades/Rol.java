@@ -5,6 +5,7 @@
  */
 package com.biosis.sgb.entidades;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.*;
 
 @Entity
@@ -27,6 +28,17 @@ public class Rol {
     
     @Column
     private String nombre;
+    
+    @OneToMany(mappedBy = "rol",orphanRemoval = true,cascade = CascadeType.ALL,targetEntity = RolAcceso.class)
+    private List<RolAcceso> rolAccesoList;
+
+    public List<RolAcceso> getRolAccesoList() {
+        return rolAccesoList;
+    }
+
+    public void setRolAccesoList(List<RolAcceso> rolAccesoList) {
+        this.rolAccesoList = rolAccesoList;
+    }
 
     public int getId() {
         return id;
