@@ -73,8 +73,6 @@ public class Application {
 
         try {
             BORDE_FONDO = new ImagenFondo(ImageIO.read(IMG_FONDO_APP));
-
-//            pnlPrincipal.setBorder(borde);
         } catch (IOException ex) {
             LOG.error("Error al inicializar borde", ex);
         }

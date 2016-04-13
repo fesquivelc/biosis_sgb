@@ -13,11 +13,10 @@ import static com.biosis.sgb.controlador.Controlador.LEER;
 import static com.biosis.sgb.controlador.Controlador.MODIFICAR;
 import static com.biosis.sgb.controlador.Controlador.NUEVO;
 import com.biosis.sgb.controlador.UsuarioControlador;
-import com.biosis.sgb.entidades.Autor;
 import com.biosis.sgb.entidades.Usuario;
 import com.biosis.sgb.util.ControlAcceso;
-import com.biosis.sgb.vistas.dialogos.AutorCRUD;
 import com.biosis.sgb.vistas.dialogos.UsuarioCRUD;
+import com.biosis.sgb.vistas.dialogos.UsuarioCRUD2;
 import com.personal.utiles.FormularioUtil;
 import java.util.ArrayList;
 import java.util.List;
@@ -344,7 +343,7 @@ public class UsuarioView extends javax.swing.JPanel implements ControlAcceso {
 //        AutorCRUD autorCRUD = new AutorCRUD(this, true);
 //        autorCRUD.setVisible(true);
         usuarioControlador.prepararCrear();
-        UsuarioCRUD usuarioCRUD = new UsuarioCRUD(this, true, NUEVO, usuarioControlador.getSeleccionado());
+        UsuarioCRUD2 usuarioCRUD = new UsuarioCRUD2(this, true, NUEVO, usuarioControlador.getSeleccionado());
         usuarioCRUD.setVisible(true);
         if (usuarioCRUD.isAccionRealizada()) {
             Busqueda busqueda = new Busqueda();

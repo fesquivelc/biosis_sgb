@@ -413,14 +413,9 @@ public class AutorSelect extends javax.swing.JDialog {
 
     //cambiamos acorde a lo que se requiere
     private void buscar() {
-//        String busqueda = txtBusqueda.getText();
         tamanioPagina = Integer.parseInt(cboTamanio.getSelectedItem().toString());
-
-        //AQUI LO PASAMOS A UN SWING WORKER
         autorList.clear();
-
         autorList.addAll(this.listar(paginaActual, tamanioPagina));
-
         tblAutorList.packAll();
     }
 
@@ -490,7 +485,7 @@ public class AutorSelect extends javax.swing.JDialog {
     }
 
     private class Busqueda extends SwingWorker<Double, Void> {
-
+        List<Autor> listado;
         @Override
         protected Double doInBackground() throws Exception {
             controles(true);
@@ -498,16 +493,23 @@ public class AutorSelect extends javax.swing.JDialog {
             lblEspere.setVisible(true);
             lblEspere.setBusy(true);
             paginaActual = 1;
-            buscar();
+//            buscar();
+            //PROBANDO ALGO NUEVO
+            tamanioPagina = Integer.parseInt(cboTamanio.getSelectedItem().toString());
+            listado = listar(paginaActual, tamanioPagina);
             actualizarControlesNavegacion();
             return 0.0;
         }
 
         @Override
         protected void done() {
+            autorList.clear();
+            autorList.addAll(listado);
+            tblAutorList.packAll();
             controles(false);
             lblEspere.setBusy(false);
             lblEspere.setVisible(false);
+            
         }
 
     }
