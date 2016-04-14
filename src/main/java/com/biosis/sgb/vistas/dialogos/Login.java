@@ -59,6 +59,7 @@ public class Login extends javax.swing.JDialog {
 
         txtLogin.setFont(ESTILO2);
         txtLogin.setBorder(null);
+        txtLogin.setOpaque(false);
         txtLogin.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtLoginKeyReleased(evt);
@@ -69,6 +70,7 @@ public class Login extends javax.swing.JDialog {
 
         txtPassword.setFont(ESTILO2);
         txtPassword.setBorder(null);
+        txtPassword.setOpaque(false);
         txtPassword.addKeyListener(new java.awt.event.KeyAdapter() {
             public void keyReleased(java.awt.event.KeyEvent evt) {
                 txtPasswordKeyReleased(evt);

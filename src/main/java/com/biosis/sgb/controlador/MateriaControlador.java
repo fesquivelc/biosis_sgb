@@ -31,9 +31,10 @@ public class MateriaControlador extends Controlador<Materia> {
     }
 
     @Override
-    public void prepararCrear() {
+    public Materia prepararCrear() {
         super.prepararCrear();
         this.getSeleccionado().setSeccionList(new ArrayList<>());
+        return this.getSeleccionado();
     }
 
     public List<Materia> buscarXNombre(String nombre, int inicio, int tamanio) {

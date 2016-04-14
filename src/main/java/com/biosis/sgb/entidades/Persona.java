@@ -45,6 +45,16 @@ public class Persona {
     private String celular;
     @Column(length = 100)
     private String email;
+    @Lob
+    private byte[] fotografia;
+
+    public byte[] getFotografia() {
+        return fotografia;
+    }
+
+    public void setFotografia(byte[] fotografia) {
+        this.fotografia = fotografia;
+    }
 
     public long getId() {
         return id;

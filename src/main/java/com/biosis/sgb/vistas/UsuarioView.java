@@ -356,7 +356,7 @@ public class UsuarioView extends javax.swing.JPanel implements ControlAcceso {
         int fila = tblAutorList.getSelectedRow();
         if (fila != -1) {
             Usuario usuario = usuarioList.get(fila);
-            UsuarioCRUD usuarioCRUD = new UsuarioCRUD(this, true, LEER, usuario);
+            UsuarioCRUD2 usuarioCRUD = new UsuarioCRUD2(this, true, LEER, usuario);
             usuarioCRUD.setVisible(true);
             if (usuarioCRUD.isAccionRealizada()) {
                 Busqueda busqueda = new Busqueda();
@@ -370,7 +370,7 @@ public class UsuarioView extends javax.swing.JPanel implements ControlAcceso {
         // TODO add your handling code here:
         Usuario usuario = obtenerAutorSeleccionado();
         if (usuario != null) {
-            UsuarioCRUD usuarioCRUD = new UsuarioCRUD(this, true, MODIFICAR, usuario);
+            UsuarioCRUD2 usuarioCRUD = new UsuarioCRUD2(this, true, MODIFICAR, usuario);
             usuarioCRUD.setVisible(true);
             if (usuarioCRUD.isAccionRealizada()) {
                 Busqueda busqueda = new Busqueda();
@@ -458,7 +458,7 @@ public class UsuarioView extends javax.swing.JPanel implements ControlAcceso {
         //AQUI LO PASAMOS A UN SWING WORKER
         usuarioList.clear();
 
-        usuarioList.addAll(this.listar(paginaActual, tamanioPagina));
+        usuarioList.addAll(this.listar(paginaActual, tamanioPagina));                
 
         tblAutorList.packAll();
     }
@@ -544,7 +544,7 @@ public class UsuarioView extends javax.swing.JPanel implements ControlAcceso {
     }
 
     private class Busqueda extends SwingWorker<Double, Void> {
-
+        List<Usuario> listado;
         @Override
         protected Double doInBackground() throws Exception {
             controles(true);
@@ -552,13 +552,18 @@ public class UsuarioView extends javax.swing.JPanel implements ControlAcceso {
             lblEspere.setVisible(true);
             lblEspere.setBusy(true);
             paginaActual = 1;
-            buscar();
+            tamanioPagina = Integer.parseInt(cboTamanio.getSelectedItem().toString());
+            listado = listar(paginaActual, tamanioPagina);
+//            buscar();
             actualizarControlesNavegacion();
             return 0.0;
         }
 
         @Override
         protected void done() {
+            usuarioList.clear();
+            usuarioList.addAll(listado);
+            tblAutorList.packAll();
             controles(false);
             lblEspere.setBusy(false);
             lblEspere.setVisible(false);

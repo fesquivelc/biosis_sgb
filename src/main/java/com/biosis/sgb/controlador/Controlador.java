@@ -163,15 +163,17 @@ public abstract class Controlador<T>{
         }
     }
     
-    public void prepararCrear(){
+    public T prepararCrear(){
         try {
             seleccionado = seleccionadoClass.newInstance();
             BeanUtils.setProperty(seleccionado, "fechaHoraCreacion", new Date());
+            return seleccionado;
         } catch (InstantiationException | IllegalAccessException ex) {
             LOG.error("Error al preparar crear: ", ex);
         } catch (InvocationTargetException ex) {
             LOG.error("Error al hacer set a la fechaHoraCreacion: ",ex);
         }
+        return null;
     }
     
     

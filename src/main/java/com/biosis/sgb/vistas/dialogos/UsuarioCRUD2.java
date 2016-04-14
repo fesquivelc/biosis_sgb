@@ -9,36 +9,46 @@ import static com.biosis.sgb.Application.ESTILO1;
 import static com.biosis.sgb.Application.ESTILO2;
 import static com.biosis.sgb.Application.ESTILO5;
 import static com.biosis.sgb.Application.ESTILO6;
-import com.biosis.sgb.controlador.AutorControlador;
 import static com.biosis.sgb.controlador.Controlador.ELIMINAR;
 import static com.biosis.sgb.controlador.Controlador.LEER;
 import static com.biosis.sgb.controlador.Controlador.MODIFICAR;
 import static com.biosis.sgb.controlador.Controlador.NUEVO;
+import com.biosis.sgb.controlador.RolControlador;
 import com.biosis.sgb.controlador.UsuarioControlador;
 import com.biosis.sgb.entidades.Autor;
 import com.biosis.sgb.entidades.Persona;
 import com.biosis.sgb.entidades.Rol;
 import com.biosis.sgb.entidades.Usuario;
+import com.biosis.sgb.util.AbstractListCellRenderer;
 import com.biosis.sgb.util.ControlAcceso;
+import com.biosis.sgb.util.ImagenUtil;
 import com.personal.utiles.FormularioUtil;
 import java.awt.Component;
 import java.util.Date;
+import java.util.List;
+import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
+import org.jdesktop.beansbinding.AutoBinding;
+import org.jdesktop.swingbinding.JComboBoxBinding;
+import org.jdesktop.swingbinding.SwingBindings;
 
 /**
  *
  * @author Francis
  */
-public class UsuarioCRUD2 extends javax.swing.JDialog implements ControlAcceso{
+public class UsuarioCRUD2 extends javax.swing.JDialog implements ControlAcceso {
 
     /**
      * Creates new form AutorCRUD
      */
     private UsuarioControlador usuarioControlador;
+    private RolControlador rolControlador;
+    
     private int accion;
     private boolean accionRealizada = false;
     private Usuario usuario;
-    private Persona personaSeleccionada;    
+    private Persona personaSeleccionada;
+    private byte[] imagenSeleccionada;
 
     public Usuario getUsuario() {
         return usuario;
@@ -86,25 +96,39 @@ public class UsuarioCRUD2 extends javax.swing.JDialog implements ControlAcceso{
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
-        jLabel5 = new javax.swing.JLabel();
-        txtLogin = new javax.swing.JTextField();
-        txtPersona = new javax.swing.JTextField();
+        txtUsername = new javax.swing.JTextField();
         txtPassword = new javax.swing.JPasswordField();
-        jButton1 = new javax.swing.JButton();
         jPanel4 = new javax.swing.JPanel();
         chkUsuarioActivo = new javax.swing.JCheckBox();
         chkCambiarPassword = new javax.swing.JCheckBox();
-        pnlFoto = new javax.swing.JPanel();
+        txtDNI = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        jLabel8 = new javax.swing.JLabel();
+        jLabel9 = new javax.swing.JLabel();
+        txtNombres = new javax.swing.JTextField();
+        txtPaterno = new javax.swing.JTextField();
+        txtMaterno = new javax.swing.JTextField();
         jLabel1 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
+        txtEmail = new javax.swing.JTextField();
+        pnlContacto = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
+        txtTelefono = new javax.swing.JTextField();
+        jLabel10 = new javax.swing.JLabel();
+        txtCelular = new javax.swing.JTextField();
+        pnlFoto = new javax.swing.JPanel();
+        lblFoto = new javax.swing.JLabel();
+        btnSubirFoto = new javax.swing.JButton();
+        btnEliminarFoto = new javax.swing.JButton();
         pnlRol = new javax.swing.JPanel();
         pnlRolSelector = new javax.swing.JPanel();
         jLabel6 = new javax.swing.JLabel();
         cboRol = new javax.swing.JComboBox<>();
+        btnRolAgregar = new javax.swing.JButton();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jXTable1 = new org.jdesktop.swingx.JXTable();
+        tblAcceso = new org.jdesktop.swingx.JXTable();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setResizable(false);
 
         jPanel1.setLayout(new java.awt.BorderLayout());
 
@@ -161,8 +185,8 @@ public class UsuarioCRUD2 extends javax.swing.JDialog implements ControlAcceso{
 
         pnlPersona.setBorder(javax.swing.BorderFactory.createTitledBorder("Información de usuario"));
         java.awt.GridBagLayout jPanel2Layout = new java.awt.GridBagLayout();
-        jPanel2Layout.columnWidths = new int[] {0, 3, 0, 3, 0, 3, 0, 3, 0};
-        jPanel2Layout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0};
+        jPanel2Layout.columnWidths = new int[] {0, 3, 0};
+        jPanel2Layout.rowHeights = new int[] {0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0, 5, 0};
         pnlPersona.setLayout(jPanel2Layout);
 
         jLabel2.setFont(ESTILO1);
@@ -177,7 +201,7 @@ public class UsuarioCRUD2 extends javax.swing.JDialog implements ControlAcceso{
         jLabel3.setText("Nombre de usuario:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 2;
+        gridBagConstraints.gridy = 12;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlPersona.add(jLabel3, gridBagConstraints);
 
@@ -185,54 +209,31 @@ public class UsuarioCRUD2 extends javax.swing.JDialog implements ControlAcceso{
         jLabel4.setText("Contraseña:");
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 4;
+        gridBagConstraints.gridy = 14;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlPersona.add(jLabel4, gridBagConstraints);
 
-        jLabel5.setFont(ESTILO1);
-        jLabel5.setText("Persona:");
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
-        pnlPersona.add(jLabel5, gridBagConstraints);
-
-        txtLogin.setFont(ESTILO2);
-        txtLogin.addActionListener(new java.awt.event.ActionListener() {
+        txtUsername.setFont(ESTILO2);
+        txtUsername.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                txtLoginActionPerformed(evt);
+                txtUsernameActionPerformed(evt);
             }
         });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 2;
-        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.gridy = 12;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         gridBagConstraints.weightx = 0.1;
-        pnlPersona.add(txtLogin, gridBagConstraints);
-
-        txtPersona.setEditable(false);
-        txtPersona.setFont(ESTILO2);
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 6;
-        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        gridBagConstraints.weightx = 0.1;
-        pnlPersona.add(txtPersona, gridBagConstraints);
+        pnlPersona.add(txtUsername, gridBagConstraints);
 
         txtPassword.setFont(ESTILO2);
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 2;
-        gridBagConstraints.gridy = 4;
-        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.gridy = 14;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
         pnlPersona.add(txtPassword, gridBagConstraints);
-
-        jButton1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icon/Search/Search_16x16.png"))); // NOI18N
-        gridBagConstraints = new java.awt.GridBagConstraints();
-        gridBagConstraints.gridx = 4;
-        gridBagConstraints.gridy = 6;
-        pnlPersona.add(jButton1, gridBagConstraints);
 
         chkUsuarioActivo.setFont(ESTILO1);
         chkUsuarioActivo.setText("Usuario activo");
@@ -249,32 +250,164 @@ public class UsuarioCRUD2 extends javax.swing.JDialog implements ControlAcceso{
 
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
-        gridBagConstraints.gridy = 8;
-        gridBagConstraints.gridwidth = 5;
+        gridBagConstraints.gridy = 16;
+        gridBagConstraints.gridwidth = 3;
         pnlPersona.add(jPanel4, gridBagConstraints);
+
+        txtDNI.setFont(ESTILO2);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlPersona.add(txtDNI, gridBagConstraints);
+
+        jLabel7.setFont(ESTILO1);
+        jLabel7.setText("Nombres:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlPersona.add(jLabel7, gridBagConstraints);
+
+        jLabel8.setFont(ESTILO1);
+        jLabel8.setText("Ap. paterno:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlPersona.add(jLabel8, gridBagConstraints);
+
+        jLabel9.setFont(ESTILO1);
+        jLabel9.setText("Ap. materno:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlPersona.add(jLabel9, gridBagConstraints);
+
+        txtNombres.setFont(ESTILO2);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlPersona.add(txtNombres, gridBagConstraints);
+
+        txtPaterno.setFont(ESTILO2);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 4;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlPersona.add(txtPaterno, gridBagConstraints);
+
+        txtMaterno.setFont(ESTILO2);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 6;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlPersona.add(txtMaterno, gridBagConstraints);
+
+        jLabel1.setFont(ESTILO1);
+        jLabel1.setText("E-mail:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlPersona.add(jLabel1, gridBagConstraints);
+
+        txtEmail.setFont(ESTILO2);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 8;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.anchor = java.awt.GridBagConstraints.LINE_START;
+        pnlPersona.add(txtEmail, gridBagConstraints);
+
+        java.awt.GridBagLayout pnlContactoLayout = new java.awt.GridBagLayout();
+        pnlContactoLayout.columnWidths = new int[] {0, 3, 0, 3, 0, 3, 0};
+        pnlContactoLayout.rowHeights = new int[] {0};
+        pnlContacto.setLayout(pnlContactoLayout);
+
+        jLabel5.setFont(ESTILO1);
+        jLabel5.setText("Teléfono fijo:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 0;
+        pnlContacto.add(jLabel5, gridBagConstraints);
+
+        txtTelefono.setFont(ESTILO2);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 2;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 0.1;
+        pnlContacto.add(txtTelefono, gridBagConstraints);
+
+        jLabel10.setFont(ESTILO1);
+        jLabel10.setText("Celular:");
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 4;
+        gridBagConstraints.gridy = 0;
+        pnlContacto.add(jLabel10, gridBagConstraints);
+
+        txtCelular.setFont(ESTILO2);
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 6;
+        gridBagConstraints.gridy = 0;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        gridBagConstraints.weightx = 0.1;
+        pnlContacto.add(txtCelular, gridBagConstraints);
+
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 10;
+        gridBagConstraints.gridwidth = 3;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        pnlPersona.add(pnlContacto, gridBagConstraints);
 
         pnlCuerpo.add(pnlPersona, java.awt.BorderLayout.CENTER);
 
         pnlFoto.setLayout(new java.awt.GridBagLayout());
 
-        jLabel1.setFont(ESTILO1);
-        jLabel1.setBorder(javax.swing.BorderFactory.createEtchedBorder());
-        jLabel1.setMaximumSize(new java.awt.Dimension(200, 200));
-        jLabel1.setMinimumSize(new java.awt.Dimension(200, 200));
-        jLabel1.setPreferredSize(new java.awt.Dimension(200, 200));
+        lblFoto.setFont(ESTILO1);
+        lblFoto.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+        lblFoto.setMaximumSize(new java.awt.Dimension(200, 200));
+        lblFoto.setMinimumSize(new java.awt.Dimension(200, 200));
+        lblFoto.setPreferredSize(new java.awt.Dimension(200, 200));
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 0;
         gridBagConstraints.anchor = java.awt.GridBagConstraints.NORTHWEST;
-        pnlFoto.add(jLabel1, gridBagConstraints);
+        pnlFoto.add(lblFoto, gridBagConstraints);
 
-        jButton2.setFont(ESTILO1);
-        jButton2.setText("Subir foto");
+        btnSubirFoto.setFont(ESTILO1);
+        btnSubirFoto.setText("Subir foto");
+        btnSubirFoto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSubirFotoActionPerformed(evt);
+            }
+        });
         gridBagConstraints = new java.awt.GridBagConstraints();
         gridBagConstraints.gridx = 0;
         gridBagConstraints.gridy = 1;
         gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
-        pnlFoto.add(jButton2, gridBagConstraints);
+        pnlFoto.add(btnSubirFoto, gridBagConstraints);
+
+        btnEliminarFoto.setFont(ESTILO1);
+        btnEliminarFoto.setText("Eliminar foto");
+        btnEliminarFoto.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarFotoActionPerformed(evt);
+            }
+        });
+        gridBagConstraints = new java.awt.GridBagConstraints();
+        gridBagConstraints.gridx = 0;
+        gridBagConstraints.gridy = 2;
+        gridBagConstraints.fill = java.awt.GridBagConstraints.HORIZONTAL;
+        pnlFoto.add(btnEliminarFoto, gridBagConstraints);
 
         pnlCuerpo.add(pnlFoto, java.awt.BorderLayout.LINE_START);
 
@@ -296,12 +429,16 @@ public class UsuarioCRUD2 extends javax.swing.JDialog implements ControlAcceso{
         });
         pnlRolSelector.add(cboRol);
 
+        btnRolAgregar.setFont(ESTILO1);
+        btnRolAgregar.setText("Nuevo");
+        pnlRolSelector.add(btnRolAgregar);
+
         pnlRol.add(pnlRolSelector, java.awt.BorderLayout.NORTH);
 
         jScrollPane1.setMaximumSize(new java.awt.Dimension(200, 200));
         jScrollPane1.setPreferredSize(new java.awt.Dimension(200, 100));
 
-        jXTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblAcceso.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -312,7 +449,8 @@ public class UsuarioCRUD2 extends javax.swing.JDialog implements ControlAcceso{
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jXTable1);
+        tblAcceso.setFont(ESTILO2);
+        jScrollPane1.setViewportView(tblAcceso);
 
         pnlRol.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
@@ -326,14 +464,14 @@ public class UsuarioCRUD2 extends javax.swing.JDialog implements ControlAcceso{
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 664, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 585, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 512, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -377,9 +515,9 @@ public class UsuarioCRUD2 extends javax.swing.JDialog implements ControlAcceso{
         this.dispose();
     }//GEN-LAST:event_btnCancelarActionPerformed
 
-    private void txtLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtLoginActionPerformed
+    private void txtUsernameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtUsernameActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_txtLoginActionPerformed
+    }//GEN-LAST:event_txtUsernameActionPerformed
 
     private void chkCambiarPasswordActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_chkCambiarPasswordActionPerformed
         // TODO add your handling code here:
@@ -389,49 +527,94 @@ public class UsuarioCRUD2 extends javax.swing.JDialog implements ControlAcceso{
         // TODO add your handling code here:
     }//GEN-LAST:event_cboRolActionPerformed
 
+    private void btnSubirFotoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubirFotoActionPerformed
+        // TODO add your handling code here:
+        String ruta = FormularioUtil.chooserImagen(this);
+        imagenSeleccionada = ImagenUtil.obtenerBytes(ruta);
+
+        mostrarImagen(imagenSeleccionada);
+
+
+    }//GEN-LAST:event_btnSubirFotoActionPerformed
+
+    private void btnEliminarFotoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarFotoActionPerformed
+        // TODO add your handling code here:
+        this.imagenSeleccionada = null;
+        this.usuario.getPersona().setFotografia(null);
+        mostrarImagen(imagenSeleccionada);
+
+    }//GEN-LAST:event_btnEliminarFotoActionPerformed
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
     private javax.swing.JButton btnEditar;
     private javax.swing.JButton btnEliminar;
+    private javax.swing.JButton btnEliminarFoto;
     private javax.swing.JButton btnGuardar;
+    private javax.swing.JButton btnRolAgregar;
+    private javax.swing.JButton btnSubirFoto;
     private javax.swing.JComboBox<String> cboRol;
     private javax.swing.JCheckBox chkCambiarPassword;
     private javax.swing.JCheckBox chkUsuarioActivo;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JScrollPane jScrollPane1;
-    private org.jdesktop.swingx.JXTable jXTable1;
+    private javax.swing.JLabel lblFoto;
     private javax.swing.JLabel lblTitulo;
+    private javax.swing.JPanel pnlContacto;
     private javax.swing.JPanel pnlCuerpo;
     private javax.swing.JPanel pnlFoto;
     private javax.swing.JPanel pnlPersona;
     private javax.swing.JPanel pnlRol;
     private javax.swing.JPanel pnlRolSelector;
-    private javax.swing.JTextField txtLogin;
+    private org.jdesktop.swingx.JXTable tblAcceso;
+    private javax.swing.JTextField txtCelular;
+    private javax.swing.JTextField txtDNI;
+    private javax.swing.JTextField txtEmail;
+    private javax.swing.JTextField txtMaterno;
+    private javax.swing.JTextField txtNombres;
     private javax.swing.JPasswordField txtPassword;
-    private javax.swing.JTextField txtPersona;
+    private javax.swing.JTextField txtPaterno;
+    private javax.swing.JTextField txtTelefono;
+    private javax.swing.JTextField txtUsername;
     // End of variables declaration//GEN-END:variables
 
     private void initComponents2() {
         usuarioControlador = UsuarioControlador.getInstance();
+        rolControlador = RolControlador.getInstance();
+        
+        cargarRoles();
     }
 
     private void volcarData(Usuario seleccionado) {
         seleccionado.setActivo(chkUsuarioActivo.isSelected());
         seleccionado.setCambiarPassword(chkCambiarPassword.isSelected());
-        seleccionado.setLogin(txtLogin.getText().trim());
+        seleccionado.setLogin(txtUsername.getText().trim());
         seleccionado.setPassword(new String(txtPassword.getPassword()));
-        seleccionado.setPersona(obtenerPersonaSeleccionada());
+//        seleccionado.setPersona(obtenerPersonaSeleccionada());
         seleccionado.setRol(obtenerRolSeleccionado());
+        //data de persona
+        FormularioUtil.convertirAMayusculas(txtNombres,txtPaterno,txtMaterno);
+        System.out.println("Persona: "+seleccionado.getPersona());
+        seleccionado.getPersona().setDni(txtDNI.getText());
+        seleccionado.getPersona().setNombres(txtNombres.getText());
+        seleccionado.getPersona().setPaterno(txtPaterno.getText());
+        seleccionado.getPersona().setMaterno(txtMaterno.getText());
+        seleccionado.getPersona().setCelular(txtCelular.getText());
+        seleccionado.getPersona().setTelefono(txtTelefono.getText());
+        seleccionado.getPersona().setEmail(txtEmail.getText());
+        seleccionado.getPersona().setFotografia(imagenSeleccionada);
         if (this.accion == NUEVO) {
             seleccionado.setFechaHoraCreacion(new Date());
         } else if (this.accion == MODIFICAR) {
@@ -466,9 +649,9 @@ public class UsuarioCRUD2 extends javax.swing.JDialog implements ControlAcceso{
 
     private void llenarCampos(Usuario usuario) {
         cboRol.setSelectedItem(usuario.getRol());
-        txtLogin.setText(usuario.getLogin());
-        txtPassword.setText(usuario.getPassword());
-        if(usuario.getPersona() != null){
+        txtUsername.setText(usuario.getLogin());
+        txtPassword.setText(usuario.getPassword());        
+        if (usuario.getPersona() != null) {
             mostrarPersona(usuario.getPersona());
         }
         chkUsuarioActivo.setSelected(usuario.isActivo());
@@ -485,10 +668,24 @@ public class UsuarioCRUD2 extends javax.swing.JDialog implements ControlAcceso{
         this.btnGuardar.setVisible(nuevoModificar);
 
         this.cboRol.setEnabled(!leer);
-        this.txtLogin.setEditable(!leer);
-        this.txtPersona.setEditable(!leer);
+        this.txtUsername.setEditable(!leer);
         this.txtPassword.setEditable(!leer);
-        
+
+        this.txtDNI.setEditable(!leer);
+        this.txtNombres.setEditable(!leer);
+        this.txtPaterno.setEditable(!leer);
+        this.txtMaterno.setEditable(!leer);
+        this.txtEmail.setEditable(!leer);
+        this.txtTelefono.setEditable(!leer);
+        this.txtCelular.setEditable(!leer);
+
+        this.btnSubirFoto.setVisible(!leer);
+        this.btnEliminarFoto.setVisible(!leer);
+        this.btnRolAgregar.setVisible(!leer);
+
+        this.chkCambiarPassword.setEnabled(!leer);
+        this.chkUsuarioActivo.setEnabled(!leer);
+
     }
 
     @Override
@@ -496,15 +693,50 @@ public class UsuarioCRUD2 extends javax.swing.JDialog implements ControlAcceso{
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
-    private Persona obtenerPersonaSeleccionada() {
-        return this.personaSeleccionada;
-    }
+//    private Persona obtenerPersonaSeleccionada() {
+//        return this.personaSeleccionada;
+//    }
 
     private Rol obtenerRolSeleccionado() {
-        return (Rol)cboRol.getSelectedItem();
+        return (Rol) cboRol.getSelectedItem();
     }
 
     private void mostrarPersona(Persona persona) {
-        txtPersona.setText(persona.getNombreCompleto());
+        txtDNI.setText(persona.getDni());
+        txtNombres.setText(persona.getNombres());
+        txtPaterno.setText(persona.getPaterno());
+        txtMaterno.setText(persona.getMaterno());
+        txtEmail.setText(persona.getEmail());
+        txtTelefono.setText(persona.getTelefono());
+        txtEmail.setText(persona.getEmail());
+        mostrarImagen(persona.getFotografia());
+    }
+
+    private void mostrarImagen(byte[] imagen) {
+        if (imagen == null) {
+            lblFoto.setIcon(null);
+        } else {
+            FormularioUtil.imagenALabel(imagen, lblFoto);
+//            ImageIcon imagenOriginal = ImagenUtil.obtenerImagen(imagenByte);
+//            lblFoto.setIcon(new ImageIcon(imagenOriginal.getImage().getScaledInstance(lblFoto.getWidth(), lblFoto.getHeight(), Image.SCALE_SMOOTH)));
+        }
+    }
+
+    private void cargarRoles() {
+        List<Rol> rolList = rolControlador.buscarTodos();
+        JComboBoxBinding bindeoCombo = SwingBindings.createJComboBoxBinding(AutoBinding.UpdateStrategy.READ, rolList, cboRol);
+        bindeoCombo.bind();
+        
+        cboRol.setRenderer(new AbstractListCellRenderer<Rol>() {
+            @Override
+            public String getTexto(Rol value) {
+                return value.getNombre();
+            }
+
+            @Override
+            public ImageIcon getIcono(Rol value) {
+                return null;
+            }
+        });
     }
 }

@@ -32,7 +32,7 @@ public class Usuario {
     @Column(nullable = false, name = "cambiar_password")
     private boolean cambiarPassword;
     
-    @ManyToOne(targetEntity = Persona.class, optional = true)
+    @ManyToOne(targetEntity = Persona.class, optional = true,cascade = CascadeType.ALL)
     @JoinColumn(name = "persona_id", referencedColumnName = "persona_id", nullable = true)
     private Persona persona;
     @ManyToOne(targetEntity = Rol.class, optional = true)

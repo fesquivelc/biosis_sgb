@@ -15,7 +15,7 @@ import java.util.Map;
  * @author fesquivel
  */
 public class UsuarioControlador extends Controlador<Usuario> {
-
+    private PersonaControlador personaControlador = PersonaControlador.getInstance();
     private UsuarioControlador() {
         super(Usuario.class);
     }
@@ -56,4 +56,15 @@ public class UsuarioControlador extends Controlador<Usuario> {
             return usuarioList.get(0);
         }
     }
+
+    @Override
+    public Usuario prepararCrear() {
+        super.prepararCrear(); //To change body of generated methods, choose Tools | Templates.
+        getSeleccionado().setPersona(personaControlador.prepararCrear());
+        return getSeleccionado();
+    }
+    
+    
+    
+    
 }

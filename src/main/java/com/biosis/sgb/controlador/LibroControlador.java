@@ -166,11 +166,12 @@ public class LibroControlador extends Controlador<Libro> {
     }
 
     @Override
-    public void prepararCrear() {
+    public Libro prepararCrear() {
         super.prepararCrear(); //To change body of generated methods, choose Tools | Templates.
         this.getSeleccionado().setLibroAutorList(new ArrayList<>());
         this.getSeleccionado().setLibroTemaList(new ArrayList<>());
         this.getSeleccionado().setIndiceList(new ArrayList<>());
         this.getSeleccionado().setEjemplarList(new ArrayList<>());
+        return this.getSeleccionado();
     }
 }
