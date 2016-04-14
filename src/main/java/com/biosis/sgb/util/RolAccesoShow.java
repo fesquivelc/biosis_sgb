@@ -18,6 +18,16 @@ public class RolAccesoShow {
     private boolean delete;
     private boolean update;
 
+    public RolAccesoShow(Acceso acceso, boolean create, boolean read, boolean delete, boolean update) {
+        this.acceso = acceso;
+        this.create = create;
+        this.read = read;
+        this.delete = delete;
+        this.update = update;
+    }
+    
+    
+
     public Acceso getAcceso() {
         return acceso;
     }

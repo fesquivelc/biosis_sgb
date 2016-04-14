@@ -22,14 +22,19 @@ import com.biosis.sgb.entidades.Usuario;
 import com.biosis.sgb.util.AbstractListCellRenderer;
 import com.biosis.sgb.util.ControlAcceso;
 import com.biosis.sgb.util.ImagenUtil;
+import com.biosis.sgb.util.RolAccesoShow;
 import com.personal.utiles.FormularioUtil;
 import java.awt.Component;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 import org.jdesktop.beansbinding.AutoBinding;
+import org.jdesktop.beansbinding.BeanProperty;
+import org.jdesktop.observablecollections.ObservableCollections;
 import org.jdesktop.swingbinding.JComboBoxBinding;
+import org.jdesktop.swingbinding.JTableBinding;
 import org.jdesktop.swingbinding.SwingBindings;
 
 /**
@@ -43,12 +48,14 @@ public class UsuarioCRUD2 extends javax.swing.JDialog implements ControlAcceso {
      */
     private UsuarioControlador usuarioControlador;
     private RolControlador rolControlador;
-    
+
     private int accion;
     private boolean accionRealizada = false;
     private Usuario usuario;
     private Persona personaSeleccionada;
     private byte[] imagenSeleccionada;
+
+    private List<RolAccesoShow> rolAccesoShowList;
 
     public Usuario getUsuario() {
         return usuario;
@@ -431,6 +438,11 @@ public class UsuarioCRUD2 extends javax.swing.JDialog implements ControlAcceso {
 
         btnRolAgregar.setFont(ESTILO1);
         btnRolAgregar.setText("Nuevo");
+        btnRolAgregar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRolAgregarActionPerformed(evt);
+            }
+        });
         pnlRolSelector.add(btnRolAgregar);
 
         pnlRol.add(pnlRolSelector, java.awt.BorderLayout.NORTH);
@@ -525,6 +537,7 @@ public class UsuarioCRUD2 extends javax.swing.JDialog implements ControlAcceso {
 
     private void cboRolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboRolActionPerformed
         // TODO add your handling code here:
+        mostrarAccesos((Rol) cboRol.getSelectedItem());
     }//GEN-LAST:event_cboRolActionPerformed
 
     private void btnSubirFotoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubirFotoActionPerformed
@@ -544,6 +557,10 @@ public class UsuarioCRUD2 extends javax.swing.JDialog implements ControlAcceso {
         mostrarImagen(imagenSeleccionada);
 
     }//GEN-LAST:event_btnEliminarFotoActionPerformed
+
+    private void btnRolAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRolAgregarActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btnRolAgregarActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
@@ -593,7 +610,24 @@ public class UsuarioCRUD2 extends javax.swing.JDialog implements ControlAcceso {
     private void initComponents2() {
         usuarioControlador = UsuarioControlador.getInstance();
         rolControlador = RolControlador.getInstance();
-        
+        rolAccesoShowList = ObservableCollections.observableList(new ArrayList<RolAccesoShow>());
+
+        BeanProperty bAcceso = BeanProperty.create("acceso.nombre");
+        BeanProperty bDescripcion = BeanProperty.create("acceso.descripcion");
+        BeanProperty bCreate = BeanProperty.create("create");
+        BeanProperty bUpdate = BeanProperty.create("update");
+        BeanProperty bDelete = BeanProperty.create("delete");
+        BeanProperty bRead = BeanProperty.create("read");
+
+        JTableBinding bindeo = SwingBindings.createJTableBinding(AutoBinding.UpdateStrategy.READ, rolAccesoShowList, tblAcceso);
+        bindeo.addColumnBinding(bAcceso).setColumnName("Acceso").setEditable(false);
+        bindeo.addColumnBinding(bDescripcion).setColumnName("Descripcion").setEditable(false);
+        bindeo.addColumnBinding(bRead).setColumnName("Consultar").setColumnClass(Boolean.class).setEditable(false);
+        bindeo.addColumnBinding(bCreate).setColumnName("Registrar").setColumnClass(Boolean.class).setEditable(false);
+        bindeo.addColumnBinding(bUpdate).setColumnName("Modificar").setColumnClass(Boolean.class).setEditable(false);
+        bindeo.addColumnBinding(bDelete).setColumnName("Eliminar").setColumnClass(Boolean.class).setEditable(false);
+        bindeo.bind();
+
         cargarRoles();
     }
 
@@ -605,8 +639,8 @@ public class UsuarioCRUD2 extends javax.swing.JDialog implements ControlAcceso {
 //        seleccionado.setPersona(obtenerPersonaSeleccionada());
         seleccionado.setRol(obtenerRolSeleccionado());
         //data de persona
-        FormularioUtil.convertirAMayusculas(txtNombres,txtPaterno,txtMaterno);
-        System.out.println("Persona: "+seleccionado.getPersona());
+        FormularioUtil.convertirAMayusculas(txtNombres, txtPaterno, txtMaterno);
+        System.out.println("Persona: " + seleccionado.getPersona());
         seleccionado.getPersona().setDni(txtDNI.getText());
         seleccionado.getPersona().setNombres(txtNombres.getText());
         seleccionado.getPersona().setPaterno(txtPaterno.getText());
@@ -650,12 +684,13 @@ public class UsuarioCRUD2 extends javax.swing.JDialog implements ControlAcceso {
     private void llenarCampos(Usuario usuario) {
         cboRol.setSelectedItem(usuario.getRol());
         txtUsername.setText(usuario.getLogin());
-        txtPassword.setText(usuario.getPassword());        
+        txtPassword.setText(usuario.getPassword());
         if (usuario.getPersona() != null) {
             mostrarPersona(usuario.getPersona());
         }
         chkUsuarioActivo.setSelected(usuario.isActivo());
         chkCambiarPassword.setSelected(usuario.isCambiarPassword());
+        mostrarAccesos(usuario.getRol());
     }
 
     private void inicializarControles(int accion) {
@@ -696,7 +731,6 @@ public class UsuarioCRUD2 extends javax.swing.JDialog implements ControlAcceso {
 //    private Persona obtenerPersonaSeleccionada() {
 //        return this.personaSeleccionada;
 //    }
-
     private Rol obtenerRolSeleccionado() {
         return (Rol) cboRol.getSelectedItem();
     }
@@ -726,7 +760,7 @@ public class UsuarioCRUD2 extends javax.swing.JDialog implements ControlAcceso {
         List<Rol> rolList = rolControlador.buscarTodos();
         JComboBoxBinding bindeoCombo = SwingBindings.createJComboBoxBinding(AutoBinding.UpdateStrategy.READ, rolList, cboRol);
         bindeoCombo.bind();
-        
+
         cboRol.setRenderer(new AbstractListCellRenderer<Rol>() {
             @Override
             public String getTexto(Rol value) {
@@ -738,5 +772,11 @@ public class UsuarioCRUD2 extends javax.swing.JDialog implements ControlAcceso {
                 return null;
             }
         });
+    }
+
+    private void mostrarAccesos(Rol rol) {
+        rolAccesoShowList.clear();
+        rol.getRolAccesoList().stream().forEach(ra -> rolAccesoShowList.add(new RolAccesoShow(ra.getAcceso(), ra.getCrud().charAt(0) == '1', ra.getCrud().charAt(1) == '1', ra.getCrud().charAt(2) == '1', ra.getCrud().charAt(3) == '1')));
+        tblAcceso.packAll();
     }
 }
