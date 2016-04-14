@@ -853,7 +853,7 @@ public class ConsultaView extends javax.swing.JPanel implements ControlAcceso{
     //cambiamos acorde a lo que se requiere
     private void buscar() {
 //        String busqueda = txtBusqueda.getText();
-        tamanioPagina = Integer.parseInt(cboTamanio.getSelectedItem().toString());
+//        tamanioPagina = Integer.parseInt(cboTamanio.getSelectedItem().toString());
 
         //AQUI LO PASAMOS A UN SWING WORKER
         libroList.clear();

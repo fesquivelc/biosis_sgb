@@ -37,6 +37,18 @@ public class RolAcceso {
     @JoinColumn(name = "acceso_id", referencedColumnName = "acceso_id", nullable = true)
     private Acceso acceso;
 
+    public RolAcceso() {
+    }
+
+    public RolAcceso(Date fechaHoraCreacion, String crud, Rol rol, Acceso acceso) {
+        this.fechaHoraCreacion = fechaHoraCreacion;
+        this.crud = crud;
+        this.rol = rol;
+        this.acceso = acceso;
+    }
+    
+    
+
     public Date getFechaHoraCreacion() {
         return fechaHoraCreacion;
     }

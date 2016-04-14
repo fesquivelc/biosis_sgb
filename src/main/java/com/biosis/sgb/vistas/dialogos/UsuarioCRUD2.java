@@ -429,9 +429,9 @@ public class UsuarioCRUD2 extends javax.swing.JDialog implements ControlAcceso {
 
         cboRol.setFont(ESTILO2);
         cboRol.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Persona", "Institución" }));
-        cboRol.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                cboRolActionPerformed(evt);
+        cboRol.addItemListener(new java.awt.event.ItemListener() {
+            public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                cboRolItemStateChanged(evt);
             }
         });
         pnlRolSelector.add(cboRol);
@@ -476,14 +476,14 @@ public class UsuarioCRUD2 extends javax.swing.JDialog implements ControlAcceso {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 585, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 655, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 512, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, 534, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -535,11 +535,6 @@ public class UsuarioCRUD2 extends javax.swing.JDialog implements ControlAcceso {
         // TODO add your handling code here:
     }//GEN-LAST:event_chkCambiarPasswordActionPerformed
 
-    private void cboRolActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cboRolActionPerformed
-        // TODO add your handling code here:
-        mostrarAccesos((Rol) cboRol.getSelectedItem());
-    }//GEN-LAST:event_cboRolActionPerformed
-
     private void btnSubirFotoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSubirFotoActionPerformed
         // TODO add your handling code here:
         String ruta = FormularioUtil.chooserImagen(this);
@@ -561,6 +556,12 @@ public class UsuarioCRUD2 extends javax.swing.JDialog implements ControlAcceso {
     private void btnRolAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRolAgregarActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnRolAgregarActionPerformed
+
+    private void cboRolItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboRolItemStateChanged
+        // TODO add your handling code here:
+        System.out.println("Llamando mostrarAccesos desde itemStateChanged");
+        mostrarAccesos(obtenerRolSeleccionado());
+    }//GEN-LAST:event_cboRolItemStateChanged
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancelar;
@@ -690,6 +691,7 @@ public class UsuarioCRUD2 extends javax.swing.JDialog implements ControlAcceso {
         }
         chkUsuarioActivo.setSelected(usuario.isActivo());
         chkCambiarPassword.setSelected(usuario.isCambiarPassword());
+        System.out.println("Llamando mostrarAccesos desde llenarCampos");
         mostrarAccesos(usuario.getRol());
     }
 
@@ -772,11 +774,20 @@ public class UsuarioCRUD2 extends javax.swing.JDialog implements ControlAcceso {
                 return null;
             }
         });
+        if (!rolList.isEmpty()) {
+            cboRol.setSelectedIndex(0);
+            System.out.println("Llamando mostrarAccesos desde cargarRoles");
+            mostrarAccesos(obtenerRolSeleccionado());
+        }
+
     }
 
     private void mostrarAccesos(Rol rol) {
-        rolAccesoShowList.clear();
-        rol.getRolAccesoList().stream().forEach(ra -> rolAccesoShowList.add(new RolAccesoShow(ra.getAcceso(), ra.getCrud().charAt(0) == '1', ra.getCrud().charAt(1) == '1', ra.getCrud().charAt(2) == '1', ra.getCrud().charAt(3) == '1')));
-        tblAcceso.packAll();
+        if (rol != null) {
+            rolAccesoShowList.clear();
+            rol.getRolAccesoList().stream().forEach(ra -> rolAccesoShowList.add(new RolAccesoShow(ra.getAcceso(), ra.getCrud().charAt(0) == '1', ra.getCrud().charAt(1) == '1', ra.getCrud().charAt(2) == '1', ra.getCrud().charAt(3) == '1')));
+            tblAcceso.packAll();
+        }
+
     }
 }
