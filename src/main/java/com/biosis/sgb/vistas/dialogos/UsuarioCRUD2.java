@@ -555,6 +555,12 @@ public class UsuarioCRUD2 extends javax.swing.JDialog implements ControlAcceso {
 
     private void btnRolAgregarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRolAgregarActionPerformed
         // TODO add your handling code here:
+        
+        RolCRUD rolCRUD = new RolCRUD(this, true, NUEVO, rolControlador.prepararCrear());
+        rolCRUD.setVisible(true);
+        if(rolCRUD.isAccionRealizada()){
+            cargarRoles();
+        }
     }//GEN-LAST:event_btnRolAgregarActionPerformed
 
     private void cboRolItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_cboRolItemStateChanged

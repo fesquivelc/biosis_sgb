@@ -16,9 +16,15 @@ import static com.biosis.sgb.controlador.Controlador.NUEVO;
 import com.biosis.sgb.controlador.RolControlador;
 import com.biosis.sgb.entidades.Autor;
 import com.biosis.sgb.entidades.Rol;
+import com.biosis.sgb.entidades.RolAcceso;
+import com.biosis.sgb.util.Mensaje;
+import com.biosis.sgb.util.dialogos.DlgMensajes;
+import com.biosis.sgb.util.mt.MTRolAcceso;
 import com.personal.utiles.FormularioUtil;
 import java.awt.Component;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import javax.swing.JOptionPane;
 
 /**
@@ -35,7 +41,7 @@ public class RolCRUD extends javax.swing.JDialog {
     private boolean accionRealizada = false;
     private Rol rol;
 
-    public Rol getAutor() {
+    public Rol getRol() {
         return rol;
     }
 
@@ -51,10 +57,10 @@ public class RolCRUD extends javax.swing.JDialog {
 
     public RolCRUD(Component component, boolean modal, int accion, Rol rol) {
         super(JOptionPane.getFrameForComponent(component), modal);
-        initComponents();
-        initComponents2();
         this.rol = rol;
         this.accion = accion;
+        initComponents();
+        initComponents2();
         inicializar(rol, accion);
         this.setLocationRelativeTo(component);
     }
@@ -76,7 +82,7 @@ public class RolCRUD extends javax.swing.JDialog {
         txtNombre = new javax.swing.JTextField();
         pnlRolAcceso = new javax.swing.JPanel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jXTable1 = new org.jdesktop.swingx.JXTable();
+        tblAcceso = new org.jdesktop.swingx.JXTable();
         jPanel3 = new javax.swing.JPanel();
         btnGuardar = new javax.swing.JButton();
         btnEditar = new javax.swing.JButton();
@@ -119,7 +125,7 @@ public class RolCRUD extends javax.swing.JDialog {
         pnlRolAcceso.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Accesos", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, ESTILO1));
         pnlRolAcceso.setLayout(new java.awt.BorderLayout());
 
-        jXTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tblAcceso.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -130,8 +136,8 @@ public class RolCRUD extends javax.swing.JDialog {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jXTable1.setFont(ESTILO2);
-        jScrollPane1.setViewportView(jXTable1);
+        tblAcceso.setFont(ESTILO2);
+        jScrollPane1.setViewportView(tblAcceso);
 
         pnlRolAcceso.add(jScrollPane1, java.awt.BorderLayout.CENTER);
 
@@ -210,6 +216,9 @@ public class RolCRUD extends javax.swing.JDialog {
 
     private void btnGuardarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGuardarActionPerformed
         // TODO add your handling code here:
+        if (hayErrores()) {
+            return;
+        }
         volcarData(rolControlador.getSeleccionado());
 
         if (rolControlador.accion(accion)) {
@@ -230,9 +239,11 @@ public class RolCRUD extends javax.swing.JDialog {
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         // TODO add your handling code here:
-        this.accion = ELIMINAR;
-        if (JOptionPane.showConfirmDialog(this, "¿Está seguro que desea eliminar este autor(a)?", "Mensaje del sistema", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
-            if (this.rolControlador.accion(accion)) {
+        this.accion = MODIFICAR;
+        
+        if (JOptionPane.showConfirmDialog(this, "¿Está seguro que desea eliminar este rol?", "Mensaje del sistema", JOptionPane.YES_NO_OPTION) == JOptionPane.YES_OPTION) {
+            this.rolControlador.getSeleccionado().setActivo(false);
+            if (this.rolControlador.accion(accion)) {                
                 FormularioUtil.mensajeExito(this, accion);
                 this.rol = null;
                 this.dispose();
@@ -255,14 +266,18 @@ public class RolCRUD extends javax.swing.JDialog {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
-    private org.jdesktop.swingx.JXTable jXTable1;
     private javax.swing.JLabel lblTitulo;
     private javax.swing.JPanel pnlRolAcceso;
+    private org.jdesktop.swingx.JXTable tblAcceso;
     private javax.swing.JTextField txtNombre;
     // End of variables declaration//GEN-END:variables
+    private MTRolAcceso mtra;
 
     private void initComponents2() {
         rolControlador = RolControlador.getInstance();
+        mtra = new MTRolAcceso(rol.getRolAccesoList());
+        tblAcceso.setModel(mtra);
+
     }
 
     private void volcarData(Rol seleccionado) {
@@ -317,5 +332,35 @@ public class RolCRUD extends javax.swing.JDialog {
 
         this.txtNombre.setEditable(!leer);
 
+    }
+
+    private boolean hayErrores() {
+        List<Mensaje> mensajes = new ArrayList();
+        if (txtNombre.getText().trim().isEmpty()) {
+            mensajes.add(new Mensaje("Nombre en blanco", "Obligatoriamente debe escribir un nombre de ROL"));
+        }
+
+        boolean permisosVacios = true;
+
+        List<RolAcceso> accesos = rol.getRolAccesoList();
+
+        for (RolAcceso acceso : accesos) {
+            if (!acceso.getCrud().equals("0000")) {
+                permisosVacios = false;
+                break;
+            }
+        }
+
+        if (permisosVacios) {
+            mensajes.add(new Mensaje("Asignar acceso", "Debe asignar al menos un nivel de acceso"));
+        }
+
+        boolean hayError = !mensajes.isEmpty();
+        if (hayError) {
+            DlgMensajes dlgMensajes = new DlgMensajes(this, DlgMensajes.TipoMensaje.ERROR, mensajes);
+            dlgMensajes.setVisible(true);
+        }
+
+        return hayError;
     }
 }
